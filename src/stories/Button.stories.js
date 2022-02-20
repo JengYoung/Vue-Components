@@ -8,11 +8,16 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
     children: {
-      control: { control: 'text' },
+      control: { type: 'text' },
     },
-    width: { control: 'text' },
-    height: { control: 'text' },
-    padding: { control: 'text' },
+    width: { control: { type: 'range', min: 0, max: 30 } },
+    height: { control: { type: 'range', min: 0, max: 30 } },
+    padding: { control: { type: 'text' } },
+    fontSize: { control: { type: 'range', min: 0.5, max: 3, step: 0.125 } },
+    border: { control: { type: 'text' } },
+    borderColor: { control: 'color' },
+    borderRadius: { control: { type: 'range', min: 0, max: 20 } },
+    outline: { control: { type: 'boolean' } },
   },
 };
 
@@ -32,8 +37,12 @@ export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Primary.args = {
   children: 'Button',
-  backgroundColor: '#000000',
-  width: '5rem',
-  height: '2rem',
-  padding: '1rem',
+  backgroundColor: '#FFFFFF',
+  // width: 'auto',
+  // height: 'auto',
+  padding: '0.5rem 2rem',
+  border: '1px solid lightgray',
+  borderColor: '#888888',
+  borderRadius: 5,
+  outline: false,
 };

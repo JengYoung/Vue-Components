@@ -9,17 +9,37 @@ export default defineComponent({
   props: {
     children: String,
     backgroundColor: String,
-    width: String,
-    height: String,
-    padding: String,
+    width: String || Number,
+    height: String || Number,
+    padding: String || Number,
+    fontSize: Number,
+    border: String,
+    color: String,
+    borderRadius: String || Number,
+    outline: Boolean,
+    borderColor: String,
   },
   setup(props) {
     const buttonCSS = computed(() => ({
-      backgroundColor: props.backgroundColor,
-      width: props.width,
-      height: props.height,
-      padding: props.padding,
+      '--background-color': props.backgroundColor,
+      '--width': `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
+      '--height': `${typeof props.height === 'number' ? `${props.height}rem` : props.height}`,
+      '--padding': `${typeof props.padding === 'number' ? `${props.padding}rem` : props.padding}`,
+      '--font-size': `${props.fontSize}rem`,
+      '--color': props.color,
+      '--border': props.border,
+      '--border-radius': `${
+        typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius
+      }`,
+      '--border-color': props.borderColor,
+      ...(props.outline
+        ? {
+            '--background-color': 'transparent',
+            '--border-color': props.color,
+          }
+        : {}),
     }));
+
     return {
       buttonCSS,
     };
@@ -32,5 +52,15 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: var(--background-color);
+  width: var(--width);
+  height: var(--height);
+  padding: var(--padding);
+  color: var(--color);
+  font-size: var(--font-size);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  border-color: var(--border-color);
 }
 </style>
