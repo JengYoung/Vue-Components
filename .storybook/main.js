@@ -14,7 +14,8 @@ module.exports = {
       use: ['vue-style-loader', 'css-loader', 'sass-loader'],
       include: path.resolve(__dirname, '../'),
     });
-    // return { ...config, module: { ...config.module, rules: custom.module.rules } };
+    config.resolve.alias = { ...config.resolve.alias, "@/components": path.resolve(__dirname, "../src/components"), };
+    
     return config;
   },
 };
