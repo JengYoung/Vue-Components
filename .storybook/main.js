@@ -1,6 +1,4 @@
 const path = require('path');
-const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
-const resolvePath = (_path) => path.join(process.cwd(), _path);
 
 module.exports = {
   core: {
@@ -15,21 +13,13 @@ module.exports = {
       use: ['vue-style-loader', 'css-loader', 'sass-loader'],
       include: path.resolve(__dirname, '../'),
     });
-    config.module.rules.push({
-      test: /\.ts$/,
-      loader: 'ts-loader',
-      options: { appendTsSuffixTo: [/\.vue$/] },
-    });
 
-    return {
-      ...config,
-      resolve: {
-        ...config.resolve,
-        alias: {
-          ...config.resolve.alias,
-          '@components': resolvePath('src/components'),
-        },
-      },
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.join(__dirname, '../src'),
+      '@components': path.join(__dirname, '../src/components/'),
     };
+
+    return config;
   },
 };
