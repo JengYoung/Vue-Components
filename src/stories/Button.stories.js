@@ -1,4 +1,5 @@
-import Button from '../components/Base/Button.vue';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Button from '@/components/Base/Button/index.vue';
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
@@ -34,6 +35,7 @@ const Template = (args) => ({
 });
 
 export const Primary = Template.bind({});
+
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Primary.args = {
   children: 'Button',

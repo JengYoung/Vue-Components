@@ -48,6 +48,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@function hextorgb($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+
 .button {
   display: flex;
   justify-content: center;
@@ -62,5 +66,12 @@ export default defineComponent({
   border: var(--border);
   border-radius: var(--border-radius);
   border-color: var(--border-color);
+
+  $color: var(--background-color);
+
+  &:hover {
+    transition: all 0.3s;
+    background-color: darken(#364434, 0.9);
+  }
 }
 </style>
