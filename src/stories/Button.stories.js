@@ -40,8 +40,6 @@ export const Primary = Template.bind({});
 Primary.args = {
   children: 'Button',
   backgroundColor: '#FFFFFF',
-  // width: 'auto',
-  // height: 'auto',
   padding: '0.5rem 2rem',
   border: '1px solid lightgray',
   borderColor: '#888888',

@@ -1,23 +1,32 @@
 <template>
   <div class="carousel">
     <div class="carousel__inner">
-      <div class="carousel__card card-container" :key="card.title" v-for="card in cards">
-        <img class="carousel__img" :src="card.imageUrl" alt="carousel images" />
+      <ul class="carousel__cards" :style="{ '--now-active-index': `${nowActive}%` }">
+        <li class="carousel__card card-container" :key="card.title" v-for="card in cards">
+          <img class="carousel__img" :src="card.imageUrl" alt="carousel images" />
 
-        <div class="carousel__content">
-          <h1>{{ card.title }}</h1>
+          <div class="carousel__content">
+            <h1>{{ card.title }}</h1>
 
-          <div>
-            <p :key="index" v-for="(description, index) in card.body">{{ description }}</p>
+            <div>
+              <p :key="index" v-for="(description, index) in card.body">
+                {{ description }}
+              </p>
+            </div>
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
 
-      <button class="carousel__prev-button">&lsaquo;</button>
-      <button class="carousel__next-button">&rsaquo;</button>
+      <button class="carousel__prev-button" @click="prevButtonClick">&lsaquo;</button>
+      <button class="carousel__next-button" @click="nextButtonClick">&rsaquo;</button>
 
       <ul class="carousel__direct-buttons">
-        <li class="carousel__direct-button" :key="i" v-for="i in cards.length">
+        <li
+          class="carousel__direct-button"
+          :key="i"
+          v-for="i in cards.length"
+          @click="directButtonClick(i - 1)"
+        >
           <div class="circle"></div>
         </li>
       </ul>
@@ -26,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { ref, computed, defineComponent } from 'vue';
 
 // interface CardInterface {
 //   imageUrl: string;
@@ -39,8 +48,30 @@ export default defineComponent({
   props: {
     cards: Array,
   },
-  setup() {
-    return {};
+  setup(props) {
+    const nowActive = ref<number>(0);
+    const maxSize = computed(() => props?.cards?.length || 0);
+
+    const prevButtonClick = () => {
+      if (nowActive.value === 0) {
+        nowActive.value = maxSize.value - 1;
+        return;
+      }
+      nowActive.value -= 1;
+    };
+    const nextButtonClick = () => {
+      if (nowActive.value === maxSize.value - 1) {
+        nowActive.value = 0;
+        return;
+      }
+      nowActive.value += 1;
+    };
+
+    const directButtonClick = (index: number) => {
+      if (typeof index !== 'number') return;
+      nowActive.value = index;
+    };
+    return { nowActive, prevButtonClick, nextButtonClick, directButtonClick };
   },
 });
 </script>
@@ -54,23 +85,37 @@ export default defineComponent({
     width: 100%;
     border: 1px solid green;
   }
+  &__cards {
+    display: flex;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    transition: all 0.3s;
+    transform: translateX(calc(-1 * 100 * var(--now-active-index)));
+  }
 
   &__card {
+    position: relative;
+    flex-shrink: 0;
     width: 100%;
     height: 25rem;
-    border: 1px solid yellow;
+    border: none;
   }
 
   &__img {
     width: 100%;
+    height: 100%;
     position: absolute;
     object-fit: cover;
+    filter: brightness(40%);
   }
 
   &__content {
     position: absolute;
     z-index: 1;
-    color: black;
+    color: rgb(233, 232, 232);
     left: 4rem;
     height: 100%;
     display: flex;
@@ -88,10 +133,10 @@ export default defineComponent({
     padding: 0 1rem;
     font-size: 5rem;
     line-height: 0;
-    background: linear-gradient(to right, #ffffff, transparent 80%);
+    background: linear-gradient(to right, #000000b0, transparent);
     border: 0;
     outline: 0;
-    color: black;
+    color: white;
     &:hover {
       cursor: pointer;
     }
@@ -101,16 +146,17 @@ export default defineComponent({
     display: flex;
     position: absolute;
     align-items: center;
+    z-index: 99;
     right: 0;
     top: 0;
     bottom: 0;
     padding: 0 1rem;
     font-size: 5rem;
     line-height: 0;
-    background: linear-gradient(to left, #ffffff, transparent 80%);
+    background: linear-gradient(to right, transparent, #000000b0);
     border: 0;
     outline: 0;
-    color: black;
+    color: white;
     &:hover {
       cursor: pointer;
     }
@@ -120,11 +166,10 @@ export default defineComponent({
     display: flex;
     position: absolute;
     justify-content: center;
+    width: 100%;
     left: 0;
     right: 0;
     bottom: 1rem;
-
-    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -133,11 +178,14 @@ export default defineComponent({
       display: flex;
       justify-content: center;
       align-items: center;
-
-      width: 1rem;
-      height: 1rem;
+      width: 0.75rem;
+      height: 0.75rem;
       border-radius: 50%;
+      margin-right: 0.5rem;
       background-color: white;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }
