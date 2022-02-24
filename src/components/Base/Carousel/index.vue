@@ -1,8 +1,18 @@
 <template>
+  {{ `${loading}` }}
+  {{ nowActive }}
   <div class="carousel">
     <div class="carousel__inner">
-      <ul class="carousel__cards" :style="{ '--now-active-index': `${nowActive}%` }">
-        <li class="carousel__card card-container" :key="card.title" v-for="card in cards">
+      <ul
+        class="carousel__cards"
+        :style="{ transition: `all ${delay}s`, '--now-active-index': `-${nowActive * 100}%` }"
+      >
+        <li
+          class="carousel__card card-container"
+          :class="nowActive === index ? 'carousel__cards--active' : ''"
+          :key="card.title"
+          v-for="(card, index) in refinedCards"
+        >
           <img class="carousel__img" :src="card.imageUrl" alt="carousel images" />
 
           <div class="carousel__content">
@@ -23,8 +33,9 @@
       <ul class="carousel__direct-buttons">
         <li
           class="carousel__direct-button"
+          :class="nowActive === i - 1 ? 'carousel__direct-button--active' : ''"
           :key="i"
-          v-for="i in cards.length"
+          v-for="i in refinedCards.length"
           @click="directButtonClick(i - 1)"
         >
           <div class="circle"></div>
@@ -35,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from 'vue';
+import { ref, watch, computed, defineComponent } from 'vue';
 
 // interface CardInterface {
 //   imageUrl: string;
@@ -46,32 +57,92 @@ import { ref, computed, defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    cards: Array,
+    cards: {
+      type: Array,
+      default: () => [],
+    },
   },
   setup(props) {
-    const nowActive = ref<number>(0);
-    const maxSize = computed(() => props?.cards?.length || 0);
+    const refinedCards = computed(() => {
+      if (props.cards.length === 0) {
+        return [];
+      }
+      const size = props.cards.length;
+      return [props.cards[size - 1], ...props.cards, props.cards[0]];
+    });
+    const delay = ref<number>(0);
+
+    const loading = ref<boolean>(false);
+    const nowActive = ref<number>(1);
+    const maxSize = computed(() => refinedCards.value.length || 0);
 
     const prevButtonClick = () => {
-      if (nowActive.value === 0) {
-        nowActive.value = maxSize.value - 1;
-        return;
-      }
+      if (loading.value) return;
+      if (nowActive.value === 0) return;
+
+      delay.value = 0.3;
       nowActive.value -= 1;
-    };
-    const nextButtonClick = () => {
-      if (nowActive.value === maxSize.value - 1) {
-        nowActive.value = 0;
-        return;
+
+      if (nowActive.value === 0) {
+        loading.value = true;
       }
+    };
+
+    const nextButtonClick = () => {
+      if (loading.value) return;
+      if (nowActive.value === maxSize.value - 1) return;
+
+      delay.value = 0.3;
       nowActive.value += 1;
+
+      if (nowActive.value === maxSize.value - 1) {
+        loading.value = true;
+      }
     };
 
     const directButtonClick = (index: number) => {
+      if (loading.value) return;
       if (typeof index !== 'number') return;
+
+      delay.value = 0.3;
       nowActive.value = index;
+
+      if (index === maxSize.value) {
+        loading.value = true;
+      }
     };
-    return { nowActive, prevButtonClick, nextButtonClick, directButtonClick };
+
+    watch(
+      () => [loading.value],
+      () => {
+        if (!loading.value) {
+          return;
+        }
+
+        if (nowActive.value === 0) {
+          nowActive.value = maxSize.value - 2;
+          delay.value = 0.3;
+        }
+
+        if (nowActive.value === maxSize.value - 1) {
+          nowActive.value = 0;
+          delay.value = 0.3;
+        }
+
+        loading.value = false;
+      },
+      { immediate: true }
+    );
+
+    return {
+      loading,
+      refinedCards,
+      delay,
+      nowActive,
+      prevButtonClick,
+      nextButtonClick,
+      directButtonClick,
+    };
   },
 });
 </script>
@@ -84,6 +155,7 @@ export default defineComponent({
     display: flex;
     width: 100%;
     border: 1px solid green;
+    border-radius: 20px;
   }
   &__cards {
     display: flex;
@@ -93,7 +165,7 @@ export default defineComponent({
     padding: 0;
     width: 100%;
     transition: all 0.3s;
-    transform: translateX(calc(-1 * 100 * var(--now-active-index)));
+    transform: translate3d(var(--now-active-index), 0px, 0px);
   }
 
   &__card {
@@ -157,6 +229,7 @@ export default defineComponent({
     border: 0;
     outline: 0;
     color: white;
+
     &:hover {
       cursor: pointer;
     }
@@ -183,9 +256,13 @@ export default defineComponent({
       border-radius: 50%;
       margin-right: 0.5rem;
       background-color: white;
+
       &:hover {
         cursor: pointer;
       }
+    }
+    .carousel__direct-button--active {
+      background: skyblue;
     }
   }
 }
