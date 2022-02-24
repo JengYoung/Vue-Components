@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "target": "esnext",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src"],
-      "@components/*": ["./src/components/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"]
     }
   },
   "exclude": ["node_modules"]

@@ -18,6 +18,7 @@ module.exports = {
       ...config.resolve.alias,
       '@': path.join(__dirname, '../src'),
       '@components': path.join(__dirname, '../src/components/'),
+      '@hooks': path.join(__dirname, '../src/hooks/'),
     };
 
     return config;
