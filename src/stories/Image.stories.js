@@ -25,17 +25,17 @@ const Template = (args) => ({
 
   template: `
 		<div>
-			<Image v-bind="args" src='https://picsum.photos/200'/>
-			<Image v-bind="args" src='https://picsum.photos/201'/>
-			<Image v-bind="args" src='https://picsum.photos/202'/>
-			<Image v-bind="args" src='https://picsum.photos/203'/>
-			<Image v-bind="args" src='https://picsum.photos/204'/>
-			<Image v-bind="args" src='https://picsum.photos/205'/>
-			<Image v-bind="args" src='https://picsum.photos/206'/>
-			<Image v-bind="args" src='https://picsum.photos/207'/>
-			<Image v-bind="args" src='https://picsum.photos/208'/>
-			<Image v-bind="args" src='https://picsum.photos/209'/>
-			<Image v-bind="args" src='https://picsum.photos/210'/>
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
+			<Image v-bind="args" />
 		</div>
 	`,
 });
@@ -45,10 +45,11 @@ export const Lazy = Template.bind({});
 Lazy.args = {
   display: 'block',
   lazy: true,
-  threshold: 1,
+  threshold: 0.1,
   defaultSrc: 'http://placeimg.com/640/480/animals',
+  src: 'https://picsum.photos/200',
   width: 6.25,
   height: 6.25,
-  alt: 'test Image',
+  alt: 'Test Image',
   objectFit: 'cover',
 };
