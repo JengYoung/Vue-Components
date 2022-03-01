@@ -1,5 +1,4 @@
 <template>
-{{ nowActive }} {{maxSize}}{{styleVariables}}
   <div class="carousel">
     <div class="carousel__inner">
       <ul
@@ -84,8 +83,6 @@ export default defineComponent({
 
     const styleVariables = computed(() => ({
         '--move-count': moveCount.value,
-        '--next-direct-button-pseudo-class': nextAnimationDisable.value ? 'none' : 'block',
-        '--prev-direct-button-pseudo-class':  prevAnimationDisable.value ? 'none' : 'block',
       })) 
 
     const directButtonClass = (index: number) => {
@@ -99,10 +96,7 @@ export default defineComponent({
       if (nowActive.value === index) {
         arr.push('carousel__direct-button--next');
       }
-      if (prevAnimationDisable.value) {
-        arr.push('carousel__direct-button--animation-hidden')
-      }
-      if (nextAnimationDisable.value) {
+      if (prevAnimationDisable.value || nextAnimationDisable.value) {
         arr.push('carousel__direct-button--animation-hidden')
       }
       return arr;
@@ -200,6 +194,7 @@ $animation: var(--animation);
     border: 1px solid lightgray;
     border-radius: 20px;
   }
+
   &__cards {
     display: flex;
     position: relative;
@@ -317,16 +312,13 @@ $animation: var(--animation);
 
       @keyframes directButtonActivePrevMove {
         0% {
-          display: var(--prev-direct-button-pseudo-class);
           left: calc(1.25rem * var(--move-count) * -1);
           right: calc(-1.25rem * var(--move-count) * -1);
         }
         15% {
-          display: var(--prev-direct-button-pseudo-class);
           left: 0;
         }
         85% {
-          display: var(--prev-direct-button-pseudo-class);
           left: 0;
           right: 0;
         }
@@ -337,16 +329,13 @@ $animation: var(--animation);
 
       @keyframes directButtonActiveNextMove {
         0% {
-          display: var(--next-direct-button-pseudo-class);
           left: calc(-1.25rem * var(--move-count));
           right: calc(1.25rem * var(--move-count));
         }
         15% {
-          display: var(--next-direct-button-pseudo-class);
           right: 0;
         }
         85% {
-          display: var(--next-direct-button-pseudo-class);
           left: 0;
           right: 0;
         }
@@ -355,7 +344,6 @@ $animation: var(--animation);
         }
       }
       &:after {
-        display: var(--prev-direct-button-pseudo-class);
         content: "";
         position: absolute;
         left: 0;
@@ -368,7 +356,6 @@ $animation: var(--animation);
       }
 
       &:before {
-        display: var(--next-direct-button-pseudo-class);
         content: "";
         position: absolute;
         left: 0;
