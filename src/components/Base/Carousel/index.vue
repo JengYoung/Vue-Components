@@ -5,6 +5,7 @@
     <div class="carousel__inner">
       <ul
         class="carousel__cards"
+        @transitionend="() => handleTransitionEnd(nowActive)"
         :style="{ transition: `all ${delay}s`, '--now-active-index': `-${nowActive * 100}%` }"
       >
         <li
@@ -70,9 +71,10 @@ export default defineComponent({
       const size = props.cards.length;
       return [props.cards[size - 1], ...props.cards, props.cards[0]];
     });
-    const delay = ref<number>(0);
 
+    const delay = ref<number>(0);
     const loading = ref<boolean>(false);
+    
     const nowActive = ref<number>(1);
     const maxSize = computed(() => refinedCards.value.length || 0);
 
@@ -80,24 +82,24 @@ export default defineComponent({
       if (loading.value) return;
       if (nowActive.value === 0) return;
 
+      loading.value = true;
+
       delay.value = 0.3;
       nowActive.value -= 1;
 
-      if (nowActive.value === 0) {
-        loading.value = true;
-      }
+      loading.value = false;
     };
 
     const nextButtonClick = () => {
       if (loading.value) return;
       if (nowActive.value === maxSize.value - 1) return;
+      
+      loading.value = true;
 
       delay.value = 0.3;
       nowActive.value += 1;
 
-      if (nowActive.value === maxSize.value - 1) {
-        loading.value = true;
-      }
+      loading.value = false;
     };
 
     const directButtonClick = (index: number) => {
@@ -112,27 +114,38 @@ export default defineComponent({
       }
     };
 
-    watch(
-      () => [loading.value],
-      () => {
-        if (!loading.value) {
-          return;
-        }
+    const handleTransitionEnd = (index: number):void => {
+      delay.value = 0;
+      
+      if (index === 0) {
+        nowActive.value = maxSize.value - 2;
+      }
+      if (index === maxSize.value - 1) {
+        nowActive.value = 1;
+      }
+    }
 
-        if (nowActive.value === 0) {
-          nowActive.value = maxSize.value - 2;
-          delay.value = 0.3;
-        }
+    // watch(
+    //   () => [loading.value],
+    //   () => {
+    //     if (!loading.value) {
+    //       return;
+    //     }
 
-        if (nowActive.value === maxSize.value - 1) {
-          nowActive.value = 0;
-          delay.value = 0.3;
-        }
+    //     if (nowActive.value === 0) {
+    //       nowActive.value = maxSize.value - 2;
+    //       delay.value = 0.3;
+    //     }
 
-        loading.value = false;
-      },
-      { immediate: true }
-    );
+    //     if (nowActive.value === maxSize.value - 1) {
+    //       nowActive.value = 1;
+    //       delay.value = 0.3;
+    //     }
+
+    //     loading.value = false;
+    //   },
+    //   { immediate: true }
+    // );
 
     return {
       loading,
@@ -142,6 +155,7 @@ export default defineComponent({
       prevButtonClick,
       nextButtonClick,
       directButtonClick,
+      handleTransitionEnd
     };
   },
 });
