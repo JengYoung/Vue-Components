@@ -1,6 +1,4 @@
 <template>
-  {{ `${loading}` }}
-  {{ nowActive }}
   <div class="carousel">
     <div class="carousel__inner">
       <ul
@@ -116,7 +114,7 @@ export default defineComponent({
 
     const handleTransitionEnd = (index: number):void => {
       delay.value = 0;
-      
+
       if (index === 0) {
         nowActive.value = maxSize.value - 2;
       }
@@ -124,28 +122,6 @@ export default defineComponent({
         nowActive.value = 1;
       }
     }
-
-    // watch(
-    //   () => [loading.value],
-    //   () => {
-    //     if (!loading.value) {
-    //       return;
-    //     }
-
-    //     if (nowActive.value === 0) {
-    //       nowActive.value = maxSize.value - 2;
-    //       delay.value = 0.3;
-    //     }
-
-    //     if (nowActive.value === maxSize.value - 1) {
-    //       nowActive.value = 1;
-    //       delay.value = 0.3;
-    //     }
-
-    //     loading.value = false;
-    //   },
-    //   { immediate: true }
-    // );
 
     return {
       loading,
