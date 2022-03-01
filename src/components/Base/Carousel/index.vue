@@ -1,4 +1,5 @@
 <template>
+{{ nowActive }} {{maxSize}}{{styleVariables}}
   <div class="carousel">
     <div class="carousel__inner">
       <ul
@@ -32,7 +33,8 @@
       <ul class="carousel__direct-buttons">
         <li
           class="carousel__direct-button"
-          :class="nowActive === i - 1 ? 'carousel__direct-button--active' : ''"
+          :class="directButtonClass(i)"
+          :style="styleVariables"
           :key="i"
           v-for="i in refinedCards.length"
           @click="directButtonClick(i - 1)"
@@ -45,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch, computed, defineComponent } from 'vue';
+import { ref, computed, defineComponent } from 'vue';
 
 // interface CardInterface {
 //   imageUrl: string;
@@ -74,7 +76,37 @@ export default defineComponent({
     const loading = ref<boolean>(false);
     
     const nowActive = ref<number>(1);
+    const moveCount = ref<number>(0);
     const maxSize = computed(() => refinedCards.value.length || 0);
+
+    const prevAnimationDisable = computed(() => moveCount.value < 0 && (nowActive.value === 0 || nowActive.value === maxSize.value - 2));
+    const nextAnimationDisable = computed(() => moveCount.value > 0 && (nowActive.value === 1 || nowActive.value === maxSize.value - 1));
+
+    const styleVariables = computed(() => ({
+        '--move-count': moveCount.value,
+        '--next-direct-button-pseudo-class': nextAnimationDisable.value ? 'none' : 'block',
+        '--prev-direct-button-pseudo-class':  prevAnimationDisable.value ? 'none' : 'block',
+      })) 
+
+    const directButtonClass = (index: number) => {
+      const arr = [];
+      if (nowActive.value === index - 2) {
+        arr.push('carousel__direct-button--prev');
+      }
+      if (nowActive.value === index - 1) {
+        arr.push('carousel__direct-button--active');
+      }
+      if (nowActive.value === index) {
+        arr.push('carousel__direct-button--next');
+      }
+      if (prevAnimationDisable.value) {
+        arr.push('carousel__direct-button--animation-hidden')
+      }
+      if (nextAnimationDisable.value) {
+        arr.push('carousel__direct-button--animation-hidden')
+      }
+      return arr;
+    }
 
     const prevButtonClick = () => {
       if (loading.value) return;
@@ -84,6 +116,12 @@ export default defineComponent({
 
       delay.value = 0.3;
       nowActive.value -= 1;
+
+      if (nowActive.value === 0) {
+        moveCount.value = maxSize.value - 3
+      } else {
+        moveCount.value = -1;
+      }
 
       loading.value = false;
     };
@@ -97,6 +135,12 @@ export default defineComponent({
       delay.value = 0.3;
       nowActive.value += 1;
 
+      if (nowActive.value === maxSize.value - 1) {
+        moveCount.value = - maxSize.value + 3;
+      } else {
+        moveCount.value = 1
+      }
+
       loading.value = false;
     };
 
@@ -105,6 +149,8 @@ export default defineComponent({
       if (typeof index !== 'number') return;
 
       delay.value = 0.3;
+
+      moveCount.value = index - nowActive.value
       nowActive.value = index;
 
       if (index === maxSize.value) {
@@ -128,6 +174,12 @@ export default defineComponent({
       refinedCards,
       delay,
       nowActive,
+      moveCount,
+      styleVariables,
+      maxSize,
+
+      directButtonClass,
+
       prevButtonClick,
       nextButtonClick,
       directButtonClick,
@@ -138,13 +190,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$animation: var(--animation);
+
 .carousel {
   &__inner {
     overflow: hidden;
     position: relative;
-    display: flex;
     width: 100%;
-    border: 1px solid green;
+    border: 1px solid lightgray;
     border-radius: 20px;
   }
   &__cards {
@@ -229,11 +282,12 @@ export default defineComponent({
     display: flex;
     position: absolute;
     justify-content: center;
+    margin: 0 auto;
     width: 100%;
     left: 0;
     right: 0;
     bottom: 1rem;
-    margin: 0;
+    margin: 0; 
     padding: 0;
     list-style: none;
 
@@ -250,9 +304,88 @@ export default defineComponent({
       &:hover {
         cursor: pointer;
       }
+
+      &:first-of-type,
+      &:last-of-type {
+        display: none;
+      }
     }
+
     .carousel__direct-button--active {
-      background: skyblue;
+      background: white;
+      position: relative;
+
+      @keyframes directButtonActivePrevMove {
+        0% {
+          display: var(--prev-direct-button-pseudo-class);
+          left: calc(1.25rem * var(--move-count) * -1);
+          right: calc(-1.25rem * var(--move-count) * -1);
+        }
+        15% {
+          display: var(--prev-direct-button-pseudo-class);
+          left: 0;
+        }
+        85% {
+          display: var(--prev-direct-button-pseudo-class);
+          left: 0;
+          right: 0;
+        }
+        100% {
+          display: none;
+        }
+      }
+
+      @keyframes directButtonActiveNextMove {
+        0% {
+          display: var(--next-direct-button-pseudo-class);
+          left: calc(-1.25rem * var(--move-count));
+          right: calc(1.25rem * var(--move-count));
+        }
+        15% {
+          display: var(--next-direct-button-pseudo-class);
+          right: 0;
+        }
+        85% {
+          display: var(--next-direct-button-pseudo-class);
+          left: 0;
+          right: 0;
+        }
+        100% {
+          display: none;
+        }
+      }
+      &:after {
+        display: var(--prev-direct-button-pseudo-class);
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
+        border-radius: 0.375rem;
+        animation: directButtonActivePrevMove normal ease-in-out 0.5s;
+      }
+
+      &:before {
+        display: var(--next-direct-button-pseudo-class);
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
+        border-radius: 0.375rem;
+        animation: directButtonActiveNextMove normal ease-in-out 0.5s;
+      }
+
+      &.carousel__direct-button--animation-hidden {
+        &:after,
+        &:before {
+          opacity: 0;
+        }
+      }
     }
   }
 }
