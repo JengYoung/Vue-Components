@@ -53,4 +53,6 @@ Default.args = {
       type: 'left',
     },
   ],
+  width: '100%',
+  height: 25,
 };
