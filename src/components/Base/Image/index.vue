@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { watch, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import useIntsersectionObserver from '@hooks/useIntersectionObserver';
 
 export default defineComponent({
@@ -43,14 +43,6 @@ export default defineComponent({
       height: `${typeof props.height === 'number' ? `${props.height}rem` : props.height}`,
       'object-fit': props.objectFit,
     };
-
-    watch(
-      () => loaded,
-      () => {
-        console.log(loaded);
-      },
-      { immediate: true }
-    );
 
     return {
       loaded,

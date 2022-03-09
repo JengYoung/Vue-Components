@@ -42,11 +42,9 @@ export default defineComponent({
 
     const handleMouseUp = () => {
       dragging.value = false;
-      console.log('bye');
     };
 
     const handleMouseDown = () => {
-      console.log('hello');
       dragging.value = true;
     };
 
@@ -60,7 +58,6 @@ export default defineComponent({
         handleOffset = (e as MouseEvent).pageX - (sliderRef.value as HTMLDivElement).offsetLeft;
       } else {
         for (let i = 0; i < (e as TouchEvent).changedTouches.length; i += 1) {
-          console.log((e as TouchEvent).changedTouches[i].pageX as number);
           handleOffset =
             /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
             ((e as TouchEvent).changedTouches[i].pageX as number) -

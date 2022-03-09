@@ -20,9 +20,7 @@ const useIntersectionObserver = ({ type, lazy, threshold = 1 }: UseIntersectionO
 
 	const onIntersection = (entries: IntersectionObserverEntry[], o: IntersectionObserver) => {
 		entries.forEach((entry: IntersectionObserverEntry) => {
-			console.log(entry)
 			if (entry.isIntersecting) {
-				console.log("hi")
 				o.unobserve(entry.target);
 				entry.target.dispatchEvent(new CustomEvent(eventTypes[type]));
 			}
@@ -38,7 +36,6 @@ const useIntersectionObserver = ({ type, lazy, threshold = 1 }: UseIntersectionO
 		}
 
 		const handleLoadImage = () => {
-			console.log("hi!!!!!")
 			loaded.value = true;
 		}
 

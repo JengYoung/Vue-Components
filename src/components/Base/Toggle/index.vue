@@ -1,6 +1,6 @@
 <template>
   <div :style="toggleStyle" class="toggle">
-    <div class="toggle__button"></div>
+    <div class="toggle__button" :style="toggleButtonStyle"></div>
   </div>
 </template>
 
@@ -9,21 +9,27 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    width: String || Number,
-    height: String || Number,
+    width: {
+      type: [String, Number],
+      default: '6.25rem'
+    },
+    height: {
+      type: [String, Number],
+      default: '3rem'
+    },
     backgroundColor: String,
     buttonColor: String,
     isToggle: Boolean,
     border: {
-      type: String || Number,
+      type: [String, Number],
       default: '1px solid lightgray'
     }
   },
   setup (props) {
     const toggleStyle = {
       backgroundColor: props.backgroundColor,
-      width: props.width,
-      height: props.height,
+      width: typeof props.width === 'string' ? props.width : `${props.width}rem`,
+      height: typeof props.height === 'string' ? props.height : `${props.height}rem`,
       border: props.border
     }
     const toggleButtonStyle = {
