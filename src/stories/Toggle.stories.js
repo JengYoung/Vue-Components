@@ -4,10 +4,10 @@ export default {
   title: 'Example/Toggle',
   component: Toggle,
   argTypes: {
-    width: { control: { type: 'range', min: 6.25, max: 10 } },
-    height: { control: { type: 'range', min: 3, max: 4.75 } },
+    width: { control: { type: 'range', min: 4.25, max: 10, step: 0.125 } },
+    height: { control: { type: 'range', min: 2, max: 4.75, step: 0.125 } },
     buttonColor: { control: 'color' },
-    backgroundColor: { control: 'color'},
+    activeBgColor: { control: 'color'},
     border: { control: "text" },
     isToggle: { control: 'boolean' }
   }
@@ -24,10 +24,9 @@ const Template = args => ({
 export const Default = Template.bind({});
 
 Default.args = {
-  width: 6.25,
-  height: 3,
+  width: 4.25,
+  height: 2,
   border: '1px solid lightgray',
-  backgroundColor: '#b377ff',
+  activeBgColor: '#b377ff',
   buttonColor: '#f3f3f3',
-  isToggle: false,
 }
