@@ -6,7 +6,7 @@ export default {
   title: 'Base/HeaderText',
   component: HeaderText,
   argTypes: {
-    tag: { control: {type: 'radio', options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']}},
+    tag: { control: { type: 'radio', options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']}},
     centered: { control: 'boolean'},
     color: { control: 'color' }
   }
