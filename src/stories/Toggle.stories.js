@@ -8,6 +8,7 @@ export default {
     height: { control: { type: 'range', min: 2, max: 4.75, step: 0.125 } },
     buttonColor: { control: 'color' },
     activeBgColor: { control: 'color'},
+    defaultBgColor: { control: 'color' },
     border: { control: "text" },
     isToggle: { control: 'boolean' }
   }
@@ -28,5 +29,6 @@ Default.args = {
   height: 2,
   border: '1px solid lightgray',
   activeBgColor: '#b377ff',
+  defaultBgColor: '#888888',
   buttonColor: '#f3f3f3',
 }
