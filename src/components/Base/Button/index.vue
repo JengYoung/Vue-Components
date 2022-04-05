@@ -3,21 +3,53 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, StyleValue } from 'vue';
 
 export default defineComponent({
   props: {
     children: String,
-    backgroundColor: String,
-    width: String || Number,
-    height: String || Number,
-    padding: String || Number,
-    fontSize: Number,
+    backgroundColor: {
+      type: String,
+      required: true,
+      default: '#fff',
+    },
+    width: {
+      type: String || Number,
+      required: true,
+      default: 'auto'
+    },
+    height: {
+      type: String || Number,
+      required: true,
+      default: 'auto'
+    },
+    padding: {
+      type: String || Number,
+      required: true,
+      default: 'auto'
+    },
+    fontSize: {
+      type: String || Number,
+      required: true,
+      default: 1
+    },
     border: String,
     color: String,
-    borderRadius: String || Number,
-    outline: Boolean,
-    borderColor: String,
+    borderRadius: {
+      type: String || Number,
+      required: true,
+      default: 0
+    },
+    outline: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    borderColor: {
+      type: String,
+      required: true,
+      default: '#fff'
+    },
   },
   setup(props) {
     const buttonCSS = computed(() => ({
@@ -25,20 +57,21 @@ export default defineComponent({
       '--width': `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
       '--height': `${typeof props.height === 'number' ? `${props.height}rem` : props.height}`,
       '--padding': `${typeof props.padding === 'number' ? `${props.padding}rem` : props.padding}`,
-      '--font-size': `${props.fontSize}rem`,
+      '--font-size': `${typeof props.fontSize === 'number' ? `${props.fontSize}rem` : props.fontSize}`,
       '--color': props.color,
       '--border': props.border,
       '--border-radius': `${
         typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius
       }`,
       '--border-color': props.borderColor,
+
       ...(props.outline
         ? {
             '--background-color': 'transparent',
             '--border-color': props.color,
           }
         : {}),
-    }));
+    })) as StyleValue;
 
     return {
       buttonCSS,

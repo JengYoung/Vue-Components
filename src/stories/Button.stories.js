@@ -42,7 +42,7 @@ Primary.args = {
   backgroundColor: '#FFFFFF',
   padding: '0.5rem 2rem',
   border: '1px solid lightgray',
-  borderColor: '#888888',
+  borderColor: '#000',
   borderRadius: 5,
   outline: false,
 };
