@@ -1,5 +1,11 @@
 <template>
-  <button class="button" :style="buttonCSS">{{ children }}</button>
+  <button
+    class="button"
+    :style="buttonCSS"
+    @click="() => handleClick && handleClick()"
+  >
+    <slot></slot>
+  </button>
 </template>
 
 <script lang="ts">
@@ -7,49 +13,50 @@ import { computed, defineComponent, StyleValue } from 'vue';
 
 export default defineComponent({
   props: {
-    children: String,
     backgroundColor: {
       type: String,
       required: true,
       default: '#fff',
     },
     width: {
-      type: String || Number,
-      required: true,
+      type: [String, Number],
       default: 'auto'
     },
     height: {
-      type: String || Number,
-      required: true,
+      type: [String, Number],
       default: 'auto'
     },
     padding: {
-      type: String || Number,
-      required: true,
+      type: [String, Number],
       default: 'auto'
     },
     fontSize: {
-      type: String || Number,
-      required: true,
+      type: [String, Number],
       default: 1
     },
     border: String,
     color: String,
     borderRadius: {
-      type: String || Number,
-      required: true,
+      type: [String, Number],
       default: 0
     },
     outline: {
       type: Boolean,
-      required: true,
       default: false
     },
     borderColor: {
       type: String,
-      required: true,
       default: '#fff'
     },
+    hoverColor: {
+      type: String,
+    },
+    hoverScale: {
+      type: Number,
+    },
+    onClick: {
+      type: Function
+    }
   },
   setup(props) {
     const buttonCSS = computed(() => ({
@@ -64,6 +71,9 @@ export default defineComponent({
         typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius
       }`,
       '--border-color': props.borderColor,
+      '--is-hover': `${!!props.hoverColor}`,
+      '--hover-color': props.hoverColor,
+      '--hover-scale': `${props.hoverScale ? `scale(${props.hoverScale})` : ''}`,
 
       ...(props.outline
         ? {
@@ -75,6 +85,7 @@ export default defineComponent({
 
     return {
       buttonCSS,
+      handleClick: props.onClick
     };
   },
 });
@@ -100,11 +111,10 @@ export default defineComponent({
   border-radius: var(--border-radius);
   border-color: var(--border-color);
 
-  $color: var(--background-color);
-
   &:hover {
     transition: all 0.3s;
-    background-color: darken(#364434, 0.9);
+    background-color: var(--hover-color);
+    transform: var(--hover-scale);
   }
 }
 </style>
