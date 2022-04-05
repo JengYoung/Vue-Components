@@ -8,9 +8,6 @@ export default {
   // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
-    children: {
-      control: { type: 'text' },
-    },
     width: { control: { type: 'range', min: 0, max: 30 } },
     height: { control: { type: 'range', min: 0, max: 30 } },
     padding: { control: { type: 'text' } },
@@ -19,6 +16,8 @@ export default {
     borderColor: { control: 'color' },
     borderRadius: { control: { type: 'range', min: 0, max: 20 } },
     outline: { control: { type: 'boolean' } },
+    hoverColor: { control: 'color' },
+    hoverScale: { control: { type: 'range', min: 1, max: 2 , step: 0.05 } },
   },
 };
 
@@ -31,18 +30,20 @@ const Template = (args) => ({
     return { args };
   },
   // And then the `args` are bound to your component with `v-bind="args"`
-  template: '<Button v-bind="args" />',
+  template: '<Button v-bind="args">Test!</Button>',
 });
 
 export const Primary = Template.bind({});
 
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Primary.args = {
-  children: 'Button',
   backgroundColor: '#FFFFFF',
   padding: '0.5rem 2rem',
   border: '1px solid lightgray',
-  borderColor: '#888888',
+  borderColor: '#000',
   borderRadius: 5,
   outline: false,
+  hoverColor: '',
+  hoverScale: 1,
+  onClick: () => console.log("action!")
 };
