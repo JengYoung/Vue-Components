@@ -10,7 +10,7 @@
     :isClickAway="true"
     @update:closed="updateClosed"
   ></Sidebar>
-  Home: {{ sidebarClosed }}
+
   <SidebarToggleButton
     :sidebarClosed="sidebarClosed"
     @update:sidebarClosed="(value) => sidebarClosed = value"
@@ -40,7 +40,6 @@ export default defineComponent({
     const sidebarClosed=ref(true);
 
     const updateClosed = (value: boolean) => {
-      console.log("value: ", value)
       sidebarClosed.value = value
     }
 

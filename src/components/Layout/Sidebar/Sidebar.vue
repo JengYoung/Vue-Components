@@ -5,11 +5,10 @@
     :style="sidebarStyle"
     :class="sidebarClosed ? 'closed' : ''"
   />
-  {{ sidebarClosed }}
 </template>
 
 <script lang="ts">
-import { defineComponent, StyleValue, computed, onMounted } from 'vue'
+import { defineComponent, StyleValue, computed, onMounted, onUnmounted } from 'vue'
 
 export default defineComponent({
   props: {
@@ -34,15 +33,25 @@ export default defineComponent({
       '--delay': `${props.delay}s`
     })) as StyleValue
 
+    const handleBodyClick = (e: Event) => {
+      console.log('hi~~~~')
+      const $sidebar = (e.target as HTMLElement).closest('.sidebar');
+      if (!$sidebar && props.isClickAway && !props.sidebarClosed) {
+        emit('update:closed', true);
+      } else {
+        emit('update:closed', props.sidebarClosed);
+      }
+    }
     onMounted(() => {
-      document.body.addEventListener('click', (e) => {
-        const $sidebar = (e.target as HTMLElement).closest('.sidebar');
-        if (!$sidebar && props.isClickAway && !props.sidebarClosed) {
-          emit('update:closed', true);
-        } else {
-          emit('update:closed', props.sidebarClosed);
-        }
-      })
+      if (props.isClickAway) {
+        document.body.addEventListener('click', handleBodyClick)
+      }
+    })
+
+    onUnmounted(() => {
+      if (props.isClickAway) {
+        document.body.removeEventListener('click', handleBodyClick)
+      }
     })
 
     return {
