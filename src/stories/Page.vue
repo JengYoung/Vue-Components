@@ -6,7 +6,6 @@
       @logout="$emit('logout')"
       @createAccount="$emit('createAccount')"
     />
-
     <section>
       <h2>Pages in Storybook</h2>
       <p>
