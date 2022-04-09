@@ -6,11 +6,14 @@
     backgroundColor= '#eff1e2'
     border= '1px solid lightgray'
     :sidebarClosed="sidebarClosed"
+    :delay="0.3"
   ></Sidebar>
+
   <SidebarToggleButton
     :sidebarClosed="sidebarClosed"
     @update:sidebarClosed="({ value }) => sidebarClosed = value"
   />
+
   <div class="home">
     <img alt="Vue logo" src="@/assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>

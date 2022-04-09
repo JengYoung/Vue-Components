@@ -18,7 +18,8 @@ export default defineComponent({
     backgroundColor: String,
     border: String,
     headerHeight: [String, Number],
-    sidebarClosed: Boolean
+    sidebarClosed: Boolean,
+    delay: Number
   },
   setup (props) {
     const sidebarStyle = computed(() => ({
@@ -28,6 +29,7 @@ export default defineComponent({
       '--background-color': props.backgroundColor,
       '--border': props.border,
       '--header-height': `${typeof props.headerHeight === 'number' ? `${props.headerHeight}rem` : props.headerHeight}`,
+      '--delay': `${props.delay}s`
     })) as StyleValue
 
 
@@ -47,11 +49,11 @@ export default defineComponent({
   height: calc(100vh - #{var(--header-height)});
   padding: var(--padding);
   border: 1px solid #{var(--border)};
-  transition: all 0.3s;
+  transition: all var(--delay);
   overflow: hidden;
 }
 .closed {
-  transition: all 0.3s;
+  transition: all var(--delay);
   transform: translate3d(calc(-1 * var(--width)), 0, 0);
 }
 </style>

@@ -11,6 +11,7 @@ export default {
     backgroundColor: { control: 'color' },
     border: { control: { type: 'text' } },
     headerHeight: { control: { type: 'range', min: 0, max: 5 } },
+    delay: { control: { type: 'range', min: 0.1, max: 1, step: 0.1 } }
     // sidebarClosed: { control: { type: 'boolean'} }
   }
 }
@@ -46,5 +47,6 @@ SidebarComponent.args = {
   backgroundColor: '#123421',
   border: '1px solid lightgray',
   headerHeight: 4.125,
+  delay: 0.3
   // sidebarClosed: false,
 }
