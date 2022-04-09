@@ -4,7 +4,7 @@
     class="sidebar"
     :style="sidebarStyle"
     :class="sidebarClosed ? 'closed' : ''"
-  >{{sidebarClosed}}</aside>
+  />
 
 </template>
 

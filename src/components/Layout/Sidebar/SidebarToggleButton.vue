@@ -21,7 +21,6 @@ export default defineComponent({
   setup (props, {emit}) {
     const toggled = ref(props.sidebarClosed);
     const onToggle = () => {
-      console.log('hi')
       toggled.value = !toggled.value
       emit('update:sidebarClosed', toggled)
     };
