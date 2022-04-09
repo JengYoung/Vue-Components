@@ -27,10 +27,16 @@ const Template = (args) => ({
   },
   template: `
     <div>
-      <Sidebar v-bind="args"></Sidebar>
+      <Sidebar
+        v-bind="args"
+        @update:closed="(value) => {
+          sidebarClosed = value
+          args.sidebarClosed = value
+        }"
+      />
       <SidebarToggleButton
         v-bind:sidebarClosed="sidebarClosed"
-        @update:sidebarClosed="({ value }) => {
+        @update:sidebarClosed="(value) => {
           sidebarClosed = value
           args.sidebarClosed = value
         }"

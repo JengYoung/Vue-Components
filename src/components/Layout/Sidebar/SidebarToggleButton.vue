@@ -1,7 +1,7 @@
 <template>
   <button
     class="sidebar__toggle-button"
-    @click="onToggle"
+    @click.stop="onToggle"
   >
     <img
       :src="sidebarClosed ? require('@/assets/sidebar-menu.svg') : require('@/assets/logo.png')"
@@ -11,18 +11,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 
 export default defineComponent({
   props: {
     sidebarClosed : Boolean,
   },
+
   emits: ['update:sidebarClosed'],
+
   setup (props, {emit}) {
     const toggled = ref(props.sidebarClosed);
+
+    watch(() => [props.sidebarClosed], () => {
+      toggled.value = props.sidebarClosed
+    })
+
     const onToggle = () => {
       toggled.value = !toggled.value
-      emit('update:sidebarClosed', toggled)
+      emit('update:sidebarClosed', toggled.value)
     };
 
     return { onToggle, toggled };

@@ -7,11 +7,13 @@
     border= '1px solid lightgray'
     :sidebarClosed="sidebarClosed"
     :delay="0.3"
+    :isClickAway="true"
+    @update:closed="updateClosed"
   ></Sidebar>
-
+  Home: {{ sidebarClosed }}
   <SidebarToggleButton
     :sidebarClosed="sidebarClosed"
-    @update:sidebarClosed="({ value }) => sidebarClosed = value"
+    @update:sidebarClosed="(value) => sidebarClosed = value"
   />
 
   <div class="home">
@@ -37,8 +39,14 @@ export default defineComponent({
   setup() {
     const sidebarClosed=ref(true);
 
+    const updateClosed = (value: boolean) => {
+      console.log("value: ", value)
+      sidebarClosed.value = value
+    }
+
     return {
-      sidebarClosed
+      sidebarClosed,
+      updateClosed
     }
   }
 });
