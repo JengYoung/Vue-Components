@@ -40,6 +40,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .sidebar {
+  position: fixed;
+  top: var(--header-height);
   background-color: var(--background-color);
   width: var(--width);
   height: calc(100vh - #{var(--header-height)});
