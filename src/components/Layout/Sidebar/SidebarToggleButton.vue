@@ -1,17 +1,23 @@
 <template>
-  <button>
-
+  <button @click="onToggle">
+    Toggle!{{ toggled }}
   </button>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  setup () {
+  props: {
+    sidebarClosed : Boolean
+  },
+  setup (props) {
+    const toggled = ref(props.sidebarClosed);
+    const onToggle = () => {
+      toggled.value = !toggled.value
+    };
 
-
-    return {}
+    return { onToggle, toggled };
   }
 })
 </script>

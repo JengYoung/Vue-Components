@@ -1,11 +1,15 @@
 <template>
-  <aside class="sidebar" :style="sidebarStyle">
-    Test
-  </aside>
+  <!-- :class="sidebarClosed ? 'sidebar--closed' : ''" -->
+  <aside
+    class="sidebar"
+    :style="sidebarStyle"
+    :class="sidebarClosed ? 'closed' : ''"
+  >{{sidebarClosed}}</aside>
+
 </template>
 
 <script lang="ts">
-import { defineComponent, StyleValue } from 'vue'
+import { defineComponent, StyleValue, computed } from 'vue'
 
 export default defineComponent({
   props: {
@@ -14,18 +18,21 @@ export default defineComponent({
     backgroundColor: String,
     border: String,
     headerHeight: [String, Number],
+    sidebarClosed: Boolean
   },
   setup (props) {
-    const sidebarStyle = {
+    const sidebarStyle = computed(() => ({
+      /* eslint-disable no-nested-ternary */
       '--width': `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
       '--padding': `${typeof props.padding === 'number' ? `${props.padding}rem` : props.padding}`,
       '--background-color': props.backgroundColor,
       '--border': props.border,
       '--header-height': `${typeof props.headerHeight === 'number' ? `${props.headerHeight}rem` : props.headerHeight}`,
-    } as StyleValue
+    })) as StyleValue
+
 
     return {
-      sidebarStyle
+      sidebarStyle,
     }
   }
 })
@@ -34,13 +41,15 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sidebar {
   background-color: var(--background-color);
+  height: calc(100vh - #{var(--header-height)});
   width: var(--width);
-  height: calc(100% - #{var(--header-height)});
+  padding: var(--padding);
   border: 1px solid #{var(--border)};
-
   transition: all 0.3s;
-  &--closed {
-    transform: transform3d(#{var(--width)})
+  overflow: hidden;
+  .closed {
+    transform: translate3d(calc(-1 * var(--width)), 0, 0);
+    transition: all 0.3s;
   }
 }
 </style>
