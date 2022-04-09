@@ -7,9 +7,12 @@
     border= '1px solid lightgray'
     :sidebarClosed="sidebarClosed"
   ></Sidebar>
-  <SidebarToggleButton @click="handleToggle"></SidebarToggleButton>
+  <SidebarToggleButton
+    :sidebarClosed="sidebarClosed"
+    @update:sidebarClosed="({ value }) => sidebarClosed = value"
+  />
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <img alt="Vue logo" src="@/assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
@@ -31,11 +34,8 @@ export default defineComponent({
   setup() {
     const sidebarClosed=ref(true);
 
-    const handleToggle = () => {
-      sidebarClosed.value=!sidebarClosed.value
-    }
     return {
-      sidebarClosed, handleToggle
+      sidebarClosed
     }
   }
 });

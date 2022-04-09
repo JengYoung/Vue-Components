@@ -41,15 +41,15 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sidebar {
   background-color: var(--background-color);
-  height: calc(100vh - #{var(--header-height)});
   width: var(--width);
+  height: calc(100vh - #{var(--header-height)});
   padding: var(--padding);
   border: 1px solid #{var(--border)};
   transition: all 0.3s;
   overflow: hidden;
-  .closed {
-    transform: translate3d(calc(-1 * var(--width)), 0, 0);
-    transition: all 0.3s;
-  }
+}
+.closed {
+  transition: all 0.3s;
+  transform: translate3d(calc(-1 * var(--width)), 0, 0);
 }
 </style>
