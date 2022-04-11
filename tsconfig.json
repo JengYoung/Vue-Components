@@ -15,6 +15,7 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "paths": {
       "@/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"]
     }
