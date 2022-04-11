@@ -4,7 +4,7 @@
     @click.stop="onToggle"
   >
     <img
-      :src="sidebarClosed ? require('@/assets/sidebar-menu.svg') : require('@/assets/logo.png')"
+      :src="require(sidebarClosed ? '@assets/sidebar-menu.svg' : '@assets/logo.png')"
       class="toggle-button__icon"
     />
   </button>

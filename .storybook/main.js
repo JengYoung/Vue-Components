@@ -17,6 +17,7 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.join(__dirname, '../src'),
+      '@assets': path.join(__dirname, '../src/assets/'),
       '@components': path.join(__dirname, '../src/components/'),
       '@hooks': path.join(__dirname, '../src/hooks/'),
     };
