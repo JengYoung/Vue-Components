@@ -1,6 +1,8 @@
 <template>
-  <div>
-    Menu
+  <div
+    class="menu"
+  >
+    <slot></slot>
   </div>
 </template>
 
@@ -56,5 +58,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+.menu {
+  overflow: hidden;
+  height: 0;
+  &--visible {
+    height: auto;
+  }
+}
 </style>
