@@ -1,8 +1,8 @@
 <template>
-  <div
-    class="menu"
-  >
-    <slot></slot>
+  <div class="menu" :class="visible ? 'menu--visible' : '' ">
+    <div class="menu-inner" :class="visible ? 'menu-inner--visible' : '' ">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -21,10 +21,6 @@ export default defineComponent({
     borderColor: {
       type: String,
       default: '#000'
-    },
-    menu: {
-      type: Object,
-      required: true,
     },
     visible: {
       type: Boolean,
@@ -59,10 +55,30 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .menu {
+  position: relative;
+  z-index: -1;
   overflow: hidden;
-  height: 0;
+  background: skyblue;
+  // opacity: 0;
+  transition: all 0.5s;
+  transform: scaleY(0);
+  transform-origin: top;
+
   &--visible {
-    height: auto;
+    background: purple;
+    transform: scaleY(1);
   }
 }
+.menu-inner {
+  position: relative;
+  // position: absolute;
+  // background: pink;
+  // transform: translateY(-100%);
+  // transition: all 0.3s;
+
+  // &--visible {
+  //   transform: translateY(0);
+  // }
+}
+
 </style>

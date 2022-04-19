@@ -2,12 +2,9 @@
 {{ visible }}
 <button @click="onClick">Click!</button>
 <Menu
-  class="menu"
-  :class="visible ? 'menu--visible' : '' "
   isShadowed
   :borderRadius="10"
   borderColor="white"
-  :menu="{}"
   :visible="visible"
 >
   <div class="menu-item-mock"></div>
@@ -15,9 +12,11 @@
 </template>
 
 <script lang="ts">
+import Menu from '@components/Morecule/Menu.vue'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
+  components: { Menu },
   setup() {
     const visible = ref(false);
 
@@ -38,15 +37,5 @@ export default defineComponent({
   height: 120px;
   width: 150px;
   background-color: #888888;
-}
-.menu {
-  position: relative;
-  z-index: -1;
-  overflow: hidden;
-  transform: translateY(-100%);
-  transition: all 0.3s;
-  &--visible {
-    transform: translateY(0);
-  }
 }
 </style>
