@@ -1,9 +1,9 @@
 <template>
-  <input @input="changeInputValue">
+  <input ref="inputElement" @input="changeInputValue">
   <div>prefix: {{ prefix }}</div>
   <div>blocks: {{ blocks }}</div>
   <div>delimeter: {{ delimeter }}</div>
-  <div>modelValue: {{ modelValue }}</div>
+  <div>modelValue: {{ modelValue.length }}</div>
   <div>now inputValue: {{ value }}</div>
   <div>arr: {{ arr }}</div>
 </template>
@@ -29,41 +29,23 @@ export default defineComponent({
     }
   },
   setup (props, { emit }) {
+    const inputElement = ref<HTMLInputElement | null>(null);
     const value = ref('');
     const computedModelValue = computed(() => props.modelValue);
-
-    const arr = ref<string[][]>([]);
-    arr.value = props.blocks.map(blockLength => new Array(blockLength).fill(''))
+    const computedBlocks = computed(() => props.blocks);
+    const arr = ref<string[]>([]);
 
     // ['a', 'b', 'c-']
     const changeInputValue = (e: Event) => {
-      const input = e.target as HTMLInputElement;
+      emit('update:inputValue', (e.target as HTMLInputElement).value); // 이전에는 `this.$emit('input', title)`
+    }
 
-      const originSelectionStart = input.selectionStart;
-      const originSelectionEnd = input.selectionEnd;
+    watch([computedModelValue], () => {
+      if (!inputElement.value) return;
+      const input = inputElement.value;
 
       value.value = input.value;
 
-      for (let i = 0; i < arr.value.length; i += 1) {
-        const nowArr = arr.value[i];
-
-        for (let j = 0; j < nowArr.length; j += 1) {
-          const [nowValue, ...remainder] = value.value;
-          console.log('nowValue: ', nowValue)
-          if (nowValue) {
-            arr.value[i][j] = nowValue;
-
-            console.log('re: ', remainder, )
-          } else {
-            arr.value[i][j] = '';
-          }
-          value.value = remainder.join('') ?? '';
-        }
-
-        if (i !== arr.value.length - 1 && arr.value[i][arr.value[i].length - 1] !== '') {
-          arr.value[i][arr.value[i].length - 1] += props.delimeter;
-        }
-      }
 
       console.log(
         value.value,
@@ -71,10 +53,29 @@ export default defineComponent({
         input.selectionStart,
         input.selectionEnd
       );
-      emit('update:inputValue', (e.target as HTMLInputElement).value); // 이전에는 `this.$emit('input', title)`
-    }
+
+      let cnt = 0;
+      arr.value = [];
+      for (let i = 0; i < computedBlocks.value.length; i += 1) {
+        const nowBlockLength = props.blocks[i];
+
+        for (let j = cnt; j < cnt + nowBlockLength; j += 1) {
+          arr.value = [...arr.value, input.value[j] || '']
+          console.log(input.value[j])
+        }
+
+        const lastBlockStr: string = arr.value[cnt + nowBlockLength - 1];
+        arr.value[cnt + nowBlockLength - 1] += lastBlockStr && (i !== computedBlocks.value.length - 1)
+          ? props.delimeter
+          : '';
+
+        cnt += nowBlockLength
+        console.log('after', cnt)
+      }
+    })
 
     return {
+      inputElement,
       value,
       changeInputValue,
       arr,

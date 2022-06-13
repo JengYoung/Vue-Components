@@ -4,10 +4,10 @@
       v-model="inputValue"
       :prefix="prefix"
       :delimeter="delimeter"
-      :blocks="inputValue.length === 10 ? [3, 3, Infinity] : [3, 3, 5]"
+      :blocks="inputValue.length !== 10 ? [3, 4, 4] : [3, 3, 5]"
       @update:inputValue="inputValue = $event"
     ></FormattingInput>
-    inputvalue: {{ inputValue }}
+    inputvalue: {{ inputValue }} {{inputValue.length}}
   </div>
 </template>
 
