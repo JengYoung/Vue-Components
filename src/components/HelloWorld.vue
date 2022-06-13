@@ -24,7 +24,7 @@ export default defineComponent({
     setup() {
       const inputValue = ref('');
       const prefix = ref('');
-      const delimeter = ref('');
+      const delimeter = ref('-');
 
       return {
         inputValue,
