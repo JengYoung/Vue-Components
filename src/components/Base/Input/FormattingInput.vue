@@ -6,10 +6,16 @@
   <div>modelValue: {{ modelValue.length }}</div>
   <div>now inputValue: {{ value }}</div>
   <div>arr: {{ arr }}</div>
+  <div>inputDirection: {{ inputDirection }}</div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from 'vue'
+
+enum InputDirectionEnum {
+  PLUS = 'plus',
+  MINUS = 'minus'
+}
 
 export default defineComponent({
   props: {
@@ -34,34 +40,36 @@ export default defineComponent({
     const computedModelValue = computed(() => props.modelValue);
     const computedBlocks = computed(() => props.blocks);
     const arr = ref<string[]>([]);
+    const inputDirection = ref<InputDirectionEnum>(InputDirectionEnum.PLUS);
 
     // ['a', 'b', 'c-']
     const changeInputValue = (e: Event) => {
-      emit('update:inputValue', (e.target as HTMLInputElement).value); // 이전에는 `this.$emit('input', title)`
+      const nowValue = (e.target as HTMLInputElement).value;
+      inputDirection.value = nowValue.length > computedModelValue.value.length
+        ? InputDirectionEnum.PLUS
+        : InputDirectionEnum.MINUS;
+      emit('update:inputValue', nowValue); // 이전에는 `this.$emit('input', title)`
     }
 
     watch([computedModelValue], () => {
       if (!inputElement.value) return;
       const input = inputElement.value;
 
-      value.value = input.value;
-
-
-      console.log(
-        value.value,
-        computedModelValue.value,
-        input.selectionStart,
-        input.selectionEnd
-      );
+      value.value = input.value.replace(/[^0-9]/g, '');
 
       let cnt = 0;
       arr.value = [];
+
+      if (input.value[input.value.length - 1] === props.delimeter) {
+        input.value = input.value.slice(0, Math.max(0, input.value.length - 1))
+        return;
+      }
+
       for (let i = 0; i < computedBlocks.value.length; i += 1) {
         const nowBlockLength = props.blocks[i];
 
         for (let j = cnt; j < cnt + nowBlockLength; j += 1) {
-          arr.value = [...arr.value, input.value[j] || '']
-          console.log(input.value[j])
+          arr.value = [...arr.value, value.value[j] || '']
         }
 
         const lastBlockStr: string = arr.value[cnt + nowBlockLength - 1];
@@ -70,8 +78,10 @@ export default defineComponent({
           : '';
 
         cnt += nowBlockLength
-        console.log('after', cnt)
       }
+
+      emit('update:inputValue', arr.value.join(''));
+      input.value = arr.value.join('');
     })
 
     return {
@@ -79,6 +89,7 @@ export default defineComponent({
       value,
       changeInputValue,
       arr,
+      inputDirection
     }
   }
 })
