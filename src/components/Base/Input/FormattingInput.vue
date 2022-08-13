@@ -18,6 +18,15 @@ enum InputDirectionEnum {
   PLUS = 'plus',
   MINUS = 'minus'
 }
+const getDelemeterCount = (value: string, delimeter: string) => {
+  let cnt = 0;
+
+  for (let i = 0; i < value.length; i += 1) {
+    if (value[i] === delimeter) cnt += 1;
+  }
+
+  return cnt;
+}
 
 const reassignDelemeter = (nowValue: string, blocks: number[], delimeter: string) => {
   let result = '';
@@ -25,6 +34,7 @@ const reassignDelemeter = (nowValue: string, blocks: number[], delimeter: string
 
   for (let i = 0;  i < nowValue.length; i += 1) {
     result += nowValue[i];
+
     if (i === blocks[blocksIndex] - 1 && i < nowValue.length - 1) {
       result += delimeter;
       blocksIndex += 1;
@@ -88,13 +98,23 @@ export default defineComponent({
       if (!inputElement.value) return;
 
       let result = '';
-      const inputValue = inputElement.value.value;
+
+      /* eslint-disable @typescript-eslint/no-shadow */
+      const { value: inputValue, selectionStart, selectionEnd } = inputElement.value
+      const beforeDelimeterCount = getDelemeterCount(inputValue, props.delimeter);
       const refinedValue = inputValue.replace(/[^0-9]/g, '').slice(0, 11);
 
       result = reassignDelemeter(refinedValue, refinedBlocks.value, props.delimeter);
+      const afterDelimeterCount = getDelemeterCount(result, props.delimeter);
+      const delimeterCountDiff = afterDelimeterCount - beforeDelimeterCount;
 
+      console.log(selectionStart, selectionEnd, beforeDelimeterCount, afterDelimeterCount)
       console.log(inputValue, props.modelValue, result)
+
       inputElement.value.value = result;
+      inputElement.value.selectionStart = (selectionStart ?? 0) + delimeterCountDiff;
+      inputElement.value.selectionEnd = (selectionEnd ?? 0) + delimeterCountDiff;
+
       emit('update:modelValue', result)
     }
 
