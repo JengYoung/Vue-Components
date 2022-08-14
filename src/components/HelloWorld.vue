@@ -5,9 +5,10 @@
       :prefix="prefix"
       :delimeter="delimeter"
       :blocks="inputValue.length === 12 ? [3, 3, 5] : [3, 4, 4]"
-      @update:inputValue="inputValue = $event"
+      number
+      autoFocus
     ></FormattingInput>
-    inputvalue: {{ inputValue }} {{inputValue.length}}
+    inputvalue: {{ inputValue }} {{ inputValue.length }}
   </div>
 </template>
 
@@ -16,22 +17,22 @@ import { defineComponent, ref } from 'vue';
 import FormattingInput from './Base/Input/FormattingInput.vue';
 
 export default defineComponent({
-    name: "HelloWorld",
-    props: {
-        msg: String,
-    },
-    components: { FormattingInput },
-    setup() {
-      const inputValue = ref('');
-      const prefix = ref('');
-      const delimeter = ref('-');
+  name: 'HelloWorld',
+  props: {
+    msg: String,
+  },
+  components: { FormattingInput },
+  setup() {
+    const inputValue = ref('');
+    const prefix = ref('TEL)');
+    const delimeter = ref('-');
 
-      return {
-        inputValue,
-        prefix,
-        delimeter
-      }
-    }
+    return {
+      inputValue,
+      prefix,
+      delimeter,
+    };
+  },
 });
 </script>
 
