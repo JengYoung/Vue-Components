@@ -132,7 +132,6 @@ export default defineComponent({
           props.delimeter
         );
 
-        console.log(reassginedNowValue, reassginedModelValue);
         return (
           inputValue.length === props.modelValue.length - 1 &&
           props.modelValue[selectionStart] === props.delimeter &&
@@ -140,7 +139,6 @@ export default defineComponent({
         );
       };
 
-      console.log('????', isDeletedValueDelimeter());
       if (isDeletedValueDelimeter()) {
         const headValue = inputValue.slice(0, (selectionStart ?? 0) - 1);
         const taiiValue = inputValue.slice(selectionStart ?? 0);
