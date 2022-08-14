@@ -31,6 +31,28 @@ const reassignDelemeter = (nowValue: string, blocks: number[], delimeter: string
   return result;
 };
 
+const getRefinedBlocks = (blocks: number[]) => {
+  const arr: number[] = [];
+
+  blocks.forEach((val, idx) => {
+    arr.push(val + (idx ? arr[idx - 1] : 0));
+  });
+
+  return arr;
+};
+
+const getOriginalValue = (value: string, options: { number: boolean; maxValue: number }) => {
+  let regex = '';
+
+  if (options.number) {
+    regex += '[^0-9]';
+  }
+
+  const resultRegex = new RegExp(regex, 'g');
+
+  return value.replace(resultRegex, '').slice(0, options.maxValue);
+};
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -47,6 +69,10 @@ export default defineComponent({
     },
     prefix: {
       type: String,
+    },
+    number: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
@@ -87,22 +113,40 @@ export default defineComponent({
         inputValue.slice(0, selectionStart),
         props.delimeter
       );
-      const isDeletedValueDelimeter = () =>
-        inputValue.length === props.modelValue.length - 1 &&
-        props.modelValue[selectionStart] === props.delimeter &&
-        reassignDelemeter(
-          inputValue.replace(/[^0-9]/g, '').slice(0, 11),
+      const isDeletedValueDelimeter = () => {
+        const options = {
+          number: props.number,
+          maxValue: refinedBlocks.value[refinedBlocks.value.length - 1],
+        };
+
+        const reassginedNowValue = reassignDelemeter(
+          // inputValue.replace(/[^0-9]/g, '').slice(0, 11),
+          getOriginalValue(inputValue, options),
           refinedBlocks.value,
           props.delimeter
-        ) ===
-          reassignDelemeter(
-            props.modelValue.replace(/[^0-9]/g, '').slice(0, 11),
-            refinedBlocks.value,
-            props.delimeter
-          );
+        );
+        const reassginedModelValue = reassignDelemeter(
+          // props.modelValue.replace(/[^0-9]/g, '').slice(0, 11),
+          getOriginalValue(props.modelValue, options),
+          refinedBlocks.value,
+          props.delimeter
+        );
+
+        console.log(reassginedNowValue, reassginedModelValue);
+        return (
+          inputValue.length === props.modelValue.length - 1 &&
+          props.modelValue[selectionStart] === props.delimeter &&
+          reassginedNowValue === reassginedModelValue
+        );
+      };
+
+      console.log('????', isDeletedValueDelimeter());
       if (isDeletedValueDelimeter()) {
-        inputValue =
-          inputValue.slice(0, (selectionStart ?? 0) - 1) + inputValue.slice(selectionStart ?? 0);
+        const headValue = inputValue.slice(0, (selectionStart ?? 0) - 1);
+        const taiiValue = inputValue.slice(selectionStart ?? 0);
+
+        inputValue = headValue + taiiValue;
+
         selectionStart -= 1;
         selectionEnd -= 1;
       }
@@ -114,6 +158,7 @@ export default defineComponent({
         result.slice(0, selectionStart),
         props.delimeter
       );
+
       const delimeterCountDiff = afterDelimeterCount - beforeDelimeterCount;
 
       inputElement.value.value = result;
@@ -126,14 +171,7 @@ export default defineComponent({
     watch(
       () => [props.blocks],
       () => {
-        const arr: number[] = [];
-
-        props.blocks.forEach((val, idx) => {
-          arr.push(val + (idx ? arr[idx - 1] : 0));
-        });
-
-        refinedBlocks.value = arr;
-
+        refinedBlocks.value = getRefinedBlocks(props.blocks);
         onInput();
       },
       { immediate: true, deep: true }
