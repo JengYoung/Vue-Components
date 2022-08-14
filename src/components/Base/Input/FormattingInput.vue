@@ -1,9 +1,17 @@
 <template>
-  <input ref="inputElement" @input="onInput" />
+  <input
+    ref="inputElement"
+    @input="onInput"
+    @change="cacheSelectionRange"
+    @focus="cacheSelectionRange"
+    @select="cacheSelectionRange"
+    @keydown="cacheSelectionRange"
+    @keyup="cacheSelectionRange"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue';
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 
 const getDelemeterCount = (value: string, delimeter: string) => {
   let cnt = 0;
@@ -45,6 +53,9 @@ const getOriginalValue = (value: string, options: { number: boolean; maxValue: n
   let regex = '';
 
   if (options.number) {
+    if (regex.length) {
+      regex += '|';
+    }
     regex += '[^0-9]';
   }
 
@@ -54,6 +65,7 @@ const getOriginalValue = (value: string, options: { number: boolean; maxValue: n
 };
 
 export default defineComponent({
+  emits: ['update:modelValue'],
   props: {
     modelValue: {
       type: String,
@@ -69,8 +81,13 @@ export default defineComponent({
     },
     prefix: {
       type: String,
+      default: '',
     },
     number: {
+      type: Boolean,
+      default: false,
+    },
+    autoFocus: {
       type: Boolean,
       default: false,
     },
@@ -80,8 +97,14 @@ export default defineComponent({
     const refinedBlocks = ref<number[]>([]);
 
     const arr = ref<string[]>([]);
-    const selectionStart = ref(0);
-    const selectionEnd = ref(0);
+    const cachedSelectionStart = ref(0);
+    const cachedSelectionEnd = ref(0);
+
+    const cacheSelectionRange = () => {
+      if (!inputElement.value) return;
+      cachedSelectionStart.value = inputElement.value.selectionStart ?? 0;
+      cachedSelectionEnd.value = inputElement.value.selectionEnd ?? 0;
+    };
 
     /**
      *
@@ -107,18 +130,21 @@ export default defineComponent({
       const { value } = inputElement.value;
       let selectionStart = inputElement.value.selectionStart ?? 0;
       let selectionEnd = inputElement.value.selectionEnd ?? 0;
+
       let inputValue = value;
+
+      const options = {
+        number: props.number,
+        maxValue: refinedBlocks.value[refinedBlocks.value.length - 1],
+        prefix: props.prefix,
+      };
 
       const beforeDelimeterCount = getDelemeterCount(
         inputValue.slice(0, selectionStart),
         props.delimeter
       );
-      const isDeletedValueDelimeter = () => {
-        const options = {
-          number: props.number,
-          maxValue: refinedBlocks.value[refinedBlocks.value.length - 1],
-        };
 
+      const isDeletedValueDelimeter = () => {
         const reassginedNowValue = reassignDelemeter(
           // inputValue.replace(/[^0-9]/g, '').slice(0, 11),
           getOriginalValue(inputValue, options),
@@ -126,7 +152,6 @@ export default defineComponent({
           props.delimeter
         );
         const reassginedModelValue = reassignDelemeter(
-          // props.modelValue.replace(/[^0-9]/g, '').slice(0, 11),
           getOriginalValue(props.modelValue, options),
           refinedBlocks.value,
           props.delimeter
@@ -149,7 +174,7 @@ export default defineComponent({
         selectionEnd -= 1;
       }
 
-      const refinedValue = inputValue.replace(/[^0-9]/g, '').slice(0, 11);
+      const refinedValue = getOriginalValue(inputValue, options);
 
       result = reassignDelemeter(refinedValue, refinedBlocks.value, props.delimeter);
       const afterDelimeterCount = getDelemeterCount(
@@ -159,9 +184,12 @@ export default defineComponent({
 
       const delimeterCountDiff = afterDelimeterCount - beforeDelimeterCount;
 
+      cachedSelectionStart.value = (selectionStart ?? 0) + delimeterCountDiff;
+      cachedSelectionEnd.value = (selectionEnd ?? 0) + delimeterCountDiff;
+
       inputElement.value.value = result;
-      inputElement.value.selectionStart = (selectionStart ?? 0) + delimeterCountDiff;
-      inputElement.value.selectionEnd = (selectionEnd ?? 0) + delimeterCountDiff;
+      inputElement.value.selectionStart = cachedSelectionStart.value;
+      inputElement.value.selectionEnd = cachedSelectionEnd.value;
 
       emit('update:modelValue', result);
     };
@@ -169,19 +197,27 @@ export default defineComponent({
     watch(
       () => [props.blocks],
       () => {
+        if (JSON.stringify(refinedBlocks.value) === JSON.stringify(getRefinedBlocks(props.blocks)))
+          return;
         refinedBlocks.value = getRefinedBlocks(props.blocks);
         onInput();
       },
-      { immediate: true, deep: true }
+      { immediate: true }
     );
+
+    onMounted(() => {
+      if (!inputElement.value) return;
+      if (props.autoFocus) inputElement.value.focus();
+    });
 
     return {
       inputElement,
       arr,
-      selectionStart,
-      selectionEnd,
+      cachedSelectionStart,
+      cachedSelectionEnd,
       refinedBlocks,
       onInput,
+      cacheSelectionRange,
     };
   },
 });

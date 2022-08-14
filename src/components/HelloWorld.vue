@@ -6,6 +6,7 @@
       :delimeter="delimeter"
       :blocks="inputValue.length === 12 ? [3, 3, 5] : [3, 4, 4]"
       number
+      autoFocus
     ></FormattingInput>
     inputvalue: {{ inputValue }} {{ inputValue.length }}
   </div>
@@ -23,7 +24,7 @@ export default defineComponent({
   components: { FormattingInput },
   setup() {
     const inputValue = ref('');
-    const prefix = ref('');
+    const prefix = ref('TEL)');
     const delimeter = ref('-');
 
     return {
