@@ -1,9 +1,9 @@
 <template>
-  <input ref="inputElement" @input="onInput">
+  <input ref="inputElement" @input="onInput" />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, PropType, ref } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue';
 
 const getDelemeterCount = (value: string, delimeter: string) => {
   let cnt = 0;
@@ -13,13 +13,13 @@ const getDelemeterCount = (value: string, delimeter: string) => {
   }
 
   return cnt;
-}
+};
 
 const reassignDelemeter = (nowValue: string, blocks: number[], delimeter: string) => {
   let result = '';
   let blocksIndex = 0;
 
-  for (let i = 0;  i < nowValue.length; i += 1) {
+  for (let i = 0; i < nowValue.length; i += 1) {
     result += nowValue[i];
 
     if (i === blocks[blocksIndex] - 1 && i < nowValue.length - 1) {
@@ -28,41 +28,30 @@ const reassignDelemeter = (nowValue: string, blocks: number[], delimeter: string
     }
   }
 
-  return result
-}
+  return result;
+};
 
 export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      required: true
+      required: true,
     },
     blocks: {
       type: Array as PropType<number[]>,
-      required: true
+      required: true,
     },
     delimeter: {
       type: String,
-      required: true
+      required: true,
     },
     prefix: {
-      type: String
-    }
+      type: String,
+    },
   },
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const inputElement = ref<HTMLInputElement | null>(null);
-    const refinedBlocks = computed(() => {
-      // eslint-disable-next-line
-      const arr: any[] = [];
-
-      nextTick(() => {
-        props.blocks.forEach((val, idx) => {
-          arr.push(val + (idx ? arr[idx - 1] : 0))
-        })
-      })
-
-      return arr;
-    })
+    const refinedBlocks = ref<number[]>([]);
 
     const arr = ref<string[]>([]);
     const selectionStart = ref(0);
@@ -89,19 +78,31 @@ export default defineComponent({
       let result = '';
 
       /* eslint-disable @typescript-eslint/no-shadow */
-      const {value} = inputElement.value;
+      const { value } = inputElement.value;
       let selectionStart = inputElement.value.selectionStart ?? 0;
       let selectionEnd = inputElement.value.selectionEnd ?? 0;
       let inputValue = value;
 
-      const beforeDelimeterCount = getDelemeterCount(inputValue.slice(0, selectionStart), props.delimeter);
-      const isDeletedValueDelimeter = () => (
+      const beforeDelimeterCount = getDelemeterCount(
+        inputValue.slice(0, selectionStart),
+        props.delimeter
+      );
+      const isDeletedValueDelimeter = () =>
         inputValue.length === props.modelValue.length - 1 &&
         props.modelValue[selectionStart] === props.delimeter &&
-        reassignDelemeter(inputValue.replace(/[^0-9]/g, '').slice(0, 11), refinedBlocks.value, props.delimeter) === reassignDelemeter(props.modelValue.replace(/[^0-9]/g, '').slice(0, 11), refinedBlocks.value, props.delimeter)
-      )
+        reassignDelemeter(
+          inputValue.replace(/[^0-9]/g, '').slice(0, 11),
+          refinedBlocks.value,
+          props.delimeter
+        ) ===
+          reassignDelemeter(
+            props.modelValue.replace(/[^0-9]/g, '').slice(0, 11),
+            refinedBlocks.value,
+            props.delimeter
+          );
       if (isDeletedValueDelimeter()) {
-        inputValue = inputValue.slice(0, (selectionStart ?? 0) - 1) + inputValue.slice((selectionStart ?? 0))
+        inputValue =
+          inputValue.slice(0, (selectionStart ?? 0) - 1) + inputValue.slice(selectionStart ?? 0);
         selectionStart -= 1;
         selectionEnd -= 1;
       }
@@ -109,28 +110,45 @@ export default defineComponent({
       const refinedValue = inputValue.replace(/[^0-9]/g, '').slice(0, 11);
 
       result = reassignDelemeter(refinedValue, refinedBlocks.value, props.delimeter);
-      const afterDelimeterCount = getDelemeterCount(result.slice(0, selectionStart), props.delimeter);
+      const afterDelimeterCount = getDelemeterCount(
+        result.slice(0, selectionStart),
+        props.delimeter
+      );
       const delimeterCountDiff = afterDelimeterCount - beforeDelimeterCount;
 
       inputElement.value.value = result;
       inputElement.value.selectionStart = (selectionStart ?? 0) + delimeterCountDiff;
       inputElement.value.selectionEnd = (selectionEnd ?? 0) + delimeterCountDiff;
 
-      emit('update:modelValue', result)
-    }
+      emit('update:modelValue', result);
+    };
 
+    watch(
+      () => [props.blocks],
+      () => {
+        const arr: number[] = [];
+
+        props.blocks.forEach((val, idx) => {
+          arr.push(val + (idx ? arr[idx - 1] : 0));
+        });
+
+        refinedBlocks.value = arr;
+
+        onInput();
+      },
+      { immediate: true, deep: true }
+    );
 
     return {
       inputElement,
       arr,
       selectionStart,
       selectionEnd,
-      onInput
-    }
-  }
-})
+      refinedBlocks,
+      onInput,
+    };
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
