@@ -1,23 +1,10 @@
 <template>
   <input ref="inputElement" @input="onInput">
-  <div>prefix: {{ prefix }}</div>
-  <div>blocks: {{ blocks }}</div>
-  <div>delimeter: {{ delimeter }}</div>
-  <div>modelValue: {{ modelValue }}</div>
-  <div>arr: {{ JSON.stringify(arr) }}</div>
-  <div>inputDirection: {{ inputDirection }}</div>
-  <div>selectionStart: {{ selectionStart}}</div>
-  <div>selectionEnd: {{ selectionEnd }}</div>
-  <br/>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, PropType, ref } from 'vue'
 
-enum InputDirectionEnum {
-  PLUS = 'plus',
-  MINUS = 'minus'
-}
 const getDelemeterCount = (value: string, delimeter: string) => {
   let cnt = 0;
 
@@ -78,7 +65,6 @@ export default defineComponent({
     })
 
     const arr = ref<string[]>([]);
-    const inputDirection = ref<InputDirectionEnum>(InputDirectionEnum.PLUS);
     const selectionStart = ref(0);
     const selectionEnd = ref(0);
 
@@ -92,6 +78,9 @@ export default defineComponent({
      * 2. 이후의 selectionStart값 앞에 있는 `-` 개수를 찾는다.
      * 만약 `-` 개수가 변화되었다면 그 개수만큼 업데이트를 해준다.
      * 이를 함수화하여, 좀 더 선언적으로 관리한다.
+     *
+     * 문제 발생 - delimeter을 지워야 하는 상황에서는 이전과 현재 값이 같아버리는 현상
+     * 해결 방법 - 만약 다시 delimeter을 refine하는 상황에서 값이 같아버리고, 실제로 길이가 더 짧아졌으면, -를 지웠다는 것으로 해석.
      */
 
     const onInput = () => {
@@ -100,16 +89,28 @@ export default defineComponent({
       let result = '';
 
       /* eslint-disable @typescript-eslint/no-shadow */
-      const { value: inputValue, selectionStart, selectionEnd } = inputElement.value
-      const beforeDelimeterCount = getDelemeterCount(inputValue, props.delimeter);
+      const {value} = inputElement.value;
+      let selectionStart = inputElement.value.selectionStart ?? 0;
+      let selectionEnd = inputElement.value.selectionEnd ?? 0;
+      let inputValue = value;
+
+      const beforeDelimeterCount = getDelemeterCount(inputValue.slice(0, selectionStart), props.delimeter);
+      const isDeletedValueDelimeter = () => (
+        inputValue.length === props.modelValue.length - 1 &&
+        props.modelValue[selectionStart] === props.delimeter &&
+        reassignDelemeter(inputValue.replace(/[^0-9]/g, '').slice(0, 11), refinedBlocks.value, props.delimeter) === reassignDelemeter(props.modelValue.replace(/[^0-9]/g, '').slice(0, 11), refinedBlocks.value, props.delimeter)
+      )
+      if (isDeletedValueDelimeter()) {
+        inputValue = inputValue.slice(0, (selectionStart ?? 0) - 1) + inputValue.slice((selectionStart ?? 0))
+        selectionStart -= 1;
+        selectionEnd -= 1;
+      }
+
       const refinedValue = inputValue.replace(/[^0-9]/g, '').slice(0, 11);
 
       result = reassignDelemeter(refinedValue, refinedBlocks.value, props.delimeter);
-      const afterDelimeterCount = getDelemeterCount(result, props.delimeter);
+      const afterDelimeterCount = getDelemeterCount(result.slice(0, selectionStart), props.delimeter);
       const delimeterCountDiff = afterDelimeterCount - beforeDelimeterCount;
-
-      console.log(selectionStart, selectionEnd, beforeDelimeterCount, afterDelimeterCount)
-      console.log(inputValue, props.modelValue, result)
 
       inputElement.value.value = result;
       inputElement.value.selectionStart = (selectionStart ?? 0) + delimeterCountDiff;
@@ -122,7 +123,6 @@ export default defineComponent({
     return {
       inputElement,
       arr,
-      inputDirection,
       selectionStart,
       selectionEnd,
       onInput
