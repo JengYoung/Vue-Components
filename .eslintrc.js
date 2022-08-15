@@ -17,6 +17,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"]
     // 'import/no-unresolved': ['error', { caseSensitive: false }],
   },
   overrides: [
