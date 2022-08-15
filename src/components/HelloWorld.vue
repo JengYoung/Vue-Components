@@ -7,14 +7,13 @@
       :blocks="inputValue.length === 12 ? [3, 3, 5] : [3, 4, 4]"
       number
       autoFocus
-    ></FormattingInput>
-    inputvalue: {{ inputValue }} {{ inputValue.length }}
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import FormattingInput from './Base/Input/FormattingInput.vue';
+import FormattingInput from './Base/Input/FormattingInput/FormattingInput.vue';
 
 export default defineComponent({
   name: 'HelloWorld',
@@ -24,7 +23,7 @@ export default defineComponent({
   components: { FormattingInput },
   setup() {
     const inputValue = ref('');
-    const prefix = ref('TEL)');
+    const prefix = ref('-');
     const delimeter = ref('-');
 
     return {
