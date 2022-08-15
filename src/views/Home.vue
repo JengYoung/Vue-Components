@@ -13,7 +13,7 @@
 
   <SidebarToggleButton
     :sidebarClosed="sidebarClosed"
-    @update:sidebarClosed="(value) => sidebarClosed = value"
+    @update:sidebarClosed="sidebarClosed = $event"
   />
 
   <div class="home">

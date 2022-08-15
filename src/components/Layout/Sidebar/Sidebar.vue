@@ -1,14 +1,10 @@
 <template>
   <!-- :class="sidebarClosed ? 'sidebar--closed' : ''" -->
-  <aside
-    class="sidebar"
-    :style="sidebarStyle"
-    :class="sidebarClosed ? 'closed' : ''"
-  />
+  <aside class="sidebar" :style="sidebarStyle" :class="sidebarClosed ? 'closed' : ''" />
 </template>
 
 <script lang="ts">
-import { defineComponent, StyleValue, computed, onMounted, onUnmounted } from 'vue'
+import { defineComponent, StyleValue, computed, onMounted, onUnmounted } from 'vue';
 
 export default defineComponent({
   props: {
@@ -22,43 +18,44 @@ export default defineComponent({
     isClickAway: Boolean,
   },
   emits: ['update:closed'],
-  setup (props, {emit}) {
+  setup(props, { emit }) {
     const sidebarStyle = computed(() => ({
       /* eslint-disable no-nested-ternary */
       '--width': `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
       '--padding': `${typeof props.padding === 'number' ? `${props.padding}rem` : props.padding}`,
       '--background-color': props.backgroundColor,
       '--border': props.border,
-      '--header-height': `${typeof props.headerHeight === 'number' ? `${props.headerHeight}rem` : props.headerHeight}`,
-      '--delay': `${props.delay}s`
-    })) as StyleValue
+      '--header-height': `${
+        typeof props.headerHeight === 'number' ? `${props.headerHeight}rem` : props.headerHeight
+      }`,
+      '--delay': `${props.delay}s`,
+    })) as StyleValue;
 
     const handleBodyClick = (e: Event) => {
-      console.log('hi~~~~')
       const $sidebar = (e.target as HTMLElement).closest('.sidebar');
       if (!$sidebar && props.isClickAway && !props.sidebarClosed) {
         emit('update:closed', true);
       } else {
         emit('update:closed', props.sidebarClosed);
       }
-    }
+    };
     onMounted(() => {
       if (props.isClickAway) {
-        document.body.addEventListener('click', handleBodyClick)
+        document.body.addEventListener('click', handleBodyClick);
       }
-    })
+    });
 
     onUnmounted(() => {
       if (props.isClickAway) {
-        document.body.removeEventListener('click', handleBodyClick)
+        document.body.removeEventListener('click', handleBodyClick);
       }
-    })
+    });
 
     return {
       sidebarStyle,
-    }
-  }
-})
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>
