@@ -5,7 +5,6 @@
       :prefix="prefix"
       :delimeter="delimeter"
       :blocks="inputValue.length === 12 ? [3, 3, 5] : [3, 4, 4]"
-      number
       autoFocus
     />
   </div>

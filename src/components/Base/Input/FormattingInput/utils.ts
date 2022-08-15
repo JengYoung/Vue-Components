@@ -35,7 +35,7 @@ export const getRefinedBlocks = (blocks: number[], prefix: string) => {
 
 export const getOriginalValue = (
   value: string,
-  options: { number: boolean; maxValue: number; prefix: string }
+  options: { number: boolean; maxValue: number; prefix: string; delimeter: string }
 ) => {
   let regex = '';
 
@@ -55,6 +55,13 @@ export const getOriginalValue = (
     regex += `^${refinedRegex}`;
   }
 
+  if (options.delimeter) {
+    if (regex.length) {
+      regex += '|';
+    }
+    regex += `${options.delimeter}`;
+  }
+
   if (options.number) {
     if (regex.length) {
       regex += '|';
@@ -63,7 +70,10 @@ export const getOriginalValue = (
   }
 
   const resultRegex = new RegExp(regex, 'g');
-
+  console.log(
+    'options.prefix',
+    options.prefix + value.replace(resultRegex, '').slice(0, options.maxValue)
+  );
   return options.prefix + value.replace(resultRegex, '').slice(0, options.maxValue);
 };
 

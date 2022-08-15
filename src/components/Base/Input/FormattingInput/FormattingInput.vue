@@ -84,6 +84,7 @@ export default defineComponent({
       number: props.number,
       maxValue: refinedBlocks.value[refinedBlocks.value.length - 1] - props.prefix.length,
       prefix: props.prefix,
+      delimeter: props.delimeter,
     }));
 
     const cacheSelectionRange = () => {
