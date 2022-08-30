@@ -1,5 +1,5 @@
 <template>
-  <div class="menu" :class="visible ? 'menu--visible' : '' ">
+  <div class="menu" :style="menuCSS" :class="visible ? 'menu--visible' : '' ">
     <div class="menu-inner" :class="visible ? 'menu-inner--visible' : '' ">
       <slot></slot>
     </div>
@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, StyleValue } from 'vue'
 
 export default defineComponent({
   props: {
@@ -46,7 +46,7 @@ export default defineComponent({
       '--width': typeof props.width === 'number' ? `${props.width}rem` : props.width,
       '--height': typeof props.height === 'number' ? `${props.height}rem` : props.height,
       '--font-size': typeof props.fontSize === 'number' ? `${props.fontSize}rem` : props.fontSize,
-    }))
+    } as StyleValue))
 
     return { menuCSS }
   }
@@ -59,11 +59,12 @@ export default defineComponent({
   z-index: -1;
   overflow: hidden;
   background: skyblue;
-  // opacity: 0;
   transition: all 0.5s;
   transform: scaleY(0);
   transform-origin: top;
-
+  width: var(--width);
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
   &--visible {
     background: purple;
     transform: scaleY(1);
@@ -71,14 +72,9 @@ export default defineComponent({
 }
 .menu-inner {
   position: relative;
-  // position: absolute;
-  // background: pink;
-  // transform: translateY(-100%);
-  // transition: all 0.3s;
-
-  // &--visible {
-  //   transform: translateY(0);
-  // }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 </style>

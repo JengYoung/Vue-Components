@@ -7,16 +7,20 @@
   borderColor="white"
   :visible="visible"
 >
-  <div class="menu-item-mock"></div>
+  <MenuItem>메뉴1</MenuItem>
+  <MenuItem>메뉴2</MenuItem>
+  <MenuItem>메뉴3</MenuItem>
+  <MenuItem>메뉴4</MenuItem>
 </Menu>
 </template>
 
 <script lang="ts">
-import Menu from '@components/Morecule/Menu.vue'
+import Menu from '@components/Base/Menu/Menu.vue'
 import { defineComponent, ref } from 'vue'
+import MenuItem from '../components/Base/Menu/MenuItem.vue'
 
 export default defineComponent({
-  components: { Menu },
+  components: { Menu, MenuItem },
   setup() {
     const visible = ref(false);
 
@@ -33,9 +37,4 @@ export default defineComponent({
 
 </script>
 <style lang="scss" scoped>
-.menu-item-mock {
-  height: 120px;
-  width: 150px;
-  background-color: #888888;
-}
 </style>
