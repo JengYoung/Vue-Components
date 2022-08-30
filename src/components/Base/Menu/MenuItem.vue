@@ -24,7 +24,7 @@ export default defineComponent({
   height: 30px;
   width: 100%;
   background-color: white;
-  font-size: 14px;
+  font-size: 12px;
   &:not(:last-of-type) {
     border-bottom: 1px solid #ddd;
   }

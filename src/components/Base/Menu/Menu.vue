@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, StyleValue } from 'vue'
+import { computed, defineComponent, onMounted, ref, StyleValue } from 'vue'
 
 export default defineComponent({
   props: {
@@ -40,33 +40,47 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const mousePosition = ref({ x: '0px', y: '0px' });
     const menuCSS = computed(() => ({
       '--border-radius': typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius,
       '--box-shadow': props.isShadowed ? '0px 0px 4px 4px' : 'none',
       '--width': typeof props.width === 'number' ? `${props.width}rem` : props.width,
       '--height': typeof props.height === 'number' ? `${props.height}rem` : props.height,
-      '--font-size': typeof props.fontSize === 'number' ? `${props.fontSize}rem` : props.fontSize,
+      '--font-size': typeof props.fontSize === 'number' ? `${props.fontSize}rem` : props.fontSize
     } as StyleValue))
 
-    return { menuCSS }
+    onMounted(() => {
+      document.body.addEventListener('click', (e: MouseEvent) => {
+        if (props.visible) {
+          mousePosition.value = {
+            ...mousePosition.value,
+            x: `${e.clientX}px`,
+            y: `${e.clientY}px`
+          }
+        }
+      })
+    })
+
+    return { menuCSS, mousePosition }
   }
 })
 </script>
 
 <style lang="scss" scoped>
 .menu {
-  position: relative;
+  position: absolute;
+  left: v-bind('mousePosition.x');
+  top: v-bind('mousePosition.y');
   z-index: -1;
   overflow: hidden;
   background: skyblue;
-  transition: all 0.5s;
+  transition: transform 0.3s;
   transform: scaleY(0);
   transform-origin: top;
   width: var(--width);
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
   &--visible {
-    background: purple;
     transform: scaleY(1);
   }
 }

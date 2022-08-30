@@ -1,6 +1,7 @@
 <template>
 {{ visible }}
-<button @click="onClick">Click!</button>
+<button @click="onClick">Click!
+</button>
 <Menu
   isShadowed
   :borderRadius="10"
@@ -30,7 +31,7 @@ export default defineComponent({
 
     return {
       visible,
-      onClick
+      onClick,
     }
   }
 })
