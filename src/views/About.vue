@@ -2,6 +2,7 @@
 {{ visible }}
 <button class="button" @click="onClick">Click!
 </button>
+<!-- v-if="visible" -->
 <Menu
   :target="'.button'"
   isShadowed

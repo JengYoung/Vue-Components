@@ -1,20 +1,16 @@
 <template>
-  <div
-    ref="menuRef"
-    v-show="modelValue"
-    class="menu"
-    :style="menuCSS"
-  >
-    <div class="menu-inner" :class="modelValue ? 'menu-inner--visible' : '' ">
-      <slot></slot>
+  <transition name="menu-visible">
+    <div
+      v-if="modelValue"
+      ref="menuRef"
+      class="menu"
+      :style="menuCSS"
+    >
+      <div class="menu-inner">
+        <slot />
+      </div>
     </div>
-  </div>
-  <div>
-    menuHeight: {{menuHeight}}
-  </div>
-  <div>
-    mousePosition: {{ mousePosition }}
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -137,30 +133,36 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
 .menu {
+  overflow: hidden;
+
   position: absolute;
+  z-index: 999;
+
   left: #{v-bind('menuPosition.x')};
   top: #{v-bind('menuPosition.y')};
-  z-index: 999;
-  overflow: hidden;
-  transform-origin: top;
+
+  transition: opacity 0.3s;
+
   width: var(--width);
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
 
+  &.menu-visible-enter-active,
+  &.menu-visible-leave-active {
+    opacity: 0;
+  }
+  &.menu-visible-enter-to {
+    opacity: 1;
+  }
 }
 .menu-inner {
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s;
-
-  transform: scaleY(0);
-
-  &--visible {
-    transform: scaleY(1);
-  }
+  transition: all 0.3s;
 }
 
 </style>
