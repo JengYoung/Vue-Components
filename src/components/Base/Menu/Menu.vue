@@ -1,6 +1,6 @@
 <template>
-  <div class="menu" :style="menuCSS" :class="visible ? 'menu--visible' : '' ">
-    <div class="menu-inner" :class="visible ? 'menu-inner--visible' : '' ">
+  <div class="menu" :style="menuCSS" :class="modelValue ? 'menu--visible' : '' " >
+    <div class="menu-inner" :class="modelValue ? 'menu-inner--visible' : '' ">
       <slot></slot>
     </div>
   </div>
@@ -10,7 +10,12 @@
 import { computed, defineComponent, onMounted, ref, StyleValue } from 'vue'
 
 export default defineComponent({
+  emits: ['update:modelValue'],
   props: {
+    target: {
+      type: String,
+      required: true
+    },
     isShadowed: {
       type: Boolean,
       default: false,
@@ -22,7 +27,7 @@ export default defineComponent({
       type: String,
       default: '#000'
     },
-    visible: {
+    modelValue: {
       type: Boolean,
       required: true,
     },
@@ -37,9 +42,13 @@ export default defineComponent({
     fontSize: {
       type: [Number, String],
       default: 1
+    },
+    isClickOutSide: {
+      type: Boolean,
+      default: false
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const mousePosition = ref({ x: '0px', y: '0px' });
     const menuCSS = computed(() => ({
       '--border-radius': typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius,
@@ -51,7 +60,9 @@ export default defineComponent({
 
     onMounted(() => {
       document.body.addEventListener('click', (e: MouseEvent) => {
-        if (props.visible) {
+        if (props.isClickOutSide && !(e.target as HTMLElement).closest(props.target) && props.modelValue) {
+          emit('update:modelValue', false)
+        } else {
           mousePosition.value = {
             ...mousePosition.value,
             x: `${e.clientX}px`,
@@ -71,9 +82,8 @@ export default defineComponent({
   position: absolute;
   left: v-bind('mousePosition.x');
   top: v-bind('mousePosition.y');
-  z-index: -1;
+  z-index: 999;
   overflow: hidden;
-  background: skyblue;
   transition: transform 0.3s;
   transform: scaleY(0);
   transform-origin: top;

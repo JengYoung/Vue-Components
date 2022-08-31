@@ -1,12 +1,15 @@
 <template>
 {{ visible }}
-<button @click="onClick">Click!
+<button class="button" @click="onClick">Click!
 </button>
 <Menu
+  :target="'.button'"
   isShadowed
+  isClickOutSide
   :borderRadius="10"
-  borderColor="white"
-  :visible="visible"
+  borderColor="#ddd"
+  :modelValue="visible"
+  @update:modelValue="visible = $event"
 >
   <MenuItem>메뉴1</MenuItem>
   <MenuItem>메뉴2</MenuItem>
