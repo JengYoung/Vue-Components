@@ -11,9 +11,26 @@ import { useRouter } from 'vue-router'
 export default defineComponent({
   props: {
     route: {
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
       type: Object as PropType<{ to: any; replace: boolean }>,
       default: () => ({ to: '', replace: false })
     },
+    bgColor: {
+      type: String,
+      default: '#ffffff'
+    },
+    textColor: {
+      type: String,
+      default: "#111"
+    },
+    hoverBgColor: {
+      type: String,
+      default: '#482bad'
+    },
+    hoverTextColor: {
+      type: String,
+      default: "#fff"
+    }
   },
   setup (props) {
     const router = useRouter();
@@ -27,6 +44,7 @@ export default defineComponent({
     }
 
     return {
+      props,
       onClickMenuItem
     }
   }
@@ -40,7 +58,8 @@ export default defineComponent({
   justify-content: center;
   height: 30px;
   width: 100%;
-  background-color: white;
+  background-color: v-bind('props.bgColor');
+  color: v-bind('props.textColor');
   font-size: 12px;
 
   &:not(:last-of-type) {
@@ -49,8 +68,8 @@ export default defineComponent({
 
   &:hover {
     cursor: pointer;
-    background: #482bad;
-    color: white;
+    background: v-bind('props.hoverBgColor');
+    color: v-bind('props.hoverTextColor');
   }
 }
 </style>
