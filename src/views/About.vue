@@ -7,7 +7,6 @@
   isShadowed
   isClickOutSide
   width="6.25rem"
-  height="3rem"
   :borderRadius="10"
   borderColor="#ddd"
   :modelValue="visible"

@@ -1,11 +1,16 @@
 <template>
-  <div class="menu" :style="menuCSS" :class="modelValue ? 'menu--visible' : '' " >
+  <div
+    ref="menuRef"
+    v-show="modelValue"
+    class="menu"
+    :style="menuCSS"
+  >
     <div class="menu-inner" :class="modelValue ? 'menu-inner--visible' : '' ">
       <slot></slot>
     </div>
   </div>
   <div>
-  menuPosition: {{ menuPosition }}
+    menuHeight: {{menuHeight}}
   </div>
   <div>
     mousePosition: {{ mousePosition }}
@@ -13,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref, StyleValue } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, StyleValue, watch } from 'vue'
 
 export default defineComponent({
   emits: ['update:modelValue'],
@@ -41,10 +46,6 @@ export default defineComponent({
       type: [Number, String],
       default: '6.25rem'
     },
-    height: {
-      type: [Number, String],
-      default: '3rem'
-    },
     fontSize: {
       type: [Number, String],
       default: '1rem'
@@ -55,12 +56,26 @@ export default defineComponent({
     }
   },
   setup (props, { emit }) {
+    const menuRef = ref<HTMLElement>();
+
     const viewPort = ref({ clientWidth: 0, clientHeight: 0 })
     const mousePosition = ref({ x: 0, y: 0 });
 
+    const menuHeight = ref(0);
+
+    watch(() => ['menuRef', props.modelValue], () => {
+      nextTick(() => {
+
+        if (!menuRef.value) return;
+        const menuRect = (menuRef.value as HTMLElement).getBoundingClientRect();
+
+        menuHeight.value = menuRect.height;
+      })
+    }, { immediate: true })
+
     const menuPosition = computed(() => {
       let propsWidth = props.width;
-      let propsHeight = props.height;
+
       const nowFontSize = Number(getComputedStyle(document.documentElement).fontSize.replace(/[^0-9.]/g, ''));
 
       if (typeof propsWidth === 'string') {
@@ -68,15 +83,9 @@ export default defineComponent({
         else propsWidth = Number(propsWidth.replace(/[^0-9]/g, ''))
       }
 
-      if (typeof propsHeight === 'string') {
-        if (propsHeight.includes('rem')) propsHeight = nowFontSize * Number(propsHeight.replace(/[^0-9.]/g, ''));
-        else propsHeight = Number(propsHeight.replace(/[^0-9]/g, ''))
-      }
-
-      console.log(mousePosition.value.x, propsWidth, ' / ', mousePosition.value.y, propsHeight)
       return {
         x: viewPort.value.clientWidth < (mousePosition.value.x + propsWidth) ? `calc(${mousePosition.value.x}px - ${propsWidth}px)` : `${mousePosition.value.x}px`,
-        y: viewPort.value.clientHeight < (mousePosition.value.y + propsHeight) ? `calc(${mousePosition.value.y}px - ${propsHeight}px)` : `${mousePosition.value.y}px`,
+        y: viewPort.value.clientHeight < (mousePosition.value.y + menuHeight.value) ? `calc(${mousePosition.value.y}px - ${menuHeight.value}px)` : `${mousePosition.value.y}px`,
       }
     })
 
@@ -84,7 +93,6 @@ export default defineComponent({
       '--border-radius': typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius,
       '--box-shadow': props.isShadowed ? '0px 0px 4px 4px' : 'none',
       '--width': typeof props.width === 'number' ? `${props.width}px` : props.width,
-      '--height': typeof props.height === 'number' ? `${props.height}px` : props.height,
       '--font-size': typeof props.fontSize === 'number' ? `${props.fontSize}px` : props.fontSize
     } as StyleValue))
 
@@ -94,6 +102,7 @@ export default defineComponent({
         clientHeight: window.innerHeight
       }
     }
+
     const onClickOutside = (e: MouseEvent) => {
         if (props.modelValue) {
           if (props.isClickOutSide && !(e.target as HTMLElement).closest(props.target)) {
@@ -122,7 +131,7 @@ export default defineComponent({
       document.body.removeEventListener('click', onClickOutside)
     })
 
-    return { menuCSS, mousePosition, viewPort, menuPosition }
+    return { menuRef, menuCSS, mousePosition, viewPort, menuPosition, menuHeight }
   }
 })
 </script>
@@ -134,21 +143,24 @@ export default defineComponent({
   top: #{v-bind('menuPosition.y')};
   z-index: 999;
   overflow: hidden;
-  transition: transform 0.3s;
-  transform: scaleY(0);
   transform-origin: top;
   width: var(--width);
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
-  &--visible {
-    transform: scaleY(1);
-  }
+
 }
 .menu-inner {
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s;
+
+  transform: scaleY(0);
+
+  &--visible {
+    transform: scaleY(1);
+  }
 }
 
 </style>
