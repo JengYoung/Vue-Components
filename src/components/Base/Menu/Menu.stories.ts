@@ -39,7 +39,7 @@ const Template: StoryFn<typeof Menu> = (args) => ({
     >
       <MenuItem>메뉴1</MenuItem>
       <MenuItem :route="{ to: '/hi', replace: false }">메뉴2</MenuItem>
-      <MenuItem>메뉴3</MenuItem>
+      <MenuItem>메뉴wefwfewfewwefewfwfewfew3</MenuItem>
       <MenuItem>메뉴4</MenuItem>
     </Menu>
   `,

@@ -7,7 +7,7 @@
   :target="'.button'"
   isShadowed
   isClickOutSide
-  width="6.25rem"
+  width="100px"
   :borderRadius="10"
   borderColor="#ddd"
   :modelValue="visible"
@@ -15,7 +15,7 @@
 >
   <MenuItem>메뉴1</MenuItem>
   <MenuItem :route="{ to: '/hi', replace: false }">메뉴2</MenuItem>
-  <MenuItem>메뉴3</MenuItem>
+  <MenuItem>메뉴3fewfwewfewfewfwfwefwefwewfwwe</MenuItem>
   <MenuItem>메뉴4</MenuItem>
 </Menu>
 </template>

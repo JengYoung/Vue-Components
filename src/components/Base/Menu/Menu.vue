@@ -158,7 +158,6 @@ export default defineComponent({
 }
 .menu-inner {
   position: relative;
-  width: 100%;
   display: flex;
   flex-direction: column;
   transition: all 0.3s;

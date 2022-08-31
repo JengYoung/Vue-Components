@@ -1,6 +1,6 @@
 <template>
   <div class="menu-item" @click="onClickMenuItem">
-    <slot></slot>
+    <div class="menu-item__content"><slot/></div>
   </div>
 </template>
 
@@ -53,14 +53,21 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .menu-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 30px;
-  width: 100%;
+  width: 100px;
   background-color: v-bind('props.bgColor');
   color: v-bind('props.textColor');
   font-size: 12px;
+
+  .menu-item__content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 8px;
+  }
 
   &:not(:last-of-type) {
     border-bottom: 1px solid #ddd;
