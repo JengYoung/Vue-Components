@@ -4,7 +4,6 @@
       v-if="modelValue"
       ref="menuRef"
       class="menu"
-      :style="menuCSS"
     >
       <div class="menu-inner">
         <slot />
@@ -14,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, StyleValue, watch } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 
 export default defineComponent({
   emits: ['update:modelValue'],
@@ -86,11 +85,11 @@ export default defineComponent({
     })
 
     const menuCSS = computed(() => ({
-      '--border-radius': typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius,
-      '--box-shadow': props.isShadowed ? '0px 0px 4px 4px' : 'none',
-      '--width': typeof props.width === 'number' ? `${props.width}px` : props.width,
-      '--font-size': typeof props.fontSize === 'number' ? `${props.fontSize}px` : props.fontSize
-    } as StyleValue))
+      borderRadius: typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius,
+      boxShadow: props.isShadowed ? '0px 0.5px 2px 1px #ddd' : 'none',
+      width: typeof props.width === 'number' ? `${props.width}px` : props.width,
+      fontSize: typeof props.fontSize === 'number' ? `${props.fontSize}px` : props.fontSize
+    }))
 
     const onResize = () => {
       viewPort.value = {
@@ -139,15 +138,15 @@ export default defineComponent({
 
   position: absolute;
   z-index: 999;
+  left: v-bind('menuPosition.x');
+  top: v-bind('menuPosition.y');
 
-  left: #{v-bind('menuPosition.x')};
-  top: #{v-bind('menuPosition.y')};
+  width: v-bind('menuCSS.width');
+
+  border-radius: v-bind('menuCSS.borderRadius');
+  box-shadow: v-bind('menuCSS.boxShadow');
 
   transition: opacity 0.3s;
-
-  width: var(--width);
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
 
   &.menu-visible-enter-active,
   &.menu-visible-leave-active {
