@@ -14,7 +14,7 @@
   @update:modelValue="visible = $event"
 >
   <MenuItem>메뉴1</MenuItem>
-  <MenuItem>메뉴2</MenuItem>
+  <MenuItem :route="{ to: '/hi', replace: false }">메뉴2</MenuItem>
   <MenuItem>메뉴3</MenuItem>
   <MenuItem>메뉴4</MenuItem>
 </Menu>
