@@ -1,0 +1,108 @@
+// head font-size, font-size
+$f-sz-h1: 4rem;
+$f-sz-h2: 3rem;
+$f-sz-h3: 2.5rem;
+$f-sz-h4: 2rem;
+$f-sz-h5: 1.5rem;
+$f-sz-h6: 1rem;
+
+$f-sz-default: 1rem;
+$f-sz-max: 2rem;
+$f-sz-xxl: 1.75rem;
+$f-sz-xl: 1.5rem;
+$f-sz-lg: 1.25rem;
+$f-sz-sm: 0.875rem;
+$f-sz-xs: 0.75rem;
+$f-sz-xxs: 0.625rem;
+$f-sz-min: 0.5rem;
+
+// font-weight
+$f-w-extrabold: 900;
+$f-w-bold: 700;
+$f-w-default: 400;
+$f-w-light: 300;
+
+// border-radias
+$br-round: 50%;
+$br-max: 50px;
+$br-hard: 20px;
+$br-soft: 10px;
+$br-default: 5px;
+
+// color
+$c-primary-100: #e7ccfe;
+$c-primary-200: #cc99fe;
+$c-primary-300: #ac66fc;
+$c-primary-400: #8f40fa;
+$c-primary-500: #6102f7;
+$c-primary-600: #4a01d4;
+$c-primary-700: #3701b1;
+$c-primary-800: #27008f;
+$c-primary-900: #1b0076;
+
+// color
+$c-sub: #ddd;
+
+$c-danger: #b50000;
+$c-success: #00ba1c;
+$c-warning: #ffb900;
+$c-dark: #111111;
+$c-white: #ffffff;
+
+:export {
+  color: {
+    default: $c-primary-500;
+    primary100: $c-primary-100;
+    primary200: $c-primary-200;
+    primary300: $c-primary-300;
+    primary400: $c-primary-400;
+    primary500: $c-primary-500;
+    primary600: $c-primary-600;
+    primary700: $c-primary-700;
+    primary800: $c-primary-800;
+    primary900: $c-primary-900;
+    
+    sub: $c-sub;
+    danger: $c-danger;
+    warning: $c-warning;
+    success: $c-success;
+    dark: $c-dark;
+    white: $c-white;
+  }
+
+  headerSize: {
+    h1: $f-sz-h1;
+    h2: $f-sz-h2;
+    h3: $f-sz-h3;
+    h4: $f-sz-h4;
+    h5: $f-sz-h5;
+    h6: $f-sz-h6;
+  }
+
+  fontSize: {
+    default: $f-sz-default;
+    max: $f-sz-max;
+    xxl: $f-sz-xxl;
+    xl: $f-sz-xl;
+    lg: $f-sz-lg;
+    sm: $f-sz-sm;
+    xs: $f-sz-xs;
+    xxs: $f-sz-xxs;
+    min: $f-sz-min;
+  }
+
+  fontWeight: {
+    default: $f-w-default;
+    extrabold: $f-w-extrabold;
+    bold: $f-w-bold;
+    light: $f-w-light;
+  }
+
+  borderRadius: {
+    default: $br-default;
+    max: $br-max;
+    round: $br-round;
+    hard: $br-hard;
+    soft: $br-soft;
+  }
+}

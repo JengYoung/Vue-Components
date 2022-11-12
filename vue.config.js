@@ -5,10 +5,12 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@': path.resolve('src'),
-        '@assets': path.resolve('src/assets'),
-        '@components': path.resolve('src/components'),
-        '@hooks': path.resolve('src/hooks'),
+        '@': path.resolve(__dirname, 'src/'),
+        '@assets': path.resolve(__dirname, 'src/assets/'),
+        '@components': path.resolve(__dirname, 'src/components/'),
+        '@hooks': path.resolve(__dirname, 'src/hooks/'),
+        "@css": path.resolve(__dirname, "src/css/"),
+        "@stories": path.resolve(__dirname, "src/stories/")
       },
     },
   },

@@ -63,7 +63,7 @@ export default defineComponent({
     },
     width: {
       type: [String, Number],
-      default: '100%'
+      default: '100%',
     },
     height: {
       type: [String, Number],
@@ -71,8 +71,8 @@ export default defineComponent({
     },
     delay: {
       type: Number,
-      default: 0.3
-    }
+      default: 0.3,
+    },
   },
   setup(props) {
     const refinedCards = computed(() => {
@@ -85,22 +85,26 @@ export default defineComponent({
 
     const nowDelay = ref<number>(0);
     const loading = ref<boolean>(false);
-    
+
     const nowActive = ref<number>(1);
     const moveCount = ref<number>(0);
     const maxSize = computed(() => refinedCards.value.length || 0);
 
-    const prevAnimationDisable = computed(() => moveCount.value < 0 && (nowActive.value === 0 || nowActive.value === maxSize.value - 2));
-    const nextAnimationDisable = computed(() => moveCount.value > 0 && (nowActive.value === 1 || nowActive.value === maxSize.value - 1));
+    const prevAnimationDisable = computed(
+      () => moveCount.value < 0 && (nowActive.value === 0 || nowActive.value === maxSize.value - 2)
+    );
+    const nextAnimationDisable = computed(
+      () => moveCount.value > 0 && (nowActive.value === 1 || nowActive.value === maxSize.value - 1)
+    );
 
     const carouselStyle = computed(() => ({
       '--width': typeof props.width === 'number' ? `${props.width}rem` : props.width,
       '--height': typeof props.height === 'number' ? `${props.height}rem` : props.height,
-    }))
+    }));
 
     const directButtonStyle = computed(() => ({
-        '--move-count': moveCount.value,
-      })) 
+      '--move-count': moveCount.value,
+    }));
 
     const directButtonClass = (index: number) => {
       const arr = [];
@@ -114,10 +118,10 @@ export default defineComponent({
         arr.push('carousel__direct-button--next');
       }
       if (prevAnimationDisable.value || nextAnimationDisable.value) {
-        arr.push('carousel__direct-button--animation-hidden')
+        arr.push('carousel__direct-button--animation-hidden');
       }
       return arr;
-    }
+    };
 
     const prevButtonClick = () => {
       if (loading.value) return;
@@ -129,7 +133,7 @@ export default defineComponent({
       nowActive.value -= 1;
 
       if (nowActive.value === 0) {
-        moveCount.value = maxSize.value - 3
+        moveCount.value = maxSize.value - 3;
       } else {
         moveCount.value = -1;
       }
@@ -140,16 +144,16 @@ export default defineComponent({
     const nextButtonClick = () => {
       if (loading.value) return;
       if (nowActive.value === maxSize.value - 1) return;
-      
+
       loading.value = true;
 
       nowDelay.value = props.delay;
       nowActive.value += 1;
 
       if (nowActive.value === maxSize.value - 1) {
-        moveCount.value = - maxSize.value + 3;
+        moveCount.value = -maxSize.value + 3;
       } else {
-        moveCount.value = 1
+        moveCount.value = 1;
       }
 
       loading.value = false;
@@ -161,7 +165,7 @@ export default defineComponent({
 
       nowDelay.value = props.delay;
 
-      moveCount.value = index - nowActive.value
+      moveCount.value = index - nowActive.value;
       nowActive.value = index;
 
       if (index === maxSize.value) {
@@ -169,7 +173,7 @@ export default defineComponent({
       }
     };
 
-    const handleTransitionEnd = (index: number):void => {
+    const handleTransitionEnd = (index: number): void => {
       nowDelay.value = 0;
 
       if (index === 0) {
@@ -178,7 +182,7 @@ export default defineComponent({
       if (index === maxSize.value - 1) {
         nowActive.value = 1;
       }
-    }
+    };
 
     return {
       loading,
@@ -195,7 +199,7 @@ export default defineComponent({
       prevButtonClick,
       nextButtonClick,
       directButtonClick,
-      handleTransitionEnd
+      handleTransitionEnd,
     };
   },
 });
@@ -300,7 +304,7 @@ $animation: var(--animation);
     left: 0;
     right: 0;
     bottom: 1rem;
-    margin: 0; 
+    margin: 0;
     padding: 0;
     list-style: none;
 
@@ -362,7 +366,7 @@ $animation: var(--animation);
         }
       }
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         top: 0;
@@ -374,7 +378,7 @@ $animation: var(--animation);
       }
 
       &:before {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         top: 0;

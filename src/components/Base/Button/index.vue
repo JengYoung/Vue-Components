@@ -1,9 +1,5 @@
 <template>
-  <button
-    class="button"
-    :style="buttonCSS"
-    @click="() => handleClick && handleClick()"
-  >
+  <button class="button" :style="buttonCSS" @click="() => handleClick && handleClick()">
     <slot></slot>
   </button>
 </template>
@@ -20,33 +16,33 @@ export default defineComponent({
     },
     width: {
       type: [String, Number],
-      default: 'auto'
+      default: 'auto',
     },
     height: {
       type: [String, Number],
-      default: 'auto'
+      default: 'auto',
     },
     padding: {
       type: [String, Number],
-      default: 'auto'
+      default: 'auto',
     },
     fontSize: {
       type: [String, Number],
-      default: 1
+      default: 1,
     },
     border: String,
     color: String,
     borderRadius: {
       type: [String, Number],
-      default: 0
+      default: 0,
     },
     outline: {
       type: Boolean,
-      default: false
+      default: false,
     },
     borderColor: {
       type: String,
-      default: '#fff'
+      default: '#fff',
     },
     hoverColor: {
       type: String,
@@ -55,8 +51,8 @@ export default defineComponent({
       type: Number,
     },
     onClick: {
-      type: Function
-    }
+      type: Function,
+    },
   },
   setup(props) {
     const buttonCSS = computed(() => ({
@@ -64,7 +60,9 @@ export default defineComponent({
       '--width': `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
       '--height': `${typeof props.height === 'number' ? `${props.height}rem` : props.height}`,
       '--padding': `${typeof props.padding === 'number' ? `${props.padding}rem` : props.padding}`,
-      '--font-size': `${typeof props.fontSize === 'number' ? `${props.fontSize}rem` : props.fontSize}`,
+      '--font-size': `${
+        typeof props.fontSize === 'number' ? `${props.fontSize}rem` : props.fontSize
+      }`,
       '--color': props.color,
       '--border': props.border,
       '--border-radius': `${
@@ -85,7 +83,7 @@ export default defineComponent({
 
     return {
       buttonCSS,
-      handleClick: props.onClick
+      handleClick: props.onClick,
     };
   },
 });
