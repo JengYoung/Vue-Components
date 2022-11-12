@@ -10,7 +10,6 @@ module.exports = {
         '@components': path.resolve('src/components'),
         '@hooks': path.resolve('src/hooks'),
       },
-      extension: ['ts', 'vue']
     },
   },
 };
