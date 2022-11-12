@@ -142,14 +142,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .menu {
-  overflow: hidden;
 
   position: absolute;
-  z-index: 999;
-  left: v-bind('menuPosition.x');
   top: v-bind('menuPosition.y');
+  left: v-bind('menuPosition.x');
+  z-index: 999;
 
   width: v-bind('menuCSS.width');
+  overflow: hidden;
 
   border-radius: v-bind('menuCSS.borderRadius');
   box-shadow: v-bind('menuCSS.boxShadow');

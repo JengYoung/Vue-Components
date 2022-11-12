@@ -56,17 +56,17 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
   width: 100px;
-  background-color: v-bind('props.bgColor');
-  color: v-bind('props.textColor');
+  height: 30px;
   font-size: 12px;
+  color: v-bind('props.textColor');
+  background-color: v-bind('props.bgColor');
 
   .menu-item__content {
+    padding: 0 8px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding: 0 8px;
   }
 
   &:not(:last-of-type) {
@@ -74,9 +74,9 @@ export default defineComponent({
   }
 
   &:hover {
+    color: v-bind('props.hoverTextColor');
     cursor: pointer;
     background: v-bind('props.hoverBgColor');
-    color: v-bind('props.hoverTextColor');
   }
 }
 </style>

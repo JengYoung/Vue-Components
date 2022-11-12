@@ -61,7 +61,7 @@ $c-white: #ffffff;
     primary700: $c-primary-700;
     primary800: $c-primary-800;
     primary900: $c-primary-900;
-    
+
     sub: $c-sub;
     danger: $c-danger;
     warning: $c-warning;
@@ -70,7 +70,7 @@ $c-white: #ffffff;
     white: $c-white;
   }
 
-  headerSize: {
+  headersize: {
     h1: $f-sz-h1;
     h2: $f-sz-h2;
     h3: $f-sz-h3;
@@ -79,7 +79,7 @@ $c-white: #ffffff;
     h6: $f-sz-h6;
   }
 
-  fontSize: {
+  fontsize: {
     default: $f-sz-default;
     max: $f-sz-max;
     xxl: $f-sz-xxl;
@@ -91,14 +91,14 @@ $c-white: #ffffff;
     min: $f-sz-min;
   }
 
-  fontWeight: {
+  fontweight: {
     default: $f-w-default;
     extrabold: $f-w-extrabold;
     bold: $f-w-bold;
     light: $f-w-light;
   }
 
-  borderRadius: {
+  borderradius: {
     default: $br-default;
     max: $br-max;
     round: $br-round;

@@ -107,7 +107,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.slider-rails {
+%slider-rails {
   position: absolute;
   top: 0.375rem;
   left: 0;
@@ -125,24 +125,24 @@ export default defineComponent({
   &__inner {
     width: 100%;
     background-color: skyblue;
-    @extend .slider-rails;
+    @extend %slider-rails;
   }
 
   &__track {
     width: 0;
     background-color: black;
-    @extend .slider-rails;
+    @extend %slider-rails;
   }
 
   &__handle {
     position: absolute;
     top: 0.125rem;
     left: 0;
+    z-index: 1110;
     width: 0.75rem;
     height: 0.75rem;
-    border-radius: 50%;
-    z-index: 1110;
     background-color: red;
+    border-radius: 50%;
   }
 }
 </style>

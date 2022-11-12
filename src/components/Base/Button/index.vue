@@ -96,22 +96,22 @@ export default defineComponent({
 
 .button {
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  background-color: var(--background-color);
+  justify-content: center;
   width: var(--width);
   height: var(--height);
   padding: var(--padding);
-  color: var(--color);
   font-size: var(--font-size);
+  color: var(--color);
+
+  background-color: var(--background-color);
   border: var(--border);
-  border-radius: var(--border-radius);
   border-color: var(--border-color);
+  border-radius: var(--border-radius);
 
   &:hover {
-    transition: all 0.3s;
     background-color: var(--hover-color);
+    transition: all 0.3s;
     transform: var(--hover-scale);
   }
 }

@@ -40,14 +40,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sidebar__toggle-button {
   display: inline-flex;
-  justify-content: center;
   align-content: center;
+  justify-content: center;
   width: 2rem;
   height: 2rem;
-  background: transparent;
-  border: none;
   overflow: hidden;
   cursor: pointer;
+  background: transparent;
+  border: none;
 
   .toggle-button__icon {
     height: 100%;

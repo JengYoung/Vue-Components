@@ -75,14 +75,14 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 0.25rem;
-  transition: all 0.3s;
   cursor: pointer;
   box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
 }
 
 .toggle__button {
-  transform: translateX(calc(100% + 0.25rem));
   transition: all 0.3s;
+  transform: translateX(calc(100% + 0.25rem));
 
   &.toggle__button--toggled {
     transform: translateX(0rem);

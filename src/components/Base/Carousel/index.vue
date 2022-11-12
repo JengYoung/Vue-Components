@@ -210,20 +210,20 @@ $animation: var(--animation);
 
 .carousel {
   &__inner {
-    overflow: hidden;
     position: relative;
     width: var(--width);
+    overflow: hidden;
     border: 1px solid lightgray;
     border-radius: 20px;
   }
 
   &__cards {
-    display: flex;
     position: relative;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    display: flex;
     width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
     transition: all 0.3s;
     transform: translate3d(var(--now-active-index), 0px, 0px);
   }
@@ -237,58 +237,58 @@ $animation: var(--animation);
   }
 
   &__img {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
-    object-fit: cover;
     filter: brightness(40%);
+    object-fit: cover;
   }
 
   &__content {
     position: absolute;
-    z-index: 1;
-    color: rgb(233, 232, 232);
     left: 4rem;
-    height: 100%;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 100%;
+    color: rgb(233, 232, 232);
   }
 
   &__prev-button {
-    display: flex;
     position: absolute;
-    align-items: center;
-    left: 0;
     top: 0;
     bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
     padding: 0 1rem;
     font-size: 5rem;
     line-height: 0;
+    color: white;
     background: linear-gradient(to right, #000000b0, transparent);
     border: 0;
     outline: 0;
-    color: white;
     &:hover {
       cursor: pointer;
     }
   }
 
   &__next-button {
-    display: flex;
     position: absolute;
-    align-items: center;
-    z-index: 99;
-    right: 0;
     top: 0;
+    right: 0;
     bottom: 0;
+    z-index: 99;
+    display: flex;
+    align-items: center;
     padding: 0 1rem;
     font-size: 5rem;
     line-height: 0;
+    color: white;
     background: linear-gradient(to right, transparent, #000000b0);
     border: 0;
     outline: 0;
-    color: white;
 
     &:hover {
       cursor: pointer;
@@ -296,27 +296,27 @@ $animation: var(--animation);
   }
 
   &__direct-buttons {
-    display: flex;
     position: absolute;
-    justify-content: center;
-    margin: 0 auto;
-    width: 100%;
-    left: 0;
     right: 0;
     bottom: 1rem;
-    margin: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
     padding: 0;
+    margin: 0 auto;
+    margin: 0;
     list-style: none;
 
     .carousel__direct-button {
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       width: 0.75rem;
       height: 0.75rem;
-      border-radius: 50%;
       margin-right: 0.5rem;
       background-color: white;
+      border-radius: 50%;
 
       &:hover {
         cursor: pointer;
@@ -329,20 +329,20 @@ $animation: var(--animation);
     }
 
     .carousel__direct-button--active {
-      background: white;
       position: relative;
+      background: white;
 
       @keyframes directButtonActivePrevMove {
         0% {
-          left: calc(1.25rem * var(--move-count) * -1);
           right: calc(-1.25rem * var(--move-count) * -1);
+          left: calc(1.25rem * var(--move-count) * -1);
         }
         15% {
           left: 0;
         }
         85% {
-          left: 0;
           right: 0;
+          left: 0;
         }
         100% {
           display: none;
@@ -351,39 +351,39 @@ $animation: var(--animation);
 
       @keyframes directButtonActiveNextMove {
         0% {
-          left: calc(-1.25rem * var(--move-count));
           right: calc(1.25rem * var(--move-count));
+          left: calc(-1.25rem * var(--move-count));
         }
         15% {
           right: 0;
         }
         85% {
-          left: 0;
           right: 0;
+          left: 0;
         }
         100% {
           display: none;
         }
       }
       &:after {
-        content: '';
         position: absolute;
-        left: 0;
         top: 0;
         right: 0;
         bottom: 0;
+        left: 0;
+        content: '';
         background: white;
         border-radius: 0.375rem;
         animation: directButtonActivePrevMove normal ease-in-out 0.5s;
       }
 
       &:before {
-        content: '';
         position: absolute;
-        left: 0;
         top: 0;
         right: 0;
         bottom: 0;
+        left: 0;
+        content: '';
         background: white;
         border-radius: 0.375rem;
         animation: directButtonActiveNextMove normal ease-in-out 0.5s;
