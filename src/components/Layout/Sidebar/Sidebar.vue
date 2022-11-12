@@ -1,12 +1,17 @@
 <template>
   <!-- :class="sidebarClosed ? 'sidebar--closed' : ''" -->
-  <aside class="sidebar" :style="sidebarStyle" :class="sidebarClosed ? 'closed' : ''" />
+  <aside
+    class="sidebar"
+    :style="sidebarStyle"
+    :class="sidebarClosed ? 'closed' : ''"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, StyleValue, computed, onMounted, onUnmounted } from 'vue';
+import { defineComponent, computed, onMounted, onUnmounted } from 'vue';
 
 export default defineComponent({
+  name: 'DefaultSidebar',
   props: {
     width: [String, Number],
     padding: [String, Number],
@@ -20,16 +25,23 @@ export default defineComponent({
   emits: ['update:closed'],
   setup(props, { emit }) {
     const sidebarStyle = computed(() => ({
-      /* eslint-disable no-nested-ternary */
-      '--width': `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
-      '--padding': `${typeof props.padding === 'number' ? `${props.padding}rem` : props.padding}`,
+      '--width': `${
+        typeof props.width === 'number' ? `${props.width}rem` : props.width
+      }`,
+      '--padding': `${
+        typeof props.padding === 'number'
+          ? `${props.padding}rem`
+          : props.padding
+      }`,
       '--background-color': props.backgroundColor,
       '--border': props.border,
       '--header-height': `${
-        typeof props.headerHeight === 'number' ? `${props.headerHeight}rem` : props.headerHeight
+        typeof props.headerHeight === 'number'
+          ? `${props.headerHeight}rem`
+          : props.headerHeight
       }`,
       '--delay': `${props.delay}s`,
-    })) as StyleValue;
+    }));
 
     const handleBodyClick = (e: Event) => {
       const $sidebar = (e.target as HTMLElement).closest('.sidebar');

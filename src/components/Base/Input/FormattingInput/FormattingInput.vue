@@ -34,89 +34,89 @@
  * 1. prefix에 있는 값을 삭제했을 때에는 selectionRange는 흐름을 방해하지 않도록 현재 위치 그대로 반영한다.
  * 2. 그러나 prefix를 변동시켰기 때문에 기존 캐시된 결과물을 반환하며, 다른 값들이 변하는 것을 막는다.
  */
-import { computed, defineComponent, onMounted, PropType, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, PropType, ref, watch } from 'vue'
 import {
   getDelemeterCount,
   getOriginalValue,
   getRefinedBlocks,
   isPrefixChanged,
-  reassignDelemeter,
-} from './utils';
+  reassignDelemeter
+} from './utils'
 
 export default defineComponent({
   emits: ['update:modelValue'],
   props: {
     modelValue: {
       type: String,
-      required: true,
+      required: true
     },
     blocks: {
       type: Array as PropType<number[]>,
-      required: true,
+      required: true
     },
     delimeter: {
       type: String,
-      required: true,
+      required: true
     },
     prefix: {
       type: String,
-      default: '',
+      default: ''
     },
     number: {
       type: Boolean,
-      default: false,
+      default: false
     },
     autoFocus: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  setup(props, { emit }) {
-    const inputElement = ref<HTMLInputElement | null>(null);
-    const refinedBlocks = ref<number[]>([]);
+  setup (props, { emit }) {
+    const inputElement = ref<HTMLInputElement | null>(null)
+    const refinedBlocks = ref<number[]>([])
 
-    const arr = ref<string[]>([]);
+    const arr = ref<string[]>([])
 
-    const cachedSelectionStart = ref(0);
-    const cachedSelectionEnd = ref(0);
+    const cachedSelectionStart = ref(0)
+    const cachedSelectionEnd = ref(0)
 
     const options = computed(() => ({
       number: props.number,
       maxValue: refinedBlocks.value[refinedBlocks.value.length - 1] - props.prefix.length,
       prefix: props.prefix,
-      delimeter: props.delimeter,
-    }));
+      delimeter: props.delimeter
+    }))
 
     const cacheSelectionRange = () => {
-      if (!inputElement.value) return;
-      cachedSelectionStart.value = inputElement.value.selectionStart ?? 0;
-      cachedSelectionEnd.value = inputElement.value.selectionEnd ?? 0;
-    };
+      if (!inputElement.value) return
+      cachedSelectionStart.value = inputElement.value.selectionStart ?? 0
+      cachedSelectionEnd.value = inputElement.value.selectionEnd ?? 0
+    }
 
     const onInput = () => {
-      if (!inputElement.value) return;
+      if (!inputElement.value) return
 
-      let result = '';
+      let result = ''
 
       /* eslint-disable @typescript-eslint/no-shadow */
-      const { value } = inputElement.value;
-      let selectionStart = inputElement.value.selectionStart ?? 0;
-      let selectionEnd = inputElement.value.selectionEnd ?? 0;
+      const { value } = inputElement.value
+      let selectionStart = inputElement.value.selectionStart ?? 0
+      let selectionEnd = inputElement.value.selectionEnd ?? 0
 
       // 접두사를 바꿀 경우 바뀌지 않는 로직 추가.
       if (isPrefixChanged(value, props.prefix)) {
-        inputElement.value.value = props.modelValue;
-        inputElement.value.selectionStart = cachedSelectionEnd.value;
-        inputElement.value.selectionEnd = cachedSelectionEnd.value;
-        return;
+        inputElement.value.value = props.modelValue
+        inputElement.value.selectionStart = cachedSelectionEnd.value
+        inputElement.value.selectionEnd = cachedSelectionEnd.value
+        return
       }
 
-      let inputValue = value;
+      let inputValue = value
 
       const beforeDelimeterCount = getDelemeterCount(
         inputValue.slice(0, selectionStart),
         props.delimeter
-      );
+      )
 
       const isDeletedValueDelimeter = () => {
         const reassginedNowValue = reassignDelemeter(
@@ -124,49 +124,49 @@ export default defineComponent({
           getOriginalValue(inputValue, options.value),
           refinedBlocks.value,
           props.delimeter
-        );
+        )
         const reassginedModelValue = reassignDelemeter(
           getOriginalValue(props.modelValue, options.value),
           refinedBlocks.value,
           props.delimeter
-        );
+        )
 
         return (
           inputValue.length === props.modelValue.length - 1 &&
           props.modelValue[selectionStart] === props.delimeter &&
           reassginedNowValue === reassginedModelValue
-        );
-      };
-
-      if (isDeletedValueDelimeter()) {
-        const headValue = inputValue.slice(0, (selectionStart ?? 0) - 1);
-        const taiiValue = inputValue.slice(selectionStart ?? 0);
-
-        inputValue = headValue + taiiValue;
-
-        selectionStart -= 1;
-        selectionEnd -= 1;
+        )
       }
 
-      const refinedValue = getOriginalValue(inputValue, options.value);
+      if (isDeletedValueDelimeter()) {
+        const headValue = inputValue.slice(0, (selectionStart ?? 0) - 1)
+        const taiiValue = inputValue.slice(selectionStart ?? 0)
 
-      result = reassignDelemeter(refinedValue, refinedBlocks.value, props.delimeter);
+        inputValue = headValue + taiiValue
+
+        selectionStart -= 1
+        selectionEnd -= 1
+      }
+
+      const refinedValue = getOriginalValue(inputValue, options.value)
+
+      result = reassignDelemeter(refinedValue, refinedBlocks.value, props.delimeter)
       const afterDelimeterCount = getDelemeterCount(
         result.slice(0, selectionStart),
         props.delimeter
-      );
+      )
 
-      const delimeterCountDiff = afterDelimeterCount - beforeDelimeterCount;
+      const delimeterCountDiff = afterDelimeterCount - beforeDelimeterCount
 
-      cachedSelectionStart.value = (selectionStart ?? 0) + delimeterCountDiff;
-      cachedSelectionEnd.value = (selectionEnd ?? 0) + delimeterCountDiff;
+      cachedSelectionStart.value = (selectionStart ?? 0) + delimeterCountDiff
+      cachedSelectionEnd.value = (selectionEnd ?? 0) + delimeterCountDiff
 
-      inputElement.value.value = result;
-      inputElement.value.selectionStart = cachedSelectionStart.value;
-      inputElement.value.selectionEnd = cachedSelectionEnd.value;
+      inputElement.value.value = result
+      inputElement.value.selectionStart = cachedSelectionStart.value
+      inputElement.value.selectionEnd = cachedSelectionEnd.value
 
-      emit('update:modelValue', result);
-    };
+      emit('update:modelValue', result)
+    }
 
     watch(
       () => [props.blocks],
@@ -174,26 +174,25 @@ export default defineComponent({
         if (
           JSON.stringify(refinedBlocks.value) ===
           JSON.stringify(getRefinedBlocks(props.blocks, props.prefix))
-        )
-          return;
-        refinedBlocks.value = getRefinedBlocks(props.blocks, props.prefix);
-        onInput();
+        ) { return }
+        refinedBlocks.value = getRefinedBlocks(props.blocks, props.prefix)
+        onInput()
       },
       { immediate: true }
-    );
+    )
 
     onMounted(() => {
-      if (!inputElement.value) return;
-      if (props.autoFocus) inputElement.value.focus();
+      if (!inputElement.value) return
+      if (props.autoFocus) inputElement.value.focus()
 
       if (props.prefix) {
-        inputElement.value.value = props.prefix;
-        inputElement.value.selectionStart = props.prefix.length;
-        inputElement.value.selectionEnd = props.prefix.length;
+        inputElement.value.value = props.prefix
+        inputElement.value.selectionStart = props.prefix.length
+        inputElement.value.selectionEnd = props.prefix.length
 
-        emit('update:modelValue', props.prefix);
+        emit('update:modelValue', props.prefix)
       }
-    });
+    })
 
     return {
       inputElement,
@@ -202,10 +201,10 @@ export default defineComponent({
       cachedSelectionEnd,
       refinedBlocks,
       onInput,
-      cacheSelectionRange,
-    };
-  },
-});
+      cacheSelectionRange
+    }
+  }
+})
 </script>
 
 <style scoped></style>

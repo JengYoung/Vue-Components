@@ -1,30 +1,25 @@
 module.exports = {
-  root: true,
   env: {
-    node: true
+    browser: true,
+    es2021: true,
+    node: true,
   },
-  extends: ['plugin:vue/vue3-essential', '@vue/airbnb', '@vue/typescript/recommended', 'prettier', 'plugin:storybook/recommended'],
+  extends: [
+    'plugin:storybook/recommended',
+    'plugin:vue/essential',
+    'google',
+    'prettier',
+  ],
   parserOptions: {
-    ecmaVersion: 2020
+    ecmaVersion: 12,
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module',
   },
-  settings: {
-    'import/resolver': {
-      typescript: {}
-    }
-  },
+  plugins: ['vue', '@typescript-eslint'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'max-len': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"] // 'import/no-unresolved': ['error', { caseSensitive: false }],
-
+    'vue/no-multiple-template-root': 'off',
+    'vue/no-reserved-component-names': 'off',
+    'vue/no-v-for-template-key': 'off',
+    'vue/no-v-for-template-key-on-child': 'error',
   },
-  overrides: [{
-    files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
-    env: {
-      jest: true
-    }
-  }]
 };

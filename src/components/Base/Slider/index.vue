@@ -18,6 +18,7 @@
 import { ref, computed, watch, defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'DefaultSlider',
   props: {
     max: {
       type: Number,
@@ -38,7 +39,9 @@ export default defineComponent({
     const dragging = ref<boolean>(false);
 
     const value = ref<number>(props.defaultValue || 0);
-    const percentage = computed(() => (value.value - props.min) / (props.max - props.min));
+    const percentage = computed(
+      () => (value.value - props.min) / (props.max - props.min)
+    );
 
     const handleMouseUp = () => {
       dragging.value = false;
@@ -55,7 +58,9 @@ export default defineComponent({
       let handleOffset: number | undefined;
 
       if ((e as MouseEvent).pageX) {
-        handleOffset = (e as MouseEvent).pageX - (sliderRef.value as HTMLDivElement).offsetLeft;
+        handleOffset =
+          (e as MouseEvent).pageX -
+          (sliderRef.value as HTMLDivElement).offsetLeft;
       } else {
         for (let i = 0; i < (e as TouchEvent).changedTouches.length; i += 1) {
           handleOffset =
@@ -78,7 +83,9 @@ export default defineComponent({
         newValue = props.max;
       } else {
         newValue =
-          Math.round((props.min + (props.max - props.min) * track) / props.step) * props.step;
+          Math.round(
+            (props.min + (props.max - props.min) * track) / props.step
+          ) * props.step;
       }
 
       value.value = newValue;

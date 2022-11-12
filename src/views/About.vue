@@ -25,6 +25,7 @@ import { defineComponent, ref } from 'vue';
 import MenuItem from '../components/Base/Menu/MenuItem.vue';
 
 export default defineComponent({
+  name: 'AboutPage',
   components: { Menu, MenuItem },
   setup() {
     const visible = ref(false);

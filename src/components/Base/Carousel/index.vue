@@ -4,7 +4,10 @@
       <ul
         class="carousel__cards"
         @transitionend="() => handleTransitionEnd(nowActive)"
-        :style="{ transition: `all ${nowDelay}s`, '--now-active-index': `-${nowActive * 100}%` }"
+        :style="{
+          transition: `all ${nowDelay}s`,
+          '--now-active-index': `-${nowActive * 100}%`,
+        }"
       >
         <li
           class="carousel__card card-container"
@@ -12,7 +15,11 @@
           :key="card.title"
           v-for="(card, index) in refinedCards"
         >
-          <img class="carousel__img" :src="card.imageUrl" alt="carousel images" />
+          <img
+            class="carousel__img"
+            :src="card.imageUrl"
+            alt="carousel images"
+          />
 
           <div class="carousel__content">
             <h1>{{ card.title }}</h1>
@@ -26,8 +33,12 @@
         </li>
       </ul>
 
-      <button class="carousel__prev-button" @click="prevButtonClick">&lsaquo;</button>
-      <button class="carousel__next-button" @click="nextButtonClick">&rsaquo;</button>
+      <button class="carousel__prev-button" @click="prevButtonClick">
+        &lsaquo;
+      </button>
+      <button class="carousel__next-button" @click="nextButtonClick">
+        &rsaquo;
+      </button>
 
       <ul class="carousel__direct-buttons">
         <li
@@ -56,6 +67,7 @@ import { ref, computed, defineComponent } from 'vue';
 // }
 
 export default defineComponent({
+  name: 'DefaultCarousel',
   props: {
     cards: {
       type: Array,
@@ -91,15 +103,21 @@ export default defineComponent({
     const maxSize = computed(() => refinedCards.value.length || 0);
 
     const prevAnimationDisable = computed(
-      () => moveCount.value < 0 && (nowActive.value === 0 || nowActive.value === maxSize.value - 2)
+      () =>
+        moveCount.value < 0 &&
+        (nowActive.value === 0 || nowActive.value === maxSize.value - 2)
     );
     const nextAnimationDisable = computed(
-      () => moveCount.value > 0 && (nowActive.value === 1 || nowActive.value === maxSize.value - 1)
+      () =>
+        moveCount.value > 0 &&
+        (nowActive.value === 1 || nowActive.value === maxSize.value - 1)
     );
 
     const carouselStyle = computed(() => ({
-      '--width': typeof props.width === 'number' ? `${props.width}rem` : props.width,
-      '--height': typeof props.height === 'number' ? `${props.height}rem` : props.height,
+      '--width':
+        typeof props.width === 'number' ? `${props.width}rem` : props.width,
+      '--height':
+        typeof props.height === 'number' ? `${props.height}rem` : props.height,
     }));
 
     const directButtonStyle = computed(() => ({

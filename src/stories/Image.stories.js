@@ -1,4 +1,4 @@
-import Image from '@components/Base/Image/index.vue';
+import Image from '@components/Base/Image/index.vue'
 
 export default {
   title: 'Base/Image',
@@ -12,15 +12,15 @@ export default {
     width: { control: { type: 'range', min: 1, max: 20 } },
     height: { control: { type: 'range', min: 1, max: 20 } },
     objectFit: {
-      controls: { type: 'radio', opitons: ['fill', 'contain', 'cover', 'none', 'scale-down'] },
-    },
-  },
-};
+      controls: { type: 'radio', opitons: ['fill', 'contain', 'cover', 'none', 'scale-down'] }
+    }
+  }
+}
 
 const Template = (args) => ({
   components: { Image },
-  setup() {
-    return { args };
+  setup () {
+    return { args }
   },
 
   template: `
@@ -37,10 +37,10 @@ const Template = (args) => ({
 			<Image v-bind="args" />
 			<Image v-bind="args" />
 		</div>
-	`,
-});
+	`
+})
 
-export const Lazy = Template.bind({});
+export const Lazy = Template.bind({})
 
 Lazy.args = {
   display: 'block',
@@ -51,5 +51,5 @@ Lazy.args = {
   width: 6.25,
   height: 6.25,
   alt: 'Test Image',
-  objectFit: 'cover',
-};
+  objectFit: 'cover'
+}

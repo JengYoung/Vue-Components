@@ -1,5 +1,11 @@
 <template>
-  <img class="img" ref="imageRef" :src="loaded ? src : defaultSrc" :alt="alt" :style="imageCSS" />
+  <img
+    class="img"
+    ref="imageRef"
+    :src="loaded ? src : defaultSrc"
+    :alt="alt"
+    :style="imageCSS"
+  />
 </template>
 
 <script lang="ts">
@@ -7,6 +13,7 @@ import { defineComponent } from 'vue';
 import useIntsersectionObserver from '@hooks/useIntersectionObserver';
 
 export default defineComponent({
+  name: 'DefaultImage',
   props: {
     display: String,
     lazy: Boolean,
@@ -39,8 +46,12 @@ export default defineComponent({
 
     const imageCSS = {
       display: props.display,
-      width: `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
-      height: `${typeof props.height === 'number' ? `${props.height}rem` : props.height}`,
+      width: `${
+        typeof props.width === 'number' ? `${props.width}rem` : props.width
+      }`,
+      height: `${
+        typeof props.height === 'number' ? `${props.height}rem` : props.height
+      }`,
       'object-fit': props.objectFit,
     };
 

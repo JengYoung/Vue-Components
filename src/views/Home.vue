@@ -29,7 +29,7 @@ import Sidebar from '@/components/Layout/Sidebar/Sidebar.vue';
 import SidebarToggleButton from '@/components/Layout/Sidebar/SidebarToggleButton.vue';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'HomePage',
   components: {
     HelloWorld,
     Sidebar,
