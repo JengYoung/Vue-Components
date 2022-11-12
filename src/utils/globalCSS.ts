@@ -1,4 +1,4 @@
-import scssVars from "@css/global.scss";
+import scssVars from '@css/global.scss';
 
 interface GlobalCSSInterface {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -17,6 +17,6 @@ Object.entries(scssVars).forEach(([key, value]) => {
     globalCSS[prefix] = globalCSS[prefix] ?? {};
     globalCSS[prefix][cssVar] = value;
   }
-})
+});
 
-export default globalCSS
+export default globalCSS;
