@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": ".",
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -25,10 +26,9 @@
   "include": [
     "src",
     "src/**/*.ts",
-    "src/**/*.tsx",
     "src/**/*.vue",
+    "**/*.d.ts",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

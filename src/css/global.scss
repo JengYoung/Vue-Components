@@ -78,7 +78,8 @@ $desktop-lg-max: 3000px;
     white: $c-white;
   }
 
-  headersize: {
+  /* prettier-ignore */
+  headerSize: {
     h1: $f-sz-h1;
     h2: $f-sz-h2;
     h3: $f-sz-h3;
@@ -87,7 +88,8 @@ $desktop-lg-max: 3000px;
     h6: $f-sz-h6;
   }
 
-  fontsize: {
+  /* prettier-ignore */
+  fontSize: {
     default: $f-sz-default;
     max: $f-sz-max;
     xxl: $f-sz-xxl;
@@ -99,14 +101,16 @@ $desktop-lg-max: 3000px;
     min: $f-sz-min;
   }
 
-  fontweight: {
+  /* prettier-ignore */
+  fontWeight: {
     default: $f-w-default;
     extrabold: $f-w-extrabold;
     bold: $f-w-bold;
     light: $f-w-light;
   }
 
-  borderradius: {
+  /* prettier-ignore */
+  borderRadius: {
     default: $br-default;
     max: $br-max;
     round: $br-round;

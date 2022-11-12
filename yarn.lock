@@ -8768,6 +8768,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"css-loader@npm:^6.7.1":
+  version: 6.7.1
+  resolution: "css-loader@npm:6.7.1"
+  dependencies:
+    icss-utils: "npm:^5.1.0"
+    postcss: "npm:^8.4.7"
+    postcss-modules-extract-imports: "npm:^3.0.0"
+    postcss-modules-local-by-default: "npm:^4.0.0"
+    postcss-modules-scope: "npm:^3.0.0"
+    postcss-modules-values: "npm:^4.0.0"
+    postcss-value-parser: "npm:^4.2.0"
+    semver: "npm:^7.3.5"
+  peerDependencies:
+    webpack: ^5.0.0
+  checksum: f29305f4b25c3ee99328409c0e2f5940323cb55e498248f07ac12dfa341b49cb48b8ef92bd1e92ac702814218b56f44d18a68768024495c32bf2c1f310b36451
+  languageName: node
+  linkType: hard
+
 "css-select-base-adapter@npm:^0.1.1":
   version: 0.1.1
   resolution: "css-select-base-adapter@npm:0.1.1"
@@ -18148,7 +18166,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.3.11, postcss@npm:^8.4.0, postcss@npm:^8.4.18":
+"postcss@npm:^8.3.11, postcss@npm:^8.4.0, postcss@npm:^8.4.18, postcss@npm:^8.4.7":
   version: 8.4.19
   resolution: "postcss@npm:8.4.19"
   dependencies:
@@ -19749,6 +19767,31 @@ __metadata:
   bin:
     sane: ./src/cli.js
   checksum: 45b7edbfacd9ebe75f60cd411808398a090f1f174faec1154b18ab8e5dcf37a94ca050f6ad564c725d5910fb03b6dbc1ee6bbe06e1d07246820afde1dfd82065
+  languageName: node
+  linkType: hard
+
+"sass-loader@npm:10":
+  version: 10.3.1
+  resolution: "sass-loader@npm:10.3.1"
+  dependencies:
+    klona: "npm:^2.0.4"
+    loader-utils: "npm:^2.0.0"
+    neo-async: "npm:^2.6.2"
+    schema-utils: "npm:^3.0.0"
+    semver: "npm:^7.3.2"
+  peerDependencies:
+    fibers: ">= 3.1.0"
+    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+    sass: ^1.3.0
+    webpack: ^4.36.0 || ^5.0.0
+  peerDependenciesMeta:
+    fibers:
+      optional: true
+    node-sass:
+      optional: true
+    sass:
+      optional: true
+  checksum: 0208af5413e4f9c3a5d62bca69ba3faf2e3ef2ddca985a28a779d9e533605b91fc62c2d560ab1f9c161dece3fcd4c315931691681d1e26a780f2fc944382accf
   languageName: node
   linkType: hard
 
@@ -22765,6 +22808,7 @@ __metadata:
     babel-loader: "npm:^8.2.3"
     babel-preset-vue: "npm:^2.0.2"
     core-js: "npm:^3.6.5"
+    css-loader: "npm:^6.7.1"
     eslint: "npm:^6.7.2"
     eslint-config-prettier: "npm:^8.3.0"
     eslint-import-resolver-typescript: "npm:^3.5.2"
@@ -22776,6 +22820,7 @@ __metadata:
     prettier: "npm:^2.7.1"
     register-service-worker: "npm:^1.7.1"
     sass: "npm:^1.34.1"
+    sass-loader: "npm:10"
     storybook-addon-sass-postcss: "npm:^0.1.3"
     style-loader: "npm:^3.3.1"
     stylelint: "npm:^14.14.1"
