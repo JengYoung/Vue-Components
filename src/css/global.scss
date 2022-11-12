@@ -49,6 +49,14 @@ $c-warning: #ffb900;
 $c-dark: #111111;
 $c-white: #ffffff;
 
+$mobile-max: 500px;
+$tablet-min: 501px;
+$tablet-max: 1023px;
+$desktop-min: 1024px;
+$desktop-max: 1440px;
+$desktop-lg-min: 1441px;
+$desktop-lg-max: 3000px;
+
 :export {
   color: {
     default: $c-primary-500;
