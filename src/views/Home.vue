@@ -3,8 +3,8 @@
     :width="6"
     :padding="0"
     :headerHeight="4"
-    backgroundColor= '#eff1e2'
-    border= '1px solid lightgray'
+    backgroundColor="#eff1e2"
+    border="1px solid lightgray"
     :sidebarClosed="sidebarClosed"
     :delay="0.3"
     :isClickAway="true"
@@ -17,8 +17,8 @@
   />
 
   <div class="home">
-    <img alt="Vue logo" src="@/assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <img alt="Vue logo" src="@/assets/logo.png" />
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div>
 </template>
 
@@ -37,16 +37,16 @@ export default defineComponent({
   },
 
   setup() {
-    const sidebarClosed=ref(true);
+    const sidebarClosed = ref(true);
 
     const updateClosed = (value: boolean) => {
-      sidebarClosed.value = value
-    }
+      sidebarClosed.value = value;
+    };
 
     return {
       sidebarClosed,
-      updateClosed
-    }
-  }
+      updateClosed,
+    };
+  },
 });
 </script>
