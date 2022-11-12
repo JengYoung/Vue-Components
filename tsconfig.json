@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": ".",
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -10,23 +11,24 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "types": ["webpack-env", "jest"],
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "paths": {
       "@/*": ["src/*"],
+      "@css/*": ["src/css/*"],
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@stories/*": ["src/stories/*"]
     }
   },
   "include": [
     "src",
     "src/**/*.ts",
-    "src/**/*.tsx",
     "src/**/*.vue",
+    "**/*.d.ts",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -14,17 +14,15 @@ export default defineComponent({
       default: 'black',
     },
   },
-  setup (props) {
+  setup(props) {
     const headerTextCSS = {
-      ...(props.centered ? { textAlign: 'center'} : {}),
-      color: props.color
-    }
+      ...(props.centered ? { textAlign: 'center' } : {}),
+      color: props.color,
+    };
 
-    return {headerTextCSS}
-  }
-})
+    return { headerTextCSS };
+  },
+});
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

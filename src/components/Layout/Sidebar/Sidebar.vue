@@ -62,13 +62,13 @@ export default defineComponent({
 .sidebar {
   position: fixed;
   top: var(--header-height);
-  background-color: var(--background-color);
   width: var(--width);
   height: calc(100vh - #{var(--header-height)});
   padding: var(--padding);
+  overflow: hidden;
+  background-color: var(--background-color);
   border: 1px solid #{var(--border)};
   transition: all var(--delay);
-  overflow: hidden;
 }
 .closed {
   transition: all var(--delay);
