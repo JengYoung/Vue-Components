@@ -14,4 +14,11 @@ module.exports = defineConfig({
       },
     },
   },
+  css: {
+    loaderOptions: {
+      css: {
+        modules: true,
+      },
+    },
+  },
 });

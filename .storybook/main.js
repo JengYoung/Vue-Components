@@ -23,15 +23,8 @@ module.exports = {
         test: /.scss$/,
         use: [
           'vue-style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              additionalData: `
-                @import "@css/vars.scss";
-              `,
-            },
-          },
+          { loader: 'css-loader', options: { modules: true } },
+          'sass-loader',
         ],
       },
       {}
