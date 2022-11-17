@@ -125,7 +125,7 @@ export default defineComponent({
     }));
 
     const directButtonClass = (index: number) => {
-      const arr = [];
+      const arr: string[] = [];
       if (nowActive.value === index - 2) {
         arr.push('carousel__direct-button--prev');
       }

@@ -13,11 +13,23 @@ module.exports = defineConfig({
         '@stories': path.resolve(__dirname, 'src/stories/'),
       },
     },
-  },
-  css: {
-    loaderOptions: {
-      css: {
-        modules: true,
+    loader: {
+      module: {
+        rules: [
+          {
+            test: /\.module.scss$/,
+            use: [
+              'vue-style-loader',
+              { loader: 'css-loader', options: { modules: true } },
+              'sass-loader',
+            ],
+          },
+          {
+            test: /\.scss$/,
+            exclude: /\.module.scss$/,
+            use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+          },
+        ],
       },
     },
   },

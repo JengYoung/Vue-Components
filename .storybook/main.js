@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -18,16 +19,22 @@ module.exports = {
       'src/css',
     ];
 
+    config.plugins = [...config.plugins, new MiniCssExtractPlugin()];
+
     config.module.rules.push(
       {
-        test: /.scss$/,
+        test: /\.module.scss)$/,
         use: [
           'vue-style-loader',
           { loader: 'css-loader', options: { modules: true } },
           'sass-loader',
         ],
       },
-      {}
+      {
+        test: /\.scss$/,
+        exclude: /\.module.scss$/,
+        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+      }
     );
 
     config.resolve.alias = {

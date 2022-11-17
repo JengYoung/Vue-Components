@@ -12,7 +12,7 @@ const Template: StoryFn<typeof Tabs> = (args) => ({
   setup() {
     return { args };
   },
-  template: '<Tabs v-bind="args">',
+  template: '<Tabs v-bind="args" />',
 });
 
 export const Default = Template.bind({});
@@ -23,4 +23,6 @@ Default.args = {
     { id: '2', label: 'test2', value: 'result2' },
     { id: '3', label: 'test3', value: 'result3' },
   ],
+  width: '100%',
+  height: '2rem',
 };

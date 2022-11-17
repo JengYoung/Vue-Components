@@ -1,4 +1,4 @@
-import scssVars from '@css/vars.scss';
+import scssVars from '@css/vars.module.scss';
 
 interface GlobalCSSInterface {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
