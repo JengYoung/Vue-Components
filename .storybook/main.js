@@ -5,6 +5,7 @@ module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
+    '@storybook/addon-docs',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
@@ -23,7 +24,7 @@ module.exports = {
 
     config.module.rules.push(
       {
-        test: /\.module.scss)$/,
+        test: /\.module.scss$/,
         use: [
           'vue-style-loader',
           { loader: 'css-loader', options: { modules: true } },

@@ -6,7 +6,7 @@
         @click="() => onClick(tab, idx)"
         :class="{ 'tabs__tab--active': tabActiveIndex === idx }"
       >
-        {{ tab.id }}
+        {{ tab.label }}
       </li>
     </template>
     <div class="tabs__highlight"></div>
@@ -32,6 +32,7 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+
     tabWidth: {
       type: String,
       default: DEFAULT_TAB_WIDTH,
@@ -39,6 +40,24 @@ export default defineComponent({
     tabHeight: {
       type: String,
       default: DEFAULT_TAB_HEIGHT,
+    },
+
+    activeBackgroundColor: {
+      type: String,
+      default: globalCSS.color.default,
+    },
+    activeTextColor: {
+      type: String,
+      default: globalCSS.color.white,
+    },
+
+    borderWidth: {
+      type: String,
+      default: '1px',
+    },
+    borderColor: {
+      type: String,
+      default: globalCSS.color.sub,
     },
   },
 
@@ -64,26 +83,34 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$common-border: 1px solid #{v-bind('globalCSS.color.sub')};
+$common-border: v-bind('props.borderWidth') solid v-bind('props.borderColor');
 $activeIndex: v-bind('tabActiveIndex');
 .tabs {
+  cursor: pointer;
+
   border-radius: v-bind('globalCSS.borderRadius.soft');
   overflow: hidden;
+
   display: flex;
+
   position: relative;
+  z-index: 1;
+
   height: v-bind('props.tabHeight');
-  border: 1px solid v-bind('globalCSS.color.sub');
+  border: $common-border;
+
   .tabs__tab {
     display: flex;
     justify-content: center;
     align-items: center;
+
     width: v-bind('props.tabWidth');
 
     &:not(:first-of-type) {
       border-left: $common-border;
     }
     &.tabs__tab--active {
-      color: v-bind('globalCSS.color.white');
+      color: v-bind('props.activeTextColor');
     }
   }
   .tabs__highlight {
@@ -91,7 +118,8 @@ $activeIndex: v-bind('tabActiveIndex');
     z-index: -1;
     width: calc(100% / v-bind('props.tabs.length'));
     height: v-bind('props.tabHeight');
-    background-color: v-bind('globalCSS.color.default');
+
+    background-color: v-bind('props.activeBackgroundColor');
 
     transform: translateX(calc(-100% + 100% * v-bind('activeItem.id')));
     transition: all 0.3s;
