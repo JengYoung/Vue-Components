@@ -1,25 +1,50 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  core: {
-    builder: 'webpack5',
-  },
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-docs',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+  ],
   framework: '@storybook/vue3',
+  core: {
+    builder: '@storybook/builder-webpack5',
+  },
   webpackFinal: async (config) => {
-    config.module.rules.push({
-      test: /\.scss$/,
-      use: ['vue-style-loader', 'css-loader', 'sass-loader'],
-      include: path.resolve(__dirname, '../'),
-    });
+    config.resolve.modules = [
+      path.resolve(__dirname, '..'),
+      'node_modules',
+      'src/css',
+    ];
+
+    config.plugins = [...config.plugins, new MiniCssExtractPlugin()];
+
+    config.module.rules.push(
+      {
+        test: /\.module.scss$/,
+        use: [
+          'vue-style-loader',
+          { loader: 'css-loader', options: { modules: true } },
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.scss$/,
+        exclude: /\.module.scss$/,
+        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+      }
+    );
 
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.join(__dirname, '../src'),
-      '@assets': path.join(__dirname, '../src/assets/'),
-      '@components': path.join(__dirname, '../src/components/'),
-      '@hooks': path.join(__dirname, '../src/hooks/'),
+      '@': path.resolve(__dirname, '../src'),
+      '@css': path.resolve(__dirname, '../src/css'),
+      '@assets': path.resolve(__dirname, '../src/assets'),
+      '@components': path.resolve(__dirname, '../src/components'),
+      '@hooks': path.resolve(__dirname, '../src/hooks'),
     };
 
     return config;

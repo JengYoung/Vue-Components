@@ -1,13 +1,18 @@
 <template>
-  <button class="button" :style="buttonCSS" @click="() => handleClick && handleClick()">
+  <button
+    class="button"
+    :style="buttonCSS"
+    @click="() => handleClick && handleClick()"
+  >
     <slot></slot>
   </button>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, StyleValue } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'DefaultButton',
   props: {
     backgroundColor: {
       type: String,
@@ -57,21 +62,35 @@ export default defineComponent({
   setup(props) {
     const buttonCSS = computed(() => ({
       '--background-color': props.backgroundColor,
-      '--width': `${typeof props.width === 'number' ? `${props.width}rem` : props.width}`,
-      '--height': `${typeof props.height === 'number' ? `${props.height}rem` : props.height}`,
-      '--padding': `${typeof props.padding === 'number' ? `${props.padding}rem` : props.padding}`,
+      '--width': `${
+        typeof props.width === 'number' ? `${props.width}rem` : props.width
+      }`,
+      '--height': `${
+        typeof props.height === 'number' ? `${props.height}rem` : props.height
+      }`,
+      '--padding': `${
+        typeof props.padding === 'number'
+          ? `${props.padding}rem`
+          : props.padding
+      }`,
       '--font-size': `${
-        typeof props.fontSize === 'number' ? `${props.fontSize}rem` : props.fontSize
+        typeof props.fontSize === 'number'
+          ? `${props.fontSize}rem`
+          : props.fontSize
       }`,
       '--color': props.color,
       '--border': props.border,
       '--border-radius': `${
-        typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius
+        typeof props.borderRadius === 'number'
+          ? `${props.borderRadius}px`
+          : props.borderRadius
       }`,
       '--border-color': props.borderColor,
       '--is-hover': `${!!props.hoverColor}`,
       '--hover-color': props.hoverColor,
-      '--hover-scale': `${props.hoverScale ? `scale(${props.hoverScale})` : ''}`,
+      '--hover-scale': `${
+        props.hoverScale ? `scale(${props.hoverScale})` : ''
+      }`,
 
       ...(props.outline
         ? {
@@ -79,7 +98,7 @@ export default defineComponent({
             '--border-color': props.color,
           }
         : {}),
-    })) as StyleValue;
+    }));
 
     return {
       buttonCSS,

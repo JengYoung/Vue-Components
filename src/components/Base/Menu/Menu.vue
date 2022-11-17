@@ -9,9 +9,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from 'vue';
 
 export default defineComponent({
+  name: 'DefaultMenu',
   emits: ['update:modelValue'],
   props: {
     target: {
@@ -59,7 +68,9 @@ export default defineComponent({
       () => {
         nextTick(() => {
           if (!menuRef.value) return;
-          const menuRect = (menuRef.value as HTMLElement).getBoundingClientRect();
+          const menuRect = (
+            menuRef.value as HTMLElement
+          ).getBoundingClientRect();
 
           menuHeight.value = menuRect.height;
         });
@@ -71,13 +82,16 @@ export default defineComponent({
       let propsWidth = props.width;
 
       const nowFontSize = Number(
-        getComputedStyle(document.documentElement).fontSize.replace(/[^0-9.]/g, '')
+        getComputedStyle(document.documentElement).fontSize.replace(
+          /[^0-9.]/g,
+          ''
+        )
       );
 
       if (typeof propsWidth === 'string') {
-        if (propsWidth.includes('rem'))
+        if (propsWidth.includes('rem')) {
           propsWidth = nowFontSize * Number(propsWidth.replace(/[^0-9.]/g, ''));
-        else propsWidth = Number(propsWidth.replace(/[^0-9]/g, ''));
+        } else propsWidth = Number(propsWidth.replace(/[^0-9]/g, ''));
       }
 
       return {
@@ -94,10 +108,15 @@ export default defineComponent({
 
     const menuCSS = computed(() => ({
       borderRadius:
-        typeof props.borderRadius === 'number' ? `${props.borderRadius}px` : props.borderRadius,
+        typeof props.borderRadius === 'number'
+          ? `${props.borderRadius}px`
+          : props.borderRadius,
       boxShadow: props.isShadowed ? '0px 0.5px 2px 1px #ddd' : 'none',
       width: typeof props.width === 'number' ? `${props.width}px` : props.width,
-      fontSize: typeof props.fontSize === 'number' ? `${props.fontSize}px` : props.fontSize,
+      fontSize:
+        typeof props.fontSize === 'number'
+          ? `${props.fontSize}px`
+          : props.fontSize,
     }));
 
     const onResize = () => {
@@ -109,7 +128,10 @@ export default defineComponent({
 
     const onClickOutside = (e: MouseEvent) => {
       if (props.modelValue) {
-        if (props.isClickOutSide && !(e.target as HTMLElement).closest(props.target)) {
+        if (
+          props.isClickOutSide &&
+          !(e.target as HTMLElement).closest(props.target)
+        ) {
           emit('update:modelValue', false);
 
           return;
@@ -135,14 +157,20 @@ export default defineComponent({
       document.body.removeEventListener('click', onClickOutside);
     });
 
-    return { menuRef, menuCSS, mousePosition, viewPort, menuPosition, menuHeight };
+    return {
+      menuRef,
+      menuCSS,
+      mousePosition,
+      viewPort,
+      menuPosition,
+      menuHeight,
+    };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .menu {
-
   position: absolute;
   top: v-bind('menuPosition.y');
   left: v-bind('menuPosition.x');

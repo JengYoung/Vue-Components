@@ -1,6 +1,6 @@
-import Sidebar from '@components/Layout/Sidebar/Sidebar.vue';
+import Sidebar from '@components/Layout/Sidebar/Sidebar.vue'
 import SidebarToggleButton from '@components/Layout/Sidebar/SidebarToggleButton.vue'
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
 export default {
   title: 'Layout/Sidebar',
@@ -18,12 +18,12 @@ export default {
 
 const Template = (args) => ({
   components: { Sidebar, SidebarToggleButton },
-  setup() {
-    const sidebarClosed = ref(false);
+  setup () {
+    const sidebarClosed = ref(false)
     return {
       sidebarClosed,
       args: computed(() => ({ ...args, sidebarClosed: sidebarClosed.value }))
-    };
+    }
   },
   template: `
     <div>
@@ -45,7 +45,7 @@ const Template = (args) => ({
   `
 })
 
-export const SidebarComponent = Template.bind({});
+export const SidebarComponent = Template.bind({})
 
 SidebarComponent.args = {
   width: 6,
@@ -54,5 +54,5 @@ SidebarComponent.args = {
   border: '1px solid lightgray',
   headerHeight: 4.125,
   delay: 0.3,
-  isClickAway: true,
+  isClickAway: true
 }

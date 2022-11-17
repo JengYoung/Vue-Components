@@ -1,6 +1,10 @@
 <template>
   <div :style="toggleStyle" class="toggle" @click="handleToggle">
-    <div class="toggle__button" :class="buttonClass" :style="toggleButtonStyle"></div>
+    <div
+      class="toggle__button"
+      :class="buttonClass"
+      :style="toggleButtonStyle"
+    ></div>
   </div>
 </template>
 
@@ -8,6 +12,7 @@
 import { ref, computed, defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'DefaultToggle',
   props: {
     width: {
       type: [String, Number],
@@ -34,12 +39,18 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const nowToggled = ref(false);
-    const buttonClass = computed(() => (nowToggled.value ? ['toggle__button--toggled'] : []));
+    const buttonClass = computed(() =>
+      nowToggled.value ? ['toggle__button--toggled'] : []
+    );
 
     const toggleStyle = computed(() => ({
-      backgroundColor: nowToggled.value ? props.activeBgColor : props.defaultBgColor,
-      width: typeof props.width === 'string' ? props.width : `${props.width}rem`,
-      height: typeof props.height === 'string' ? props.height : `${props.height}rem`,
+      backgroundColor: nowToggled.value
+        ? props.activeBgColor
+        : props.defaultBgColor,
+      width:
+        typeof props.width === 'string' ? props.width : `${props.width}rem`,
+      height:
+        typeof props.height === 'string' ? props.height : `${props.height}rem`,
       border: props.border,
       borderRadius: `calc(${
         typeof props.height === 'string' ? props.height : `${props.height}rem`
@@ -47,8 +58,10 @@ export default defineComponent({
     }));
 
     const toggleButtonStyle = computed(() => ({
-      width: `calc(${typeof props.height === 'string' ? props.height : `${props.height}rem`})`,
-      height: `calc(100%)`,
+      width: `calc(${
+        typeof props.height === 'string' ? props.height : `${props.height}rem`
+      })`,
+      height: 'calc(100%)',
       backgroundColor: props.buttonColor,
       borderRadius: `calc(${
         typeof props.height === 'string' ? props.height : `${props.height}rem`

@@ -16,20 +16,20 @@
 
 ## 사용 기술 스택
 
-+ `Linter & Formatter`
-	- `Prettier`
-	- `ESLint`
-	- `StyleLint`
-	- `CommitLint`
-+ `UI Framework`
-	- `Vue` + `Vuex` (Composition API)
-+ `Test`
-	- `faker.js`
-	- `Jest.js`
-	- `Cypress.js`
-+ `Documentation`
-	- `Storybook`
-	- `Notion`
-+ `Compiler Language`
-	-	`TypeScript`
+- `Linter & Formatter`
+  - `Prettier`
+  - `ESLint`
+  - `StyleLint`
+  - `CommitLint`
+- `UI Framework`
+  - `Vue` + `Vuex` (Composition API)
+- `Test`
+  - `faker.js`
+  - `Jest.js`
+- `Documentation`
+  - `Storybook`
+  - `Notion`
+- `Compiler Language`
+  - `TypeScript`
+
 ---
