@@ -3,3 +3,7 @@ export interface TabInterface {
   value: string;
   id: string;
 }
+
+export interface ActiveTabInterface extends TabInterface {
+  idx: number;
+}
