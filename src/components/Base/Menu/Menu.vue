@@ -97,11 +97,11 @@ export default defineComponent({
       return {
         x:
           viewPort.value.clientWidth < mousePosition.value.x + propsWidth
-            ? `calc(${mousePosition.value.x}px - ${propsWidth}px)`
+            ? `${Math.max(0, mousePosition.value.x - propsWidth)}px`
             : `${mousePosition.value.x}px`,
         y:
           viewPort.value.clientHeight < mousePosition.value.y + menuHeight.value
-            ? `calc(${mousePosition.value.y}px - ${menuHeight.value}px)`
+            ? `${Math.max(0, mousePosition.value.y - menuHeight.value)}px`
             : `${mousePosition.value.y}px`,
       };
     });

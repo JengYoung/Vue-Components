@@ -19,4 +19,6 @@ Object.entries(scssVars).forEach(([key, value]) => {
   }
 });
 
+console.log(globalCSS);
+
 export default globalCSS;
