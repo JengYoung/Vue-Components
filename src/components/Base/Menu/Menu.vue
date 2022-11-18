@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+import { isNotNumberRegex } from '@/utils/regexps';
 import {
   computed,
   defineComponent,
@@ -18,41 +19,48 @@ import {
   ref,
   watch,
 } from 'vue';
+import { defaultProps } from './defaultProps';
 
 export default defineComponent({
-  name: 'DefaultMenu',
+  name: 'defaultProps',
   emits: ['update:modelValue'],
   props: {
     target: {
       type: String,
       required: true,
-    },
-    isShadowed: {
-      type: Boolean,
-      default: false,
-    },
-    borderRadius: {
-      type: [Number, String],
-    },
-    borderColor: {
-      type: String,
-      default: '#000',
+      default: defaultProps.target,
     },
     modelValue: {
       type: Boolean,
       required: true,
+      default: defaultProps.modelValue,
     },
+
     width: {
       type: [Number, String],
-      default: '6.25rem',
+      default: defaultProps.width,
     },
     fontSize: {
       type: [Number, String],
-      default: '1rem',
+      default: defaultProps.fontSize,
+    },
+
+    borderRadius: {
+      type: [Number, String],
+      default: defaultProps.borderRadius,
+    },
+    borderColor: {
+      type: String,
+      default: defaultProps.borderColor,
+    },
+
+    isShadowed: {
+      type: Boolean,
+      default: defaultProps.isShadowed,
     },
     isClickOutSide: {
       type: Boolean,
-      default: false,
+      default: defaultProps.isClickOutSide,
     },
   },
   setup(props, { emit }) {
@@ -83,26 +91,40 @@ export default defineComponent({
 
       const nowFontSize = Number(
         getComputedStyle(document.documentElement).fontSize.replace(
-          /[^0-9.]/g,
+          isNotNumberRegex,
           ''
         )
       );
 
       if (typeof propsWidth === 'string') {
         if (propsWidth.includes('rem')) {
-          propsWidth = nowFontSize * Number(propsWidth.replace(/[^0-9.]/g, ''));
+          propsWidth =
+            nowFontSize * Number(propsWidth.replace(isNotNumberRegex, ''));
         } else propsWidth = Number(propsWidth.replace(/[^0-9]/g, ''));
       }
 
+      const calc = (client, position, menuSize) => {
+        console.log(position, client);
+        return client < position + menuSize
+          ? `${Math.max(0, position - menuSize)}px`
+          : `${position}px`;
+      };
+
+      console.log({
+        x: calc(viewPort.value.clientWidth, mousePosition.value.x, propsWidth),
+        y: calc(
+          viewPort.value.clientHeight,
+          mousePosition.value.y,
+          menuHeight.value
+        ),
+      });
       return {
-        x:
-          viewPort.value.clientWidth < mousePosition.value.x + propsWidth
-            ? `calc(${mousePosition.value.x}px - ${propsWidth}px)`
-            : `${mousePosition.value.x}px`,
-        y:
-          viewPort.value.clientHeight < mousePosition.value.y + menuHeight.value
-            ? `calc(${mousePosition.value.y}px - ${menuHeight.value}px)`
-            : `${mousePosition.value.y}px`,
+        x: calc(viewPort.value.clientWidth, mousePosition.value.x, propsWidth),
+        y: calc(
+          viewPort.value.clientHeight,
+          mousePosition.value.y,
+          menuHeight.value
+        ),
       };
     });
 
@@ -111,7 +133,7 @@ export default defineComponent({
         typeof props.borderRadius === 'number'
           ? `${props.borderRadius}px`
           : props.borderRadius,
-      boxShadow: props.isShadowed ? '0px 0.5px 2px 1px #ddd' : 'none',
+      boxShadow: props.isShadowed ? defaultProps.boxShadow : 'none',
       width: typeof props.width === 'number' ? `${props.width}px` : props.width,
       fontSize:
         typeof props.fontSize === 'number'
@@ -197,5 +219,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   transition: all 0.3s;
+  width: 100%;
 }
 </style>
