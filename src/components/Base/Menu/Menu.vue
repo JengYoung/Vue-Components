@@ -218,7 +218,7 @@ export default defineComponent({
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s;
   width: 100%;
+  transition: all 0.3s;
 }
 </style>
