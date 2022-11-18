@@ -1,4 +1,6 @@
+import { useToastStore } from '@/store/useToastStore';
 import type { Meta, StoryFn } from '@storybook/vue3';
+import { ref } from 'vue';
 import Toasts from './Toasts.vue';
 
 // https://github.com/storybookjs/storybook/issues/17932
@@ -18,11 +20,29 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
   // Components used in your story `template` are defined in the `components` object
   components: { Toasts },
   // The story's `args` need to be mapped into the template through the `setup()` method
-  setup() {},
+  setup(props) {
+    const toastStore = useToastStore();
+    const id = ref(0);
+
+    const onClick = () => {
+      toastStore.addToast({
+        id: `${id.value}`,
+        content: '테스트 중이에요! 🚀',
+        showTime: 2,
+      });
+
+      id.value += 1;
+    };
+
+    return {
+      args,
+      onClick,
+    };
+  },
   // And then the `args` are bound to your component with `v-bind="args"`
   template: `
-    <div style="">
-      <button>button!</butotn>
+    <div>
+      <button @click="onClick">button!</button>
       <Toasts v-bind="args" />
     </div>
   `,

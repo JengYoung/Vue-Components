@@ -20,7 +20,8 @@
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@stories/*": ["src/stories/*"]
+      "@stories/*": ["src/stories/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

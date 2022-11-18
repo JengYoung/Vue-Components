@@ -1,9 +1,9 @@
-import { createApp, h } from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import '@css/globalStyle.scss';
-import globalCSS from './utils/globalCSS';
+import { createPinia } from 'pinia';
 
-createApp(App).use(router).mount('#app');
-h('div', )
-console.log(globalCSS);
+const pinia = createPinia();
+
+createApp(App).use(pinia).use(router).mount('#app');

@@ -11,6 +11,7 @@ module.exports = defineConfig({
         '@hooks': path.resolve(__dirname, 'src/hooks/'),
         '@css': path.resolve(__dirname, 'src/css/'),
         '@stories': path.resolve(__dirname, 'src/stories/'),
+        '@utils': path.resolve(__dirname, 'src/utils/'),
       },
     },
     loader: {
