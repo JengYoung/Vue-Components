@@ -22,7 +22,7 @@ import {
 import { defaultProps } from './defaultProps';
 
 export default defineComponent({
-  name: 'defaultProps',
+  name: 'DefaultMenu',
   emits: ['update:modelValue'],
   props: {
     target: {
