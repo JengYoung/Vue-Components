@@ -15013,6 +15013,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pinia@npm:^2.0.24":
+  version: 2.0.24
+  resolution: "pinia@npm:2.0.24"
+  dependencies:
+    "@vue/devtools-api": ^6.4.5
+    vue-demi: "*"
+  peerDependencies:
+    "@vue/composition-api": ^1.4.0
+    typescript: ">=4.4.4"
+    vue: ^2.6.14 || ^3.2.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+    typescript:
+      optional: true
+  checksum: b47fbb4e6fdac1aa5e2669291c9b5444c7d1a8a7bdc833700210b2a134dc38e22fdc7c05e6b72d80ae1ab06dfbaa6b50e248d6033461b42206fc64b83a6565ac
+  languageName: node
+  linkType: hard
+
 "pinkie-promise@npm:^2.0.0":
   version: 2.0.1
   resolution: "pinkie-promise@npm:2.0.1"
@@ -19414,6 +19433,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vue-demi@npm:*":
+  version: 0.13.11
+  resolution: "vue-demi@npm:0.13.11"
+  peerDependencies:
+    "@vue/composition-api": ^1.0.0-rc.1
+    vue: ^3.0.0-0 || ^2.6.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  bin:
+    vue-demi-fix: bin/vue-demi-fix.js
+    vue-demi-switch: bin/vue-demi-switch.js
+  checksum: 0fbe9bf8ab7fe498ffa2bbd0cfc8f6f43a6bbaa5eda3e20ef1b70dca7c8b0ddb216a7ff2f632b694fe0735805638975abb441c621ec0bd2e6d4656353f316c15
+  languageName: node
+  linkType: hard
+
 "vue-design-system@workspace:.":
   version: 0.0.0-use.local
   resolution: "vue-design-system@workspace:."
@@ -19460,6 +19495,7 @@ __metadata:
     eslint-plugin-vue: ^9.7.0
     jest: ^27.0.5
     lint-staged: ^11.1.2
+    pinia: ^2.0.24
     postcss-html: ^1.5.0
     sass: ^1.32.7
     sass-loader: ^12.0.0
