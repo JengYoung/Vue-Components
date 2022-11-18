@@ -79,7 +79,10 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": "vue-cli-service lint"
+    "*.{js,jsx,vue,ts,tsx}": [
+      "vue-cli-service lint --fix",
+      "stylelint --fix"
+    ]
   },
   "packageManager": "yarn@1.22.1",
   "readme": "ERROR: No README data found!"
