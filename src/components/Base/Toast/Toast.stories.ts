@@ -1,6 +1,7 @@
 import { useToastStore } from '@/store/useToastStore';
 import type { Meta, StoryFn } from '@storybook/vue3';
 import { ref } from 'vue';
+import { defaultToastsProps } from './defaultProps';
 import Toasts from './Toasts.vue';
 
 // https://github.com/storybookjs/storybook/issues/17932
@@ -27,7 +28,7 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
     const onClick = () => {
       toastStore.addToast({
         id: `${id.value}`,
-        content: '테스트 중이에요! 🚀',
+        content: `버튼을 ${id.value}번 클릭하셨어요. 🎉`,
         showTime: 2,
       });
 
@@ -50,4 +51,4 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
 
 export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
-Default.args = {};
+Default.args = defaultToastsProps;

@@ -8,9 +8,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+
 import DefaultIcon from '@components/Base/Icon/Default.vue';
+
 import globalCSS from '@utils/globalCSS';
+
+import { defaultToastProps } from './defaultProps';
 
 export default defineComponent({
   name: 'DefaultToast',
@@ -22,16 +26,33 @@ export default defineComponent({
   props: {
     content: {
       type: String,
-      default: '',
+      default: defaultToastProps.content,
       required: true,
     },
     showTime: {
       type: Number,
-      default: 5,
+      default: defaultToastProps.showTime,
+    },
+    toastStyle: {
+      type: String,
+      default: defaultToastProps.toastStyle,
+    },
+    width: {
+      type: String,
+      default: '20rem',
+    },
+    height: {
+      type: String,
+      default: '3rem',
     },
   },
-  setup() {
+  setup(props) {
+    const position = computed(() =>
+      props.toastStyle === defaultToastProps.toastStyle ? 'absolute' : 'block'
+    );
+
     return {
+      position,
       globalCSS,
     };
   },
@@ -40,16 +61,26 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .toast {
-  min-width: 18.5rem;
-  max-width: 30rem;
-  min-height: 2.5rem;
+  position: v-bind('position');
+  right: 0;
+
+  width: v-bind('width');
+  height: v-bind('height');
+
+  margin-bottom: 1rem;
+
+  background-color: v-bind('globalCSS.color.white');
+
   border: 1px solid v-bind('globalCSS.color.sub');
   border-radius: v-bind('globalCSS.borderRadius.soft');
+
   box-shadow: 0.125rem 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.2);
   .toast__inner {
     display: flex;
     align-items: center;
     padding: 0.5rem;
+    transition: all 0.3s;
+
     .toast__content {
       margin-left: 0.5rem;
       font-size: v-bind('globalCSS.fontSize.sm');
