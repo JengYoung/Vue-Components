@@ -86,23 +86,23 @@ export default defineComponent({
 $common-border: v-bind('props.borderWidth') solid v-bind('props.borderColor');
 $activeIndex: v-bind('tabActiveIndex');
 .tabs {
-  cursor: pointer;
-
-  border-radius: v-bind('globalCSS.borderRadius.soft');
-  overflow: hidden;
-
-  display: flex;
 
   position: relative;
   z-index: 1;
 
+  display: flex;
+
   height: v-bind('props.tabHeight');
+  overflow: hidden;
+  cursor: pointer;
   border: $common-border;
+
+  border-radius: v-bind('globalCSS.borderRadius.soft');
 
   .tabs__tab {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     width: v-bind('props.tabWidth');
 
@@ -120,9 +120,9 @@ $activeIndex: v-bind('tabActiveIndex');
     height: v-bind('props.tabHeight');
 
     background-color: v-bind('props.activeBackgroundColor');
+    transition: all 0.3s;
 
     transform: translateX(calc(-100% + 100% * v-bind('activeItem.id')));
-    transition: all 0.3s;
   }
 }
 </style>

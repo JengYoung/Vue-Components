@@ -58,15 +58,15 @@ export default defineComponent({
 <style lang="scss" scoped>
 .icon {
   display: inline-block;
-  overflow: hidden;
 
   width: v-bind('size');
   height: v-bind('size');
-
-  stroke-width: v-bind('strokeWidth');
-  stroke: v-bind('strokeColor');
+  overflow: hidden;
 
   border-radius: v-bind('borderRadius');
+  stroke: v-bind('strokeColor');
+
+  stroke-width: v-bind('strokeWidth');
 
   .icon__image {
     width: 100%;
