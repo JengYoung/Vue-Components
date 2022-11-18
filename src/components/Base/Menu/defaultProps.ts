@@ -5,6 +5,7 @@ export const defaultProps = {
    * @inner belows are omitted props
    * - target: must use selector to react by click event(required)
    */
+  target: '.menu-button',
   modelValue: false,
 
   width: '6.25rem',

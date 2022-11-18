@@ -1,11 +1,5 @@
 <template>
-  <img
-    class="img"
-    ref="imageRef"
-    :src="loaded ? src : defaultSrc"
-    :alt="alt"
-    :style="imageCSS"
-  />
+  <img class="img" ref="imageRef" :src="loaded ? src : defaultSrc" :alt="alt" />
 </template>
 
 <script lang="ts">
@@ -52,7 +46,7 @@ export default defineComponent({
       height: `${
         typeof props.height === 'number' ? `${props.height}rem` : props.height
       }`,
-      'object-fit': props.objectFit,
+      objectFit: props.objectFit,
     };
 
     return {
@@ -66,6 +60,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .img {
+  display: v-bind('imageCSS.display');
+
+  width: v-bind('imageCSS.width');
+  height: v-bind('imageCSS.height');
+
+  object-fit: v-bind('imageCSS.objectFit');
   background-position: 50% 50%;
 }
 </style>
