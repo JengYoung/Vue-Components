@@ -50,6 +50,7 @@ export default defineComponent({
 
     return {
       borderRadius,
+      globalCSS,
     };
   },
 });
@@ -58,10 +59,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 .icon {
   display: inline-block;
+  flex-shrink: 0;
 
   width: v-bind('size');
   height: v-bind('size');
   overflow: hidden;
+  background-color: v-bind('globalCSS.color.sub');
 
   border-radius: v-bind('borderRadius');
   stroke: v-bind('strokeColor');

@@ -1,80 +1,89 @@
 export const getDelemeterCount = (value: string, delimeter: string) => {
-  let cnt = 0
+  let cnt = 0;
 
   for (let i = 0; i < value.length; i += 1) {
-    if (value[i] === delimeter) cnt += 1
+    if (value[i] === delimeter) cnt += 1;
   }
 
-  return cnt
-}
+  return cnt;
+};
 
-export const reassignDelemeter = (nowValue: string, blocks: number[], delimeter: string) => {
-  let result = ''
-  let blocksIndex = 0
+export const reassignDelemeter = (
+  nowValue: string,
+  blocks: number[],
+  delimeter: string
+) => {
+  let result = '';
+  let blocksIndex = 0;
 
   for (let i = 0; i < nowValue.length; i += 1) {
-    result += nowValue[i]
+    result += nowValue[i];
 
     if (i === blocks[blocksIndex] - 1 && i < nowValue.length - 1) {
-      result += delimeter
-      blocksIndex += 1
+      result += delimeter;
+      blocksIndex += 1;
     }
   }
 
-  return result
-}
+  return result;
+};
 
 export const getRefinedBlocks = (blocks: number[], prefix: string) => {
-  const arr: number[] = []
+  const arr: number[] = [];
   blocks.forEach((val, idx) => {
-    arr.push(val + (idx ? arr[idx - 1] : prefix.length))
-  })
+    arr.push(val + (idx ? arr[idx - 1] : prefix.length));
+  });
 
-  return arr
-}
+  return arr;
+};
 
 export const getOriginalValue = (
   value: string,
-  options: { number: boolean; maxValue: number; prefix: string; delimeter: string }
+  options: {
+    number: boolean;
+    maxValue: number;
+    prefix: string;
+    delimeter: string;
+  }
 ) => {
-  let regex = ''
+  let regex = '';
 
   if (options.prefix) {
     // prefix에 특수문자가 있다면 escape sequence를 따르도록 변환시켜준다.
-    let refinedRegex = ''
+    let refinedRegex = '';
 
     for (let i = 0; i < options.prefix.length; i += 1) {
-      const now = options.prefix[i]
+      const now = options.prefix[i];
       if (now.charCodeAt(0) < 49) {
-        refinedRegex += '${now}'
+        refinedRegex += '${now}';
       } else {
-        refinedRegex += now
+        refinedRegex += now;
       }
     }
 
-    regex += `^${refinedRegex}`
+    regex += `^${refinedRegex}`;
   }
 
   if (options.delimeter) {
     if (regex.length) {
-      regex += '|'
+      regex += '|';
     }
-    regex += `${options.delimeter}`
+    regex += `${options.delimeter}`;
   }
 
   if (options.number) {
     if (regex.length) {
-      regex += '|'
+      regex += '|';
     }
-    regex += '[^0-9]'
+    regex += '[^0-9]';
   }
 
-  const resultRegex = new RegExp(regex, 'g')
-  console.log(
-    'options.prefix',
-    options.prefix + value.replace(resultRegex, '').slice(0, options.maxValue)
-  )
-  return options.prefix + value.replace(resultRegex, '').slice(0, options.maxValue)
-}
+  const resultRegex = new RegExp(regex, 'g');
 
-export const isPrefixChanged = (value: string, prefix: string) => !value.startsWith(prefix)
+  return (
+    options.prefix + value.replace(resultRegex, '').slice(0, options.maxValue)
+  );
+};
+
+export const isPrefixChanged = (value: string, prefix: string) =>
+  !value.startsWith(prefix);

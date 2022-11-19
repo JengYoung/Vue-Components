@@ -104,20 +104,11 @@ export default defineComponent({
       }
 
       const calc = (client, position, menuSize) => {
-        console.log(position, client);
         return client < position + menuSize
           ? `${Math.max(0, position - menuSize)}px`
           : `${position}px`;
       };
 
-      console.log({
-        x: calc(viewPort.value.clientWidth, mousePosition.value.x, propsWidth),
-        y: calc(
-          viewPort.value.clientHeight,
-          mousePosition.value.y,
-          menuHeight.value
-        ),
-      });
       return {
         x: calc(viewPort.value.clientWidth, mousePosition.value.x, propsWidth),
         y: calc(
