@@ -50,6 +50,7 @@ export default defineComponent({
 
     return {
       borderRadius,
+      globalCSS,
     };
   },
 });
@@ -63,6 +64,7 @@ export default defineComponent({
   width: v-bind('size');
   height: v-bind('size');
   overflow: hidden;
+  background-color: v-bind('globalCSS.color.sub');
 
   border-radius: v-bind('borderRadius');
   stroke: v-bind('strokeColor');
