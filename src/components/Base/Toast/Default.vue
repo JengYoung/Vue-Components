@@ -27,7 +27,7 @@ import DefaultIcon from '@components/Base/Icon/Default.vue';
 
 import globalCSS from '@utils/globalCSS';
 
-import { defaultToastProps } from './defaultProps';
+import { defaultToastProps, defaultToastsProps } from './defaultProps';
 import { useToastStore } from '@/store/useToastStore';
 import { ToastInterface } from './types';
 
@@ -42,7 +42,7 @@ export default defineComponent({
     toastType: {
       type: String as PropType<'info' | 'error' | 'warning' | 'success'>,
       required: true,
-      default: 'info',
+      default: defaultToastProps.type,
     },
     order: {
       type: Number,
@@ -63,19 +63,18 @@ export default defineComponent({
     },
     width: {
       type: String,
-      default: '20rem',
+      default: defaultToastsProps.width,
     },
     height: {
       type: String,
-      default: '3rem',
+      default: defaultToastsProps.height,
     },
     reversed: {
       type: Boolean,
-      default: false,
     },
     isTransition: {
       type: Boolean,
-      default: false,
+      default: defaultToastsProps.isTransition,
     },
     item: {
       type: Object as PropType<ToastInterface>,

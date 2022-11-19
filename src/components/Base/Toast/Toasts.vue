@@ -55,10 +55,6 @@ export default defineComponent({
       type: Boolean,
       default: defaultToastsProps.isTransition,
     },
-    transitionDuration: {
-      type: Number,
-      default: defaultToastsProps.transitionDuration,
-    },
     toastStyle: {
       type: String as PropType<'float' | 'block'>,
       required: true,
@@ -66,11 +62,11 @@ export default defineComponent({
     },
     width: {
       type: String,
-      default: '20rem',
+      default: defaultToastsProps.width,
     },
     height: {
       type: String,
-      default: '3rem',
+      default: defaultToastsProps.height,
     },
   },
   setup(props) {

@@ -4,8 +4,9 @@ export const defaultToastsProps = {
   direction: 'top right',
   gap: '2rem',
   isTransition: true,
-  transitionDuration: 0.3,
   toastStyle: 'float',
+  width: '20rem',
+  height: '3rem',
 } as const;
 
 interface ToastPropsType {

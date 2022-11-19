@@ -7,7 +7,7 @@ import Toasts from './Toasts.vue';
 // https://github.com/storybookjs/storybook/issues/17932
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-  title: 'Toasts/Error',
+  title: 'Toast/types',
   component: { Toasts },
   // More on actions: https://storybook.js.org/docs/react/essentials/actions
   parameters: { actions: { argTypesRegex: '^on.*' } },
@@ -17,6 +17,39 @@ export default {
     toastStyle: {
       options: ['float', 'block'],
       control: { type: 'radio' },
+      description:
+        '토스트 스타일을 설정할 수 있어요. `float`은 중첩해서 쌓을 수 있고, `block`은 블록처럼 쌓을 수 있습니다.',
+    },
+    gap: {
+      description:
+        '토스트가 나왔을 때, 나오는 방향으로부터 얼마나 너비를 줄 것인지를 설정할 수 있어요.',
+    },
+    direction: {
+      options: [
+        'top left',
+        'top',
+        'top right',
+        'left',
+        'right',
+        'bottom left',
+        'bottom',
+        'bottom right',
+      ],
+      control: { type: 'radio' },
+      description:
+        '토스트가 어디서 나올 것인지, 8방향으로 방향 설정이 가능해요.',
+    },
+    isTransition: {
+      control: { type: 'boolean' },
+      description: '트랜지션에 대한 여부를 설정 가능해요.',
+    },
+    width: {
+      control: { type: 'text' },
+      description: '토스트 너비를 설정할 수 있어요.',
+    },
+    height: {
+      control: { type: 'text' },
+      description: '토스트 높이를 설정할 수 있어요.',
     },
   },
 } as Meta<typeof Toasts>;
@@ -32,7 +65,7 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
 
     const onClick = () => {
       toastStore.addToast({
-        type: 'error',
+        type: args.type,
         id: `${id.value}`,
         content: `
           버튼을 ${id.value}번 클릭하셨어요.
@@ -58,6 +91,30 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
   `,
 });
 
-export const Default = Template.bind({});
+export const Warning = Template.bind({});
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
-Default.args = defaultToastsProps;
+Warning.args = {
+  type: 'warning',
+  ...defaultToastsProps,
+};
+
+export const Error = Template.bind({});
+// More on args: https://storybook.js.org/docs/vue/writing-stories/args
+Error.args = {
+  type: 'error',
+  ...defaultToastsProps,
+};
+
+export const Info = Template.bind({});
+// More on args: https://storybook.js.org/docs/vue/writing-stories/args
+Info.args = {
+  type: 'info',
+  ...defaultToastsProps,
+};
+
+export const Success = Template.bind({});
+// More on args: https://storybook.js.org/docs/vue/writing-stories/args
+Success.args = {
+  type: 'success',
+  ...defaultToastsProps,
+};
