@@ -13,7 +13,12 @@ export default {
   parameters: { actions: { argTypesRegex: '^on.*' } },
 
   // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
-  argTypes: {},
+  argTypes: {
+    toastStyle: {
+      options: ['float', 'block'],
+      control: { type: 'radio' },
+    },
+  },
 } as Meta<typeof Toasts>;
 
 // More on component templates: https://storybook.js.org/docs/vue/writing-stories/introduction#using-args
@@ -29,7 +34,7 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
       toastStore.addToast({
         id: `${id.value}`,
         content: `버튼을 ${id.value}번 클릭하셨어요. 🎉`,
-        showTime: 2,
+        showTime: 5,
       });
 
       id.value += 1;
