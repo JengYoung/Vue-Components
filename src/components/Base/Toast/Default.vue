@@ -53,6 +53,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    isTransition: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const visible = ref(false);
@@ -61,9 +65,12 @@ export default defineComponent({
     const toastClass = ref<string[]>([]);
 
     onMounted(() => {
-      if (props.toastStyle === 'float') {
-        toastClass.value = [...toastClass.value, 'toast--float'];
-      }
+      toastClass.value = [
+        ...toastClass.value,
+        ...(props.toastStyle === 'float' ? ['toast--float'] : []),
+        ...(!props.isTransition ? ['toast-no-transition'] : []),
+      ];
+
       visible.value = true;
       if (props.toastStyle === 'float') {
         new Promise(() =>
@@ -118,7 +125,10 @@ $translate-block-visible: translateY(
   border-radius: v-bind('globalCSS.borderRadius.soft');
 
   box-shadow: 0.125rem 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.2);
-  transition: all 0.3s;
+
+  &:not(.toast--no-transition) {
+    transition: all 0.3s;
+  }
 
   &:not(.toast--float) {
     transform: $translate-block-visible;
@@ -127,7 +137,6 @@ $translate-block-visible: translateY(
     display: flex;
     align-items: center;
     padding: 0.5rem;
-    transition: all 0.5s;
 
     .toast__content {
       margin-left: 0.5rem;

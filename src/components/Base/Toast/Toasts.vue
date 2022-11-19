@@ -1,9 +1,10 @@
 <template>
   <Teleport to="body">
-    <ul id="toasts">
+    <ul id="toasts" :class="!isTransition ? 'toasts--no-transition' : ''">
       <template v-for="(item, idx) in items" :key="item.id">
-        <Transition name="toast">
+        <Transition v-if="isTransition" name="toast">
           <DefaultToast
+            :isTransition="isTransition"
             :order="idx"
             :width="width"
             :height="height"
@@ -12,6 +13,16 @@
             :reversed="direction.includes('bottom')"
           ></DefaultToast>
         </Transition>
+        <DefaultToast
+          v-else
+          :isTransition="isTransition"
+          :order="idx"
+          :width="width"
+          :height="height"
+          :content="item.content"
+          :toastStyle="toastStyle"
+          :reversed="direction.includes('bottom')"
+        ></DefaultToast>
       </template>
     </ul>
   </Teleport>
@@ -119,7 +130,10 @@ export default defineComponent({
   width: v-bind('width');
   height: v-bind('height');
 
-  transition: all 1s;
+  &:not(&.toasts--no-transition) {
+    transition: all 1s;
+  }
+
   transform: v-bind('directions.transform');
 }
 </style>
