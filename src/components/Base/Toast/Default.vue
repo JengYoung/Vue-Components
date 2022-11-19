@@ -2,22 +2,34 @@
   <div v-show="visible" class="toast" :class="toastClass">
     <div class="toast__inner">
       <DefaultIcon
+        size="32px"
+        :alt="toastType"
         class="toast__icon"
         :src="require(`@/assets/${toastType}-icon.png`)"
-      ></DefaultIcon>
+      />
       <div class="toast__content">{{ content }}</div>
+      <button class="toast__remove-btn" @click="onRemove">x</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, ref, PropType } from 'vue';
+import {
+  defineComponent,
+  computed,
+  onMounted,
+  ref,
+  PropType,
+  onUnmounted,
+} from 'vue';
 
 import DefaultIcon from '@components/Base/Icon/Default.vue';
 
 import globalCSS from '@utils/globalCSS';
 
 import { defaultToastProps } from './defaultProps';
+import { useToastStore } from '@/store/useToastStore';
+import { ToastInterface } from './types';
 
 export default defineComponent({
   name: 'DefaultToast',
@@ -65,12 +77,20 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    item: {
+      type: Object as PropType<ToastInterface>,
+      required: true,
+    },
   },
   setup(props) {
+    const toastStore = useToastStore();
+
     const visible = ref(false);
     const zIndex = computed(() => 10000 + props.order);
 
     const toastClass = ref<string[]>([]);
+
+    const timerId = ref<number | null | NodeJS.Timeout>(null);
 
     onMounted(() => {
       toastClass.value = [
@@ -81,11 +101,19 @@ export default defineComponent({
 
       visible.value = true;
       if (props.toastStyle === 'float') {
-        new Promise(() =>
-          setTimeout(() => {
-            visible.value = false;
-          }, props.showTime * 1000 - 1000)
+        new Promise(
+          () =>
+            (timerId.value = setTimeout(() => {
+              visible.value = false;
+            }, props.showTime * 1000 - 1000))
         );
+      }
+    });
+
+    onUnmounted(() => {
+      if (timerId.value) {
+        clearTimeout(timerId.value);
+        timerId.value = null;
       }
     });
 
@@ -97,6 +125,10 @@ export default defineComponent({
       return props.reversed ? props.order * toastDirection.value : props.order;
     });
 
+    const onRemove = () => {
+      toastStore.removeToast(props.item);
+    };
+
     return {
       visible,
       zIndex,
@@ -104,6 +136,7 @@ export default defineComponent({
       toastClass,
       toastDirection,
       toastPositionY,
+      onRemove,
     };
   },
 });
@@ -167,6 +200,28 @@ $translate-block-visible: translateY(
       word-break: keep-all;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+    }
+
+    .toast__remove-btn {
+      align-self: flex-start;
+      background: transparent;
+      border: 0;
+      border-radius: v-bind('globalCSS.borderRadius.round');
+      outline: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        margin: 0;
+        color: white;
+        cursor: pointer;
+        background-color: v-bind('globalCSS.color.close');
+        transition: all 0.3s;
+      }
+      &:active,
+      &:focus {
+        outline: 0.25px solid v-bind('globalCSS.color.close');
+      }
     }
   }
 

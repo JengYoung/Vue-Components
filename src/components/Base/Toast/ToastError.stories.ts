@@ -7,18 +7,13 @@ import Toasts from './Toasts.vue';
 // https://github.com/storybookjs/storybook/issues/17932
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-  title: 'Toasts/Default',
+  title: 'Toasts/Error',
   component: { Toasts },
   // More on actions: https://storybook.js.org/docs/react/essentials/actions
   parameters: { actions: { argTypesRegex: '^on.*' } },
 
   // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
   argTypes: {
-    type: {
-      options: ['info', 'success', 'error', 'warning'],
-      control: { type: 'radio' },
-      defaultValue: 'info',
-    },
     toastStyle: {
       options: ['float', 'block'],
       control: { type: 'radio' },
@@ -37,7 +32,7 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
 
     const onClick = () => {
       toastStore.addToast({
-        type: args.type,
+        type: 'error',
         id: `${id.value}`,
         content: `
           버튼을 ${id.value}번 클릭하셨어요.

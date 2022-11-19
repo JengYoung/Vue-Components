@@ -44,6 +44,7 @@ $c-primary-900: #1b0076;
 $c-sub: #ddd;
 $c-textsub: #333;
 
+$c-close: #fe6666;
 $c-error: #b50000;
 $c-success: #2ecc71;
 $c-warning: #ffb900;
@@ -77,6 +78,7 @@ $desktop-lg-max: 3000px;
     warning: $c-warning;
     success: $c-success;
     info: $c-primary-500;
+    close: $c-close;
 
     dark: $c-dark;
     white: $c-white;

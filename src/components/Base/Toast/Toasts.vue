@@ -12,6 +12,7 @@
             :content="item.content"
             :toastStyle="toastStyle"
             :reversed="direction.includes('bottom')"
+            :item="item"
           ></DefaultToast>
         </Transition>
         <DefaultToast
@@ -20,9 +21,11 @@
           :order="idx"
           :width="width"
           :height="height"
+          :toastType="item.type"
           :content="item.content"
           :toastStyle="toastStyle"
           :reversed="direction.includes('bottom')"
+          :item="item"
         ></DefaultToast>
       </template>
     </ul>
