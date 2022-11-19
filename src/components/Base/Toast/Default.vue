@@ -3,7 +3,7 @@
     <div class="toast__inner">
       <DefaultIcon
         class="toast__icon"
-        src="http://placeimg.com/640/480/animals"
+        :src="require(`@/assets/${toastType}-icon.png`)"
       ></DefaultIcon>
       <div class="toast__content">{{ content }}</div>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, ref } from 'vue';
+import { defineComponent, computed, onMounted, ref, PropType } from 'vue';
 
 import DefaultIcon from '@components/Base/Icon/Default.vue';
 
@@ -27,6 +27,11 @@ export default defineComponent({
    * 시간 단위는 second로 한다.
    */
   props: {
+    toastType: {
+      type: String as PropType<'info' | 'error' | 'warning' | 'success'>,
+      required: true,
+      default: 'info',
+    },
     order: {
       type: Number,
       required: true,
@@ -124,10 +129,11 @@ $translate-block-visible: translateY(
 
   background-color: v-bind('globalCSS.color.white');
 
-  border: 1px solid v-bind('globalCSS.color.sub');
+  border: 1px solid v-bind('globalCSS.color[toastStyle]');
   border-radius: v-bind('globalCSS.borderRadius.soft');
 
-  box-shadow: 0.125rem 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0.125rem 0.125rem 0.125rem 0.125rem
+    v-bind('globalCSS.color[toastType]');
 
   &:not(.toast--no-transition) {
     transition: all 0.3s;
@@ -147,12 +153,18 @@ $translate-block-visible: translateY(
     }
     .toast__content {
       display: -webkit-box;
+
       width: 100%;
       height: 2rem;
+
       margin-left: 0.5rem;
       overflow: hidden;
-
       font-size: v-bind('globalCSS.fontSize.sm');
+      line-height: 1.25;
+
+      color: v-bind('globalCSS.color.textsub');
+
+      word-break: keep-all;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }

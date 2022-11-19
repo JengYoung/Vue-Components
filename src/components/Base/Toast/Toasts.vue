@@ -8,6 +8,7 @@
             :order="idx"
             :width="width"
             :height="height"
+            :toastType="item.type"
             :content="item.content"
             :toastStyle="toastStyle"
             :reversed="direction.includes('bottom')"

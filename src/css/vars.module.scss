@@ -42,9 +42,10 @@ $c-primary-900: #1b0076;
 
 // color
 $c-sub: #ddd;
+$c-textsub: #333;
 
-$c-danger: #b50000;
-$c-success: #00ba1c;
+$c-error: #b50000;
+$c-success: #2ecc71;
 $c-warning: #ffb900;
 $c-dark: #111111;
 $c-white: #ffffff;
@@ -71,9 +72,12 @@ $desktop-lg-max: 3000px;
     primary900: $c-primary-900;
 
     sub: $c-sub;
-    danger: $c-danger;
+    textsub: $c-textsub;
+    error: $c-error;
     warning: $c-warning;
     success: $c-success;
+    info: $c-primary-500;
+
     dark: $c-dark;
     white: $c-white;
   }

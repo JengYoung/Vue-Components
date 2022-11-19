@@ -14,6 +14,11 @@ export default {
 
   // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
   argTypes: {
+    type: {
+      options: ['info', 'success', 'error', 'warning'],
+      control: { type: 'radio' },
+      defaultValue: 'info',
+    },
     toastStyle: {
       options: ['float', 'block'],
       control: { type: 'radio' },
@@ -32,6 +37,7 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
 
     const onClick = () => {
       toastStore.addToast({
+        type: args.type,
         id: `${id.value}`,
         content: `
           버튼을 ${id.value}번 클릭하셨어요.
