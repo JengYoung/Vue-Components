@@ -58,6 +58,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .icon {
   display: inline-block;
+  flex-shrink: 0;
 
   width: v-bind('size');
   height: v-bind('size');

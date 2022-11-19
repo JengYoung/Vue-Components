@@ -33,7 +33,10 @@ const Template: StoryFn<typeof Toasts> = (args) => ({
     const onClick = () => {
       toastStore.addToast({
         id: `${id.value}`,
-        content: `버튼을 ${id.value}번 클릭하셨어요. 🎉`,
+        content: `
+          버튼을 ${id.value}번 클릭하셨어요.
+          그런데 말이죠. 만약에 이렇게 에러 메시지가 길어버리면 어떻게 하죠...?🎉
+        `,
         showTime: 5,
       });
 

@@ -1,7 +1,10 @@
 <template>
   <div v-show="visible" class="toast" :class="toastClass">
     <div class="toast__inner">
-      <DefaultIcon src="http://placeimg.com/640/480/animals"></DefaultIcon>
+      <DefaultIcon
+        class="toast__icon"
+        src="http://placeimg.com/640/480/animals"
+      ></DefaultIcon>
       <div class="toast__content">{{ content }}</div>
     </div>
   </div>
@@ -136,11 +139,22 @@ $translate-block-visible: translateY(
   .toast__inner {
     display: flex;
     align-items: center;
+    height: 2rem;
     padding: 0.5rem;
 
+    .toast__icon {
+      align-self: flex-start;
+    }
     .toast__content {
+      display: -webkit-box;
+      width: 100%;
+      height: 2rem;
       margin-left: 0.5rem;
+      overflow: hidden;
+
       font-size: v-bind('globalCSS.fontSize.sm');
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
   }
 
