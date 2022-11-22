@@ -8,9 +8,9 @@ import FormattingInput from './FormattingInput.vue';
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
   title: `FormattingInput/PhoneNumber`,
-  component: { FormattingInput },
+  component: FormattingInput,
   // More on actions: https://storybook.js.org/docs/react/essentials/actions
-  parameters: { actions: { argTypesRegex: '^on.*' } },
+  // parameters: { actions: { argTypesRegex: '^update.*' } },
 
   // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
   argTypes: {
@@ -31,7 +31,7 @@ export default {
     blocks: {
       controls: { type: 'text' },
       description:
-        '나와야 할 개수를 블록 단위로 쪼개서 주입해요. <br/> 예컨대 3-3-4글자로 나눠야 한다면 `[3,3,4]`에요.',
+        '나와야 할 개수를 블록 단위로 쪼개서 주입해요. <br/> 예컨대 3-3-4글자로 나눠야 한다면 `[3,3,4]`에요. 만약 사용하고 싶지 않다면, `[Infinity]`로 입력해주세요.',
     },
     number: {
       controls: { type: 'boolean' },
@@ -73,6 +73,13 @@ export default {
     outlineColor: {
       controls: { type: 'text' },
       description: 'Focus되었을 때 outline의 색상 설정이 가능해요.',
+    },
+    'update:model-value': {
+      action: true,
+      description: '구분자를 포함한 값을 가져와요.',
+    },
+    'update:row-value': {
+      description: '순수 입력한 값만 가져와요.',
     },
   },
 } as Meta<typeof FormattingInput>;
@@ -120,4 +127,6 @@ export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Default.args = {
   ...defaultFormattingInputProps,
+  delimeter: '-',
+  blocks: [3, 4, 4],
 };

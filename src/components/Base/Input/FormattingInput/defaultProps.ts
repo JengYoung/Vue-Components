@@ -2,7 +2,7 @@ import globalCSS from '@/utils/globalCSS';
 
 export const defaultFormattingInputProps = {
   modelValue: '',
-  blocks: [3, 4, 4],
+  blocks: [Infinity],
   delimeter: '',
   prefix: '',
   number: false,

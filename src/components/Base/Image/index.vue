@@ -35,7 +35,7 @@ export default defineComponent({
     const { loaded, $ref: imageRef } = useIntsersectionObserver({
       type: 'image',
       lazy: props.lazy,
-      threshold: 1,
+      threshold: 0,
     });
 
     const imageCSS = {

@@ -6,7 +6,7 @@ import { defaultSliderProps } from './defaultProps';
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-  title: 'Example/Slider',
+  title: 'Slider/Default',
   component: Slider,
   // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
   // parameters: { actions: { argTypesRegex: '^on.*' } },
