@@ -14,7 +14,7 @@
 <script lang="ts">
 /** NOTE
  * @todo
- * 추후 정규표현식으로 업데이트할 계획이 있다.
+ * 추후 정규표현식으로 더 깔끔하게 업데이트할 계획이 있다.
  * 따라서 일단 복잡한 로직들을 다음과 같이 글로 남겼으니, 추후 리팩토링 시 활용한다.
  *
  * 1. selectionStart를 구한다.
@@ -84,6 +84,39 @@ export default defineComponent({
     autoFocus: {
       type: Boolean,
       default: defaultFormattingInputProps.autoFocus,
+    },
+
+    width: {
+      type: String,
+      default: defaultFormattingInputProps.width,
+    },
+    height: {
+      type: String,
+      default: defaultFormattingInputProps.height,
+    },
+    padding: {
+      type: String,
+      default: defaultFormattingInputProps.padding,
+    },
+    fontSize: {
+      type: String,
+      default: defaultFormattingInputProps.fontSize,
+    },
+    color: {
+      type: String,
+      default: defaultFormattingInputProps.color,
+    },
+    border: {
+      type: String,
+      default: defaultFormattingInputProps.border,
+    },
+    borderRadius: {
+      type: String,
+      default: defaultFormattingInputProps.borderRadius,
+    },
+    outlineColor: {
+      type: String,
+      default: defaultFormattingInputProps.outlineColor,
     },
   },
   setup(props, { emit }) {
@@ -241,16 +274,21 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .formatting-input {
-  width: 10rem;
-  height: 2.5rem;
-  padding: 0 0.5rem;
-  font-size: v-bind('globalCSS.fontSize.l');
-  color: v-bind('globalCSS.color.textsub');
-  border: 1px solid v-bind('globalCSS.color.sub');
-  border-radius: v-bind('globalCSS.borderRadius.soft');
+  width: v-bind('width');
+  height: v-bind('height');
+
+  padding: v-bind('padding');
+
+  font-size: v-bind('fontSize');
+  color: v-bind('color');
+
+  border: 1px solid v-bind('border');
+  border-radius: v-bind('borderRadius');
+
   transition: all 0.3s;
+
   &:focus {
-    outline-color: v-bind('globalCSS.color.default');
+    outline-color: v-bind('outlineColor');
   }
 }
 </style>

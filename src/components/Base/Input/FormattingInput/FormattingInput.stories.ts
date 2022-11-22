@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/vue3';
 import { computed, ref } from 'vue';
+import { defaultFormattingInputProps } from './defaultProps';
 import FormattingInput from './FormattingInput.vue';
 
 // https://github.com/storybookjs/storybook/issues/17932
@@ -41,6 +42,38 @@ export default {
       controls: { type: 'boolean' },
       description: '오토포커스 기능을 지원해요.',
     },
+    width: {
+      controls: { type: 'text' },
+      description: '너비값을 설정할 수 있어요.',
+    },
+    height: {
+      controls: { type: 'text' },
+      description: '높이값을 설정할 수 있어요.',
+    },
+    padding: {
+      controls: { type: 'text' },
+      description: 'Input 내부의 패딩을 설정할 수 있어요.',
+    },
+    fontSize: {
+      controls: { type: 'text' },
+      description: 'Input 내부의 폰트 크기를 설정할 수 있어요.',
+    },
+    color: {
+      controls: { type: 'color' },
+      description: '폰트 색상을 지정해줄 수 있어요.',
+    },
+    border: {
+      controls: { type: 'text' },
+      description: '보더의 속성을 지정해줄 수 있어요. 예시) `1px solid black`',
+    },
+    borderRadius: {
+      controls: { type: 'text' },
+      description: 'Input의 외곽을 설정해줄 수 있어요.',
+    },
+    outlineColor: {
+      controls: { type: 'text' },
+      description: 'Focus되었을 때 outline의 색상 설정이 가능해요.',
+    },
   },
 } as Meta<typeof FormattingInput>;
 
@@ -72,7 +105,7 @@ const Template: StoryFn<typeof FormattingInput> = (args) => ({
   },
   // And then the `args` are bound to your component with `v-bind="args"`
   template: `
-    <div style="margin-bottom: 1rem;">FormattingInput은 <strong>quasar/Input</strong>과 달리 masking을 <strong>동적으로</strong> 지원합니다.</div>
+    <div style="margin-bottom: 1rem;"><code>FormattingInput</code>은 <strong>quasar/Input</strong>과 달리 끊김없이 masking을 <strong>동적으로</strong> 지원해요 🙆🏻</div>
 
     <FormattingInput
       @update:model-value="getModelValue"
@@ -86,10 +119,5 @@ const Template: StoryFn<typeof FormattingInput> = (args) => ({
 export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Default.args = {
-  modelValue: '',
-  blocks: [3, 4, 4],
-  delimeter: '-',
-  prefix: '',
-  number: false,
-  autoFocus: false,
+  ...defaultFormattingInputProps,
 };
