@@ -1,14 +1,11 @@
 <template>
-  {{ percentage }}
-  {{ `${dragging}` }}
-  {{ value }}
   <div class="slider" ref="sliderRef">
     <div class="slider__inner" />
     <div class="slider__track" :style="{ width: `${value}%` }" />
     <div
       class="slider__handle"
-      @mousedown="handleMouseDown"
-      @touchstart="handleMouseDown"
+      @mousedown="onDragStart"
+      @touchstart="onDragStart"
       :style="{ left: `calc(${value}% - 6px)` }"
     />
   </div>
@@ -43,72 +40,73 @@ export default defineComponent({
       () => (value.value - props.min) / (props.max - props.min)
     );
 
-    const handleMouseUp = () => {
+    const onDragEnd = () => {
       dragging.value = false;
     };
 
-    const handleMouseDown = () => {
+    const onDragStart = () => {
       dragging.value = true;
     };
 
-    const handleMouseMove = (e: MouseEvent | TouchEvent) => {
+    const getTrackValue = (track: number, min: number, max: number): number => {
+      if (track < 0) return min;
+      if (track > 1) return max;
+
+      return (
+        Math.round((props.min + (props.max - props.min) * track) / props.step) *
+        props.step
+      );
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
       if (sliderRef.value === null) return;
       if (!dragging.value) return;
 
-      let handleOffset: number | undefined;
+      const handleOffset = e.pageX - sliderRef.value.offsetLeft;
+      const sliderWidth = sliderRef.value.offsetWidth;
 
-      if ((e as MouseEvent).pageX) {
-        handleOffset =
-          (e as MouseEvent).pageX -
-          (sliderRef.value as HTMLDivElement).offsetLeft;
-      } else {
-        for (let i = 0; i < (e as TouchEvent).changedTouches.length; i += 1) {
-          handleOffset =
-            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-            ((e as TouchEvent).changedTouches[i].pageX as number) -
-            (sliderRef.value as HTMLDivElement).offsetLeft;
-        }
-      }
+      value.value = getTrackValue(
+        handleOffset / sliderWidth,
+        props.min,
+        props.max
+      );
+    };
 
-      const sliderWidth = (sliderRef.value as HTMLDivElement).offsetWidth;
+    const onTouchStart = (e: TouchEvent) => {
+      if (sliderRef.value === null) return;
+      if (!dragging.value) return;
 
-      if (handleOffset === undefined) return;
-      const track = (handleOffset as number) / sliderWidth;
+      const handleOffset =
+        e.changedTouches[e.changedTouches.length - 1].pageX -
+        sliderRef.value.offsetLeft;
+      const sliderWidth = sliderRef.value.offsetWidth;
 
-      let newValue;
-
-      if (track < 0) {
-        newValue = props.min;
-      } else if (track > 1) {
-        newValue = props.max;
-      } else {
-        newValue =
-          Math.round(
-            (props.min + (props.max - props.min) * track) / props.step
-          ) * props.step;
-      }
-
-      value.value = newValue;
+      value.value = getTrackValue(
+        handleOffset / sliderWidth,
+        props.min,
+        props.max
+      );
     };
 
     watch(
       () => [dragging.value],
       () => {
         if (dragging.value === true) {
-          document.addEventListener('mousemove', handleMouseMove);
-          document.addEventListener('mouseup', handleMouseUp);
-          document.addEventListener('touchend', handleMouseUp);
-          document.addEventListener('touchmove', handleMouseMove);
+          document.addEventListener('mousemove', onMouseMove);
+          document.addEventListener('touchmove', onTouchStart);
+          document.addEventListener('mouseup', onDragEnd);
+          document.addEventListener('touchend', onDragEnd);
         } else {
-          document.removeEventListener('mousemove', handleMouseMove);
-          document.removeEventListener('mouseup', handleMouseUp);
-          document.removeEventListener('touchend', handleMouseUp);
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('touchmove', onTouchStart);
+          document.removeEventListener('mouseup', onDragEnd);
+          document.removeEventListener('touchend', onDragEnd);
         }
       },
       { deep: true }
     );
 
-    return { dragging, value, sliderRef, percentage, handleMouseDown };
+    return { dragging, value, sliderRef, percentage, onDragStart, onMouseMove };
   },
 });
 </script>
