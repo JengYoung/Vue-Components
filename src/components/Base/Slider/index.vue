@@ -15,77 +15,81 @@
 <script lang="ts">
 import globalCSS from '@/utils/globalCSS';
 import { ref, computed, watch, defineComponent } from 'vue';
+import { defaultSliderProps } from './defaultProps';
 
 export default defineComponent({
   emits: ['update:slider-value'],
   name: 'DefaultSlider',
   props: {
-    max: {
-      type: Number,
-      required: true,
-    },
     min: {
       type: Number,
       required: true,
+      default: defaultSliderProps.min,
+    },
+    max: {
+      type: Number,
+      required: true,
+      default: defaultSliderProps.max,
     },
     step: {
       type: Number,
       required: true,
+      default: defaultSliderProps.step,
     },
     value: {
       type: Number,
-      default: 0,
+      default: Math.max(defaultSliderProps.value),
     },
     width: {
       type: String,
-      default: '100%',
+      default: defaultSliderProps.width,
     },
     height: {
       type: String,
-      default: '1rem',
+      default: defaultSliderProps.height,
     },
     railColor: {
       type: String,
-      default: globalCSS.color.sub,
+      default: defaultSliderProps.railColor,
     },
     trackColor: {
       type: String,
-      default: globalCSS.color.default,
+      default: defaultSliderProps.trackColor,
     },
     handleSize: {
       type: String,
-      default: '16px',
+      default: defaultSliderProps.handleSize,
     },
     handleColor: {
       type: String,
-      default: globalCSS.color.white,
+      default: defaultSliderProps.handleColor,
     },
     handleActiveColor: {
       type: String,
-      default: globalCSS.color.default,
+      default: defaultSliderProps.handleActiveColor,
     },
     padding: {
       type: String,
-      default: '0',
+      default: defaultSliderProps.padding,
     },
     backgroundColor: {
       type: String,
-      default: 'transparent',
+      default: defaultSliderProps.backgroundColor,
     },
     border: {
       type: String,
-      default: 'none',
+      default: defaultSliderProps.border,
     },
     borderRadius: {
       type: String,
-      default: '0px',
+      default: defaultSliderProps.borderRadius,
     },
   },
   setup(props, { emit }) {
     const sliderRef = ref<HTMLDivElement | null>(null);
     const dragging = ref<boolean>(false);
 
-    const value = ref<number>(props.value || 0);
+    const value = ref<number>(Math.max(props.value, props.min));
     const percentage = computed(
       () => (value.value - props.min) / (props.max - props.min)
     );
@@ -210,7 +214,7 @@ export default defineComponent({
 
   &__track {
     align-self: center;
-    width: calc(v-bind('sliderValue') * 1%);
+    width: calc(v-bind('percentage') * 100%);
     background-color: v-bind('trackColor');
 
     @extend %slider-rails;
@@ -218,7 +222,7 @@ export default defineComponent({
 
   &__handle {
     position: absolute;
-    left: calc(v-bind('sliderValue') * 1% - v-bind('handleSize') / 2);
+    left: calc(v-bind('percentage') * 100% - v-bind('handleSize') / 2);
     z-index: 99;
 
     box-sizing: border-box;
