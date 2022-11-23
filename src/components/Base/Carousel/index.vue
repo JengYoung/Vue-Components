@@ -89,6 +89,14 @@ export default defineComponent({
       type: Number,
       default: defaultCarouselProps.duration,
     },
+    borderRadius: {
+      type: String,
+      default: defaultCarouselProps.borderRadius,
+    },
+    bgColor: {
+      type: String,
+      default: defaultCarouselProps.bgColor,
+    },
   },
   setup(props) {
     const refinedCards = computed(() => {
@@ -228,8 +236,9 @@ $animation: var(--animation);
     position: relative;
     width: v-bind('width');
     overflow: hidden;
+    background-color: v-bind('bgColor');
     border: 1px solid lightgray;
-    border-radius: 20px;
+    border-radius: v-bind('borderRadius');
   }
 
   &__cards {

@@ -37,6 +37,21 @@ export default {
         defaultValue: { summary: defaultCarouselProps.height },
       },
     },
+    borderRadius: {
+      control: { type: 'text' },
+      description: '캐러셀의 외곽을 설정할 수 있어요.',
+      table: {
+        defaultValue: { summary: defaultCarouselProps.borderRadius },
+      },
+    },
+    bgColor: {
+      control: { type: 'color' },
+      description:
+        '이미지가 안보일 동안 보여질 기본 색상을 설정할 수 있어요. 기본은 `#111`입니다.',
+      table: {
+        defaultValue: { summary: defaultCarouselProps.bgColor },
+      },
+    },
 
     duration: {
       control: { type: 'range', min: 0.2, max: 2, step: 0.1 },
