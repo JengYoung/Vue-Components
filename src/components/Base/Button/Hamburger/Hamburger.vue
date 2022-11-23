@@ -1,7 +1,10 @@
 <template>
   <div
     class="hamburger"
-    :class="isActive ? 'hamburger--active' : ''"
+    :class="{
+      'hamburger--active': !isActive,
+      'hamburger--fixed': fixed,
+    }"
     @click="onClick"
   >
     <HamburgerLine
@@ -39,6 +42,10 @@ export default defineComponent({
       type: String,
       default: defaultHamburgerProps.height,
     },
+    margin: {
+      type: String,
+      default: defaultHamburgerProps.margin,
+    },
     lineHeight: {
       type: String,
       default: defaultHamburgerProps.lineHeight,
@@ -47,6 +54,10 @@ export default defineComponent({
       type: String,
       default: defaultHamburgerProps.strokeColor,
     },
+    fixed: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   setup(props, { emit }) {
@@ -54,6 +65,7 @@ export default defineComponent({
 
     const onClick = () => {
       isActive.value = !isActive.value;
+      console.log(isActive.value);
       emit('update:hamburger', isActive.value);
     };
 
@@ -68,12 +80,17 @@ export default defineComponent({
 <style lang="scss" scoped>
 .hamburger {
   position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   width: v-bind('width');
   height: v-bind('height');
+
+  margin: v-bind('margin');
+
   cursor: pointer;
   transition: all 0.2s;
 
@@ -86,6 +103,11 @@ export default defineComponent({
     &:last-of-type {
       bottom: 0;
     }
+  }
+
+  &--fixed {
+    position: fixed;
+    z-index: 9999;
   }
 
   &--active {

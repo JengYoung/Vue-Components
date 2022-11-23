@@ -41,6 +41,7 @@ $c-primary-800: #27008f;
 $c-primary-900: #1b0076;
 
 // color
+$c-sub100: #f7f7f7;
 $c-sub: #ddd;
 $c-textsub: #333;
 
@@ -72,6 +73,7 @@ $desktop-lg-max: 3000px;
     primary800: $c-primary-800;
     primary900: $c-primary-900;
 
+    sub100: $c-sub100;
     sub: $c-sub;
     sub700: $c-textsub;
     textsub: $c-textsub;
@@ -123,5 +125,9 @@ $desktop-lg-max: 3000px;
     round: $br-round;
     hard: $br-hard;
     soft: $br-soft;
+  }
+
+  layout: {
+    headerheight: 3.75rem;
   }
 }

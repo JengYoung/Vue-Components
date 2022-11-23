@@ -41,7 +41,9 @@ export default defineComponent({
   },
   setup(props) {
     const getNumber = (str) => str.replace(/[^\.0-9]/g, '');
-    const viewBox = computed(() => `0 0 ${props.width} ${props.height}`);
+    const viewBox = computed(
+      () => `0 0 ${getNumber(props.width)} ${getNumber(props.height)}`
+    );
     return {
       globalCSS,
       viewBox,

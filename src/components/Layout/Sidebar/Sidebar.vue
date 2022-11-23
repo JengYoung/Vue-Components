@@ -1,48 +1,51 @@
 <template>
-  <!-- :class="sidebarClosed ? 'sidebar--closed' : ''" -->
-  <aside
-    class="sidebar"
-    :style="sidebarStyle"
-    :class="sidebarClosed ? 'closed' : ''"
-  />
+  <aside class="sidebar" :class="sidebarClosed ? 'sidebar--closed' : ''">
+    <slot></slot>
+  </aside>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, onUnmounted } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted } from 'vue';
+import { defaultSidebarProps } from './defaultProps';
 
 export default defineComponent({
   name: 'DefaultSidebar',
   props: {
-    width: [String, Number],
-    padding: [String, Number],
-    backgroundColor: String,
-    border: String,
-    headerHeight: [String, Number],
-    sidebarClosed: Boolean,
-    delay: Number,
-    isClickAway: Boolean,
+    width: {
+      type: [String, Number],
+      default: defaultSidebarProps.width,
+    },
+    padding: {
+      type: [String, Number],
+      default: defaultSidebarProps.padding,
+    },
+    bgColor: {
+      type: String,
+      deafult: defaultSidebarProps.bgColor,
+    },
+    border: {
+      type: String,
+      default: defaultSidebarProps.border,
+    },
+    headerHeight: {
+      type: [String, Number],
+      default: defaultSidebarProps.headerHeight,
+    },
+    sidebarClosed: {
+      type: Boolean,
+      default: defaultSidebarProps.sidebarClosed,
+    },
+    duration: {
+      type: Number,
+      default: defaultSidebarProps.duration,
+    },
+    isClickAway: {
+      type: Boolean,
+      default: defaultSidebarProps.isClickAway,
+    },
   },
   emits: ['update:closed'],
   setup(props, { emit }) {
-    const sidebarStyle = computed(() => ({
-      '--width': `${
-        typeof props.width === 'number' ? `${props.width}rem` : props.width
-      }`,
-      '--padding': `${
-        typeof props.padding === 'number'
-          ? `${props.padding}rem`
-          : props.padding
-      }`,
-      '--background-color': props.backgroundColor,
-      '--border': props.border,
-      '--header-height': `${
-        typeof props.headerHeight === 'number'
-          ? `${props.headerHeight}rem`
-          : props.headerHeight
-      }`,
-      '--delay': `${props.delay}s`,
-    }));
-
     const handleBodyClick = (e: Event) => {
       const $sidebar = (e.target as HTMLElement).closest('.sidebar');
       if (!$sidebar && props.isClickAway && !props.sidebarClosed) {
@@ -63,8 +66,10 @@ export default defineComponent({
       }
     });
 
+    const transitionDuration = computed(() => props.duration + 's');
+
     return {
-      sidebarStyle,
+      transitionDuration,
     };
   },
 });
@@ -73,17 +78,25 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sidebar {
   position: fixed;
-  top: var(--header-height);
-  width: var(--width);
-  height: calc(100vh - #{var(--header-height)});
-  padding: var(--padding);
+  top: v-bind('headerHeight');
+  bottom: 0;
+
+  box-sizing: border-box;
+
+  width: v-bind('width');
+  height: calc(100vh - #{v-bind('headerHeight')});
+  padding: v-bind('padding');
+
   overflow: hidden;
-  background-color: var(--background-color);
-  border: 1px solid #{var(--border)};
-  transition: all var(--delay);
-}
-.closed {
-  transition: all var(--delay);
-  transform: translate3d(calc(-1 * var(--width)), 0, 0);
+
+  background-color: v-bind('bgColor');
+
+  border-right: v-bind('border');
+
+  transition: all v-bind('transitionDuration');
+
+  &--closed {
+    transform: translate3d(-100%, 0, 0);
+  }
 }
 </style>
