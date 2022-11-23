@@ -21,7 +21,10 @@
             alt="carousel images"
           />
 
-          <div class="carousel__content">
+          <div
+            class="carousel__content"
+            :class="`carousel__content--${card.type}`"
+          >
             <h1>{{ card.title }}</h1>
 
             <div>
@@ -57,20 +60,20 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from 'vue';
+import { ref, computed, defineComponent, PropType } from 'vue';
 
-// interface CardInterface {
-//   imageUrl: string;
-//   title: string;
-//   body: string[];
-//   type: 'left' | 'center' | 'right';
-// }
+interface CardInterface {
+  imageUrl: string;
+  title: string;
+  body: string[];
+  type: 'left' | 'center' | 'right';
+}
 
 export default defineComponent({
   name: 'DefaultCarousel',
   props: {
     cards: {
-      type: Array,
+      type: Array as PropType<CardInterface[]>,
       default: () => [],
     },
     width: {
@@ -91,15 +94,16 @@ export default defineComponent({
       if (props.cards.length === 0) {
         return [];
       }
+
       const size = props.cards.length;
       return [props.cards[size - 1], ...props.cards, props.cards[0]];
     });
 
-    const nowDelay = ref<number>(0);
-    const loading = ref<boolean>(false);
+    const nowDelay = ref(0);
+    const loading = ref(false);
 
-    const nowActive = ref<number>(1);
-    const moveCount = ref<number>(0);
+    const nowActive = ref(1);
+    const moveCount = ref(0);
     const maxSize = computed(() => refinedCards.value.length || 0);
 
     const prevAnimationDisable = computed(
@@ -264,13 +268,25 @@ $animation: var(--animation);
 
   &__content {
     position: absolute;
-    left: 4rem;
     z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 100%;
     color: rgb(233, 232, 232);
+
+    &.carousel__content--left {
+      left: 4rem;
+    }
+
+    &.carousel__content--right {
+      right: 4rem;
+    }
+
+    &.carousel__content--center {
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
   &__prev-button {
