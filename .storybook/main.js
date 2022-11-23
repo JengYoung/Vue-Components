@@ -39,6 +39,10 @@ module.exports = {
         test: /\.scss$/,
         exclude: /\.module.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: ['vue-loader', 'vue-svg-loader'],
       }
     );
 

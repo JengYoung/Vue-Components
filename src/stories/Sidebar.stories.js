@@ -1,6 +1,6 @@
-import Sidebar from '@components/Layout/Sidebar/Sidebar.vue'
-import SidebarToggleButton from '@components/Layout/Sidebar/SidebarToggleButton.vue'
-import { computed, ref } from 'vue'
+import Sidebar from '@components/Layout/Sidebar/Sidebar.vue';
+import Hamburger from '@components/Base/Button/Hamburger/Hamburger.vue';
+import { computed, ref } from 'vue';
 
 export default {
   title: 'Layout/Sidebar',
@@ -12,18 +12,18 @@ export default {
     border: { control: { type: 'text' } },
     headerHeight: { control: { type: 'range', min: 0, max: 5 } },
     delay: { control: { type: 'range', min: 0.1, max: 1, step: 0.1 } },
-    isClickAway: { control: { type: 'boolean' } }
-  }
-}
+    isClickAway: { control: { type: 'boolean' } },
+  },
+};
 
 const Template = (args) => ({
-  components: { Sidebar, SidebarToggleButton },
-  setup () {
-    const sidebarClosed = ref(false)
+  components: { Sidebar, Hamburger },
+  setup() {
+    const sidebarClosed = ref(false);
     return {
       sidebarClosed,
-      args: computed(() => ({ ...args, sidebarClosed: sidebarClosed.value }))
-    }
+      args: computed(() => ({ ...args, sidebarClosed: sidebarClosed.value })),
+    };
   },
   template: `
     <div>
@@ -34,18 +34,13 @@ const Template = (args) => ({
           args.sidebarClosed = value
         }"
       />
-      <SidebarToggleButton
-        v-bind:sidebarClosed="sidebarClosed"
-        @update:sidebarClosed="(value) => {
-          sidebarClosed = value
-          args.sidebarClosed = value
-        }"
+      <Hamburger
       />
     </div>
-  `
-})
+  `,
+});
 
-export const SidebarComponent = Template.bind({})
+export const SidebarComponent = Template.bind({});
 
 SidebarComponent.args = {
   width: 6,
@@ -54,5 +49,5 @@ SidebarComponent.args = {
   border: '1px solid lightgray',
   headerHeight: 4.125,
   delay: 0.3,
-  isClickAway: true
-}
+  isClickAway: true,
+};
