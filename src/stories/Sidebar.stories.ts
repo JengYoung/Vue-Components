@@ -82,7 +82,7 @@ const Template = (args) => ({
       />
 
       <Sidebar
-        style="position: absolute; z-index: 10;"
+        style=" z-index: 10;"
         v-bind="args"
         @update:closed="updateCloseSidebar"
       >
