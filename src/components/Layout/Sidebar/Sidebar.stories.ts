@@ -12,36 +12,36 @@ export default {
 
   argTypes: {
     width: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: '너비를 설정할 수 있어요.',
     },
     padding: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: '패딩을 설정할 수 있어요.',
     },
     bgColor: {
-      controls: { type: 'color' },
+      control: { type: 'color' },
       description: '사이드바의 색상을 설정할 수 있어요.',
     },
     sidebarClosed: {
-      controls: { type: 'boolean' },
+      control: { type: 'boolean' },
       description: '햄버거 버튼과 사이드바가 닫힐지를 결정할 수 있어요.',
     },
     border: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description:
         '**오른쪽의 선 굵기**를 설정할 수 있어요. 형식은 `1px solid {{색상}}`입니다.',
     },
     headerHeight: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: '헤더의 높이만큼 사이드바의 크기를 줄여요.',
     },
     duration: {
-      controls: { type: 'number', min: 0.1, max: 1, step: 0.1 },
+      control: { type: 'number', min: 0.1, max: 1, step: 0.1 },
       description: '사이드바가 닫히는 속도를 조절해요.',
     },
     isClickAway: {
-      controls: { type: 'boolean' },
+      control: { type: 'boolean' },
       description: '바깥을 눌러도 사이드바가 닫힐지를 결정해요.',
     },
     'update:closed': {

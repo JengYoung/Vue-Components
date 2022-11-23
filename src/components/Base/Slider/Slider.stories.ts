@@ -12,7 +12,7 @@ export default {
   // parameters: { actions: { argTypesRegex: '^on.*' } },
   argTypes: {
     max: {
-      controls: {
+      control: {
         type: 'number',
       },
       description: '최댓값을 입력할 수 있어요. 기본값은 100이에요.',
@@ -21,7 +21,7 @@ export default {
       },
     },
     min: {
-      controls: {
+      control: {
         type: 'number',
       },
       description:
@@ -31,7 +31,7 @@ export default {
       },
     },
     step: {
-      controls: {
+      control: {
         type: 'number',
       },
       description: '넘어갈 단위를 입력할 수 있어요. 기본값은 1이에요.',
@@ -41,7 +41,7 @@ export default {
     },
 
     value: {
-      controls: {
+      control: {
         type: 'number',
       },
       description: '처음에 시작할 기본 값을 넘길 수 있어요.',
@@ -50,7 +50,7 @@ export default {
       },
     },
     width: {
-      controls: {
+      control: {
         type: 'text',
       },
       description:
@@ -60,7 +60,7 @@ export default {
       },
     },
     height: {
-      controls: {
+      control: {
         type: 'text',
       },
       description:
@@ -70,7 +70,7 @@ export default {
       },
     },
     padding: {
-      controls: {
+      control: {
         type: 'text',
       },
       description: '컨테이너의 패딩 영역을 조정할 수 있어요.',
@@ -79,7 +79,7 @@ export default {
       },
     },
     backgroundColor: {
-      controls: {
+      control: {
         type: 'color',
       },
       description: '컨테이너의 배경 색을 지정할 수 있어요.',
@@ -89,7 +89,7 @@ export default {
     },
 
     border: {
-      controls: {
+      control: {
         type: 'text',
       },
       description: '컨테이너의 보더 속성을 설정할 수 있어요.',
@@ -98,7 +98,7 @@ export default {
       },
     },
     borderRadius: {
-      controls: {
+      control: {
         type: 'text',
       },
       description: '컨테이너의 외곽을 부드럽게 조정할 수 있어요.',
@@ -108,7 +108,7 @@ export default {
     },
 
     railColor: {
-      controls: {
+      control: {
         type: 'color',
       },
       description: '트랙 값이 적용되지 않는 영역의 색을 조정할 수 있어요.',
@@ -117,7 +117,7 @@ export default {
       },
     },
     trackColor: {
-      controls: {
+      control: {
         type: 'color',
       },
       description: '트랙 값이 적용되는 영역의 색을 조정할 수 있어요.',
@@ -127,7 +127,7 @@ export default {
     },
 
     handleSize: {
-      controls: {
+      control: {
         type: 'text',
       },
       description: '핸들의 크기를 설정할 수 있어요.',
@@ -136,7 +136,7 @@ export default {
       },
     },
     handleColor: {
-      controls: {
+      control: {
         type: 'color',
       },
       description: '핸들의 색상을 설정할 수 있어요.',
@@ -145,7 +145,7 @@ export default {
       },
     },
     handleActiveColor: {
-      controls: {
+      control: {
         type: 'color',
       },
       description: '핸들이 active될 때, 변경되는 색상을 조정할 수 있어요.',

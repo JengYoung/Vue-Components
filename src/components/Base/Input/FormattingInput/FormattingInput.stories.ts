@@ -15,63 +15,63 @@ export default {
   // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
   argTypes: {
     modelValue: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description:
         '기본 값을 넣어요. **2가지의 emit 이벤트**를 통해 가져올 수 있습니다.',
     },
     prefix: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: '맨 앞에 기본적으로 붙이는 문자를 지원해요.',
     },
     delimeter: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description:
         '구분자를 지원해요. <br/>🚨 다만 **절대** 문자와 혼합되지 않도록 주의하세요! <br/> 이를 지원하지만, 원하지 않는 결과가 나올 수 있어요.',
     },
     blocks: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description:
         '나와야 할 개수를 블록 단위로 쪼개서 주입해요. <br/> 예컨대 3-3-4글자로 나눠야 한다면 `[3,3,4]`에요. 만약 사용하고 싶지 않다면, `[Infinity]`로 입력해주세요.',
     },
     number: {
-      controls: { type: 'boolean' },
+      control: { type: 'boolean' },
       description:
         '넘버 타입만 추출하실 건가요? <br/>이 친구,  기존 `Vue`처럼 문자만 input할 수 있어요!',
     },
     autoFocus: {
-      controls: { type: 'boolean' },
+      control: { type: 'boolean' },
       description: '오토포커스 기능을 지원해요.',
     },
     width: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: '너비값을 설정할 수 있어요.',
     },
     height: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: '높이값을 설정할 수 있어요.',
     },
     padding: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: 'Input 내부의 패딩을 설정할 수 있어요.',
     },
     fontSize: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: 'Input 내부의 폰트 크기를 설정할 수 있어요.',
     },
     color: {
-      controls: { type: 'color' },
+      control: { type: 'color' },
       description: '폰트 색상을 지정해줄 수 있어요.',
     },
     border: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: '보더의 속성을 지정해줄 수 있어요. 예시) `1px solid black`',
     },
     borderRadius: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: 'Input의 외곽을 설정해줄 수 있어요.',
     },
     outlineColor: {
-      controls: { type: 'text' },
+      control: { type: 'text' },
       description: 'Focus되었을 때 outline의 색상 설정이 가능해요.',
     },
     'update:model-value': {
