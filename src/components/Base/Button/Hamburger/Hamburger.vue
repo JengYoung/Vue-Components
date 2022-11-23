@@ -5,7 +5,7 @@
       'hamburger--active': !isActive,
       'hamburger--fixed': fixed,
     }"
-    @click="onClick"
+    @click.stop="onClick"
   >
     <HamburgerLine
       :width="width"
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { defaultHamburgerProps } from './defaultProps';
 import HamburgerLine from './HamburgerLine.vue';
 export default defineComponent({
@@ -56,17 +56,19 @@ export default defineComponent({
     },
     fixed: {
       type: Boolean,
-      default: true,
+      default: defaultHamburgerProps.fixed,
+    },
+    actived: {
+      type: Boolean,
+      deafult: defaultHamburgerProps.actived,
     },
   },
 
   setup(props, { emit }) {
-    const isActive = ref(false);
+    const isActive = computed(() => props.actived);
 
     const onClick = () => {
-      isActive.value = !isActive.value;
-      console.log(isActive.value);
-      emit('update:hamburger', isActive.value);
+      emit('update:hamburger', !isActive.value);
     };
 
     return {

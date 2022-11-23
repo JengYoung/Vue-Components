@@ -6,4 +6,6 @@ export const defaultHamburgerProps = {
   margin: '1rem',
   lineHeight: '2px',
   strokeColor: globalCSS.color.sub700,
+  actived: false,
+  fixed: false,
 };

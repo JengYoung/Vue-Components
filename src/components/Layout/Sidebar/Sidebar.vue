@@ -1,11 +1,15 @@
 <template>
-  <aside class="sidebar" :class="sidebarClosed ? 'sidebar--closed' : ''">
+  <aside
+    ref="sidebarRef"
+    class="sidebar"
+    :class="isActive ? 'sidebar--closed' : ''"
+  >
     <slot></slot>
   </aside>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import { defaultSidebarProps } from './defaultProps';
 
 export default defineComponent({
@@ -46,29 +50,36 @@ export default defineComponent({
   },
   emits: ['update:closed'],
   setup(props, { emit }) {
-    const handleBodyClick = (e: Event) => {
-      const $sidebar = (e.target as HTMLElement).closest('.sidebar');
-      if (!$sidebar && props.isClickAway && !props.sidebarClosed) {
+    const sidebarRef = ref(null);
+    const isActive = computed(() => props.sidebarClosed);
+
+    const onClickAway = (e: Event) => {
+      if (!props.isClickAway || !sidebarRef.value) return;
+
+      if (!props.sidebarClosed) {
         emit('update:closed', true);
       } else {
         emit('update:closed', props.sidebarClosed);
       }
     };
+
     onMounted(() => {
       if (props.isClickAway) {
-        document.body.addEventListener('click', handleBodyClick);
+        document.body.addEventListener('click', onClickAway);
       }
     });
 
     onUnmounted(() => {
       if (props.isClickAway) {
-        document.body.removeEventListener('click', handleBodyClick);
+        document.body.removeEventListener('click', onClickAway);
       }
     });
 
     const transitionDuration = computed(() => props.duration + 's');
 
     return {
+      isActive,
+      sidebarRef,
       transitionDuration,
     };
   },
