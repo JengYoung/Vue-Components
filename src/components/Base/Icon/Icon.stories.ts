@@ -5,7 +5,7 @@ import { defaultIconProps } from './defaultProps';
 // https://github.com/storybookjs/storybook/issues/17932
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-  title: `Icon/Default`,
+  title: `Base/Icon`,
   component: { DefaultIcon },
   // More on actions: https://storybook.js.org/docs/react/essentials/actions
   parameters: { actions: { argTypesRegex: '^on.*' } },

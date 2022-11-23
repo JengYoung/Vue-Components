@@ -7,7 +7,7 @@ import Toasts from './Toasts.vue';
 // https://github.com/storybookjs/storybook/issues/17932
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-  title: 'Toast/types',
+  title: 'Base/Toast/types',
   component: { Toasts },
   // More on actions: https://storybook.js.org/docs/react/essentials/actions
   parameters: { actions: { argTypesRegex: '^on.*' } },

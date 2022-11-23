@@ -7,7 +7,7 @@ import FormattingInput from './FormattingInput.vue';
 // https://github.com/storybookjs/storybook/issues/17932
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-  title: `FormattingInput/PhoneNumber`,
+  title: `Base/Input/FormattingInput/PhoneNumber`,
   component: FormattingInput,
   // More on actions: https://storybook.js.org/docs/react/essentials/actions
   // parameters: { actions: { argTypesRegex: '^update.*' } },
@@ -112,7 +112,7 @@ const Template: StoryFn<typeof FormattingInput> = (args) => ({
   },
   // And then the `args` are bound to your component with `v-bind="args"`
   template: `
-    <div style="margin-bottom: 1rem;"><code>FormattingInput</code>은 <strong>quasar/Input</strong>과 달리 끊김없이 masking을 <strong>동적으로</strong> 지원해요 🙆🏻</div>
+    <div style="margin-bottom: 1rem;"><code>FormattingInput</code>은 끊김없이 masking을 <strong>동적으로</strong> 지원해요 🙆🏻</div>
 
     <FormattingInput
       @update:model-value="getModelValue"

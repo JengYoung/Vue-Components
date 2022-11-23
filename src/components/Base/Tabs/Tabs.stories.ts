@@ -3,7 +3,7 @@ import Tabs from '@components/Base/Tabs/index.vue';
 import { Meta, StoryFn } from '@storybook/vue3';
 
 export default {
-  title: 'Tabs/Default',
+  title: 'Base/Tabs',
   component: Tabs,
   argTypes: {
     tabs: {

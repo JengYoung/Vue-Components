@@ -7,7 +7,7 @@ import { defaultProps } from './defaultProps';
 // https://github.com/storybookjs/storybook/issues/17932
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-  title: 'Menu/Default',
+  title: 'Base/Menu',
   component: { Menu, MenuItem },
   // More on actions: https://storybook.js.org/docs/react/essentials/actions
   parameters: { actions: { argTypesRegex: '^on.*' } },
