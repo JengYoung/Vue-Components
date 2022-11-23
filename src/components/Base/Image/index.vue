@@ -32,15 +32,15 @@ export default defineComponent({
     },
     width: {
       type: [String, Number],
-      default: defaultImageProps.objectFit,
+      default: defaultImageProps.width,
     },
     height: {
       type: [String, Number],
-      default: defaultImageProps.objectFit,
+      default: defaultImageProps.height,
     },
     defaultSrc: {
       type: String,
-      default: defaultImageProps.objectFit,
+      default: defaultImageProps.defaultSrc,
     },
     objectFit: {
       type: String,

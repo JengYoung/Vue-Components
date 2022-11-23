@@ -10,9 +10,6 @@ module.exports = {
     '@storybook/addon-interactions',
     '@storybook/addon-actions',
   ],
-  features: {
-    interactionsDebugger: true,
-  },
   framework: '@storybook/vue3',
   core: {
     builder: '@storybook/builder-webpack5',
