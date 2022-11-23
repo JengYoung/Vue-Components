@@ -1,11 +1,51 @@
 import Carousel from '@components/Base/Carousel/index.vue';
 import { Meta, StoryFn } from '@storybook/vue3';
+import { defaultCarouselProps } from './defaultProps';
 
 export default {
   title: 'Base/Carousel',
   component: Carousel,
 
-  argTypes: {},
+  argTypes: {
+    cards: {
+      control: { type: 'array' },
+      description:
+        '캐러셀로 보여질 카드들을, 다음과 같이 설정할 수 있어요.\n' +
+        `
+        {
+          imageUrl: 이미지 경로;
+          title: 제목;
+          body: 내용(배열)
+          type: 내용이 보여질 위치
+        }
+      `,
+      table: {
+        defaultValue: { summary: `[]` },
+      },
+    },
+    width: {
+      control: { type: 'text' },
+      description: '캐러셀의 너비를 설정할 수 있어요.',
+      table: {
+        defaultValue: { summary: defaultCarouselProps.width },
+      },
+    },
+    height: {
+      control: { type: 'text' },
+      description: '캐러셀의 높이를 설정할 수 있어요.',
+      table: {
+        defaultValue: { summary: defaultCarouselProps.height },
+      },
+    },
+
+    duration: {
+      control: { type: 'range', min: 0.2, max: 2, step: 0.1 },
+      description: '캐러셀의 애니메이션 시간을 설정할 수 있어요.',
+      table: {
+        defaultValue: { summary: defaultCarouselProps.duration },
+      },
+    },
+  },
 } as Meta<typeof Carousel>;
 
 const Template = (args) => ({
@@ -28,6 +68,7 @@ const getTexts = (idx) => [
 ];
 
 Default.args = {
+  ...defaultCarouselProps,
   cards: [
     {
       imageUrl: 'http://placeimg.com/640/480/nightlife',
@@ -60,6 +101,4 @@ Default.args = {
       type: 'center',
     },
   ],
-  width: '100%',
-  height: 25,
 };

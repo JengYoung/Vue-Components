@@ -1,11 +1,11 @@
 <template>
-  <div class="carousel" :style="carouselStyle">
+  <div class="carousel">
     <div class="carousel__inner">
       <ul
         class="carousel__cards"
         @transitionend="() => handleTransitionEnd(nowActive)"
         :style="{
-          transition: `all ${nowDelay}s`,
+          transition: `all ${nowDuration}s`,
           '--now-active-index': `-${nowActive * 100}%`,
         }"
       >
@@ -61,6 +61,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, PropType } from 'vue';
+import { defaultCarouselProps } from './defaultProps';
 
 interface CardInterface {
   imageUrl: string;
@@ -74,19 +75,19 @@ export default defineComponent({
   props: {
     cards: {
       type: Array as PropType<CardInterface[]>,
-      default: () => [],
+      default: () => defaultCarouselProps.cards,
     },
     width: {
-      type: [String, Number],
-      default: '100%',
+      type: String,
+      default: defaultCarouselProps.width,
     },
     height: {
-      type: [String, Number],
-      default: 25,
+      type: String,
+      default: defaultCarouselProps.height,
     },
-    delay: {
+    duration: {
       type: Number,
-      default: 0.3,
+      default: defaultCarouselProps.duration,
     },
   },
   setup(props) {
@@ -99,7 +100,7 @@ export default defineComponent({
       return [props.cards[size - 1], ...props.cards, props.cards[0]];
     });
 
-    const nowDelay = ref(0);
+    const nowDuration = ref(0);
     const loading = ref(false);
 
     const nowActive = ref(1);
@@ -116,13 +117,6 @@ export default defineComponent({
         moveCount.value > 0 &&
         (nowActive.value === 1 || nowActive.value === maxSize.value - 1)
     );
-
-    const carouselStyle = computed(() => ({
-      '--width':
-        typeof props.width === 'number' ? `${props.width}rem` : props.width,
-      '--height':
-        typeof props.height === 'number' ? `${props.height}rem` : props.height,
-    }));
 
     const directButtonStyle = computed(() => ({
       '--move-count': moveCount.value,
@@ -151,7 +145,7 @@ export default defineComponent({
 
       loading.value = true;
 
-      nowDelay.value = 0.3;
+      nowDuration.value = 0.3;
       nowActive.value -= 1;
 
       if (nowActive.value === 0) {
@@ -169,7 +163,7 @@ export default defineComponent({
 
       loading.value = true;
 
-      nowDelay.value = props.delay;
+      nowDuration.value = props.duration;
       nowActive.value += 1;
 
       if (nowActive.value === maxSize.value - 1) {
@@ -185,7 +179,7 @@ export default defineComponent({
       if (loading.value) return;
       if (typeof index !== 'number') return;
 
-      nowDelay.value = props.delay;
+      nowDuration.value = props.duration;
 
       moveCount.value = index - nowActive.value;
       nowActive.value = index;
@@ -196,7 +190,7 @@ export default defineComponent({
     };
 
     const handleTransitionEnd = (index: number): void => {
-      nowDelay.value = 0;
+      nowDuration.value = 0;
 
       if (index === 0) {
         nowActive.value = maxSize.value - 2;
@@ -209,10 +203,9 @@ export default defineComponent({
     return {
       loading,
       refinedCards,
-      nowDelay,
+      nowDuration,
       nowActive,
       moveCount,
-      carouselStyle,
       directButtonStyle,
       maxSize,
 
@@ -233,7 +226,7 @@ $animation: var(--animation);
 .carousel {
   &__inner {
     position: relative;
-    width: var(--width);
+    width: v-bind('width');
     overflow: hidden;
     border: 1px solid lightgray;
     border-radius: 20px;
@@ -254,7 +247,7 @@ $animation: var(--animation);
     position: relative;
     flex-shrink: 0;
     width: 100%;
-    height: var(--height);
+    height: v-bind('height');
     border: none;
   }
 
@@ -281,10 +274,12 @@ $animation: var(--animation);
 
     &.carousel__content--right {
       right: 4rem;
+      text-align: right;
     }
 
     &.carousel__content--center {
       left: 50%;
+      text-align: center;
       transform: translateX(-50%);
     }
   }
