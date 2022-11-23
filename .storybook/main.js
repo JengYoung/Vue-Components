@@ -8,6 +8,7 @@ module.exports = {
     '@storybook/addon-docs',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/addon-actions',
   ],
   framework: '@storybook/vue3',
   core: {
@@ -35,6 +36,10 @@ module.exports = {
         test: /\.scss$/,
         exclude: /\.module.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: ['vue-loader', 'vue-svg-loader'],
       }
     );
 

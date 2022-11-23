@@ -1,4 +1,4 @@
-import Toggle from '../components/Base/Toggle/index.vue'
+import Toggle from '../components/Base/Toggle/index.vue';
 
 export default {
   title: 'Example/Toggle',
@@ -10,19 +10,19 @@ export default {
     activeBgColor: { control: 'color' },
     defaultBgColor: { control: 'color' },
     border: { control: 'text' },
-    isToggle: { control: 'boolean' }
-  }
-}
-
-const Template = args => ({
-  components: { Toggle },
-  setup () {
-    return { args }
+    isToggle: { control: 'boolean' },
   },
-  template: '<Toggle v-bind="args"></Toggle>'
-})
+};
 
-export const Default = Template.bind({})
+const Template = (args) => ({
+  components: { Toggle },
+  setup() {
+    return { args };
+  },
+  template: '<Toggle v-bind="args"></Toggle>',
+});
+
+export const Default = Template.bind({});
 
 Default.args = {
   width: 4.25,
@@ -30,5 +30,5 @@ Default.args = {
   border: '1px solid lightgray',
   activeBgColor: '#b377ff',
   defaultBgColor: '#888888',
-  buttonColor: '#f3f3f3'
-}
+  buttonColor: '#f3f3f3',
+};

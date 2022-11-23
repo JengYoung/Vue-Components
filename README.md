@@ -1,5 +1,10 @@
 # JengYoung's Vue-Design-System
 
+> 일관성 있게 컴포넌트를 제작하며 개발하기 위해 만든 레포지토리입니다.
+
+일관된 컨벤션 하에, 디자인 시스템을 정의하며 컴포넌트를 일관성 있게 개발해요.  
+쉽게 재사용할 수 있으며, `Vue3`를 지원하는 UI 컴포넌트 라이브러리를 구축하고 있습니다. 🥰
+
 ## 개발 기간
 
 2022.02.15 ~ (진행 중)
@@ -15,6 +20,29 @@
 - `element plus`, `chakra-UI`, `material UI` 등 다양한 컴포넌트 라이브러리가 있습니다.  
   그러나 이를 사용하기 위해서는 내부 원리 역시 이해해야 합니다.  
   컴포넌트를 만들며 내부 동작 원리를 생각할 수 있는 힘을 기릅니다.
+
+---
+
+## 현재 가능한 컴포넌트 README
+
+- [Base/Toast](./src/components/Base/Toast/README.md)
+- [Base/Carousel](./src/components/Base/Carousel/README.md)
+- [Base/Image](./src/components/Base/Image/README.md)
+- [Base/Icon](./src/components/Base/Icon/README.md)
+- [Base/Button/Hamburger](./src/components/Base/Button/Hamburger/README.md)
+- [Base/Input/FormattingInput](./src/components/Base/Input/FormattingInput/README.md)
+
+## 현재 개발한 컴포넌트
+
+> 여유가 생기면, 리드미를 업데이트할 예정이에요!
+> 대부분이 스토리북의 `Docs`에서, 충분히 속성들에 대해 잘 설명되어져 있어요. 참고해주세요 🥰
+
+- [Base/Slider](./src/components/Base/Slider/index.vue)
+- [Base/Menu](./src/components/Base/Menu/Menu.vue)
+- [Base/Tabs](./src/components/Base/Tabs/index.vue)
+- [Base/Toggle](./src/components/Base//Toggle/index.vue)
+- [Base/HeaderText](./src/components/Base/HeaderText.vue)
+- [Layout/Sidebar](./src/components/Layout/Sidebar/Sidebar.vue)
 
 ---
 

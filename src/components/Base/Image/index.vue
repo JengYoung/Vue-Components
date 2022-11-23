@@ -5,46 +5,62 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import useIntsersectionObserver from '@hooks/useIntersectionObserver';
+import { defaultImageProps } from './defaultProps';
 
 export default defineComponent({
   name: 'DefaultImage',
   props: {
-    display: String,
-    lazy: Boolean,
-    threshold: Number,
-    src: String,
-    alt: String,
+    display: {
+      type: String,
+      default: defaultImageProps.display,
+    },
+    lazy: {
+      type: Boolean,
+      default: defaultImageProps.lazy,
+    },
+    threshold: {
+      type: Number,
+      default: defaultImageProps.threshold,
+    },
+    src: {
+      type: String,
+      default: defaultImageProps.src,
+    },
+    alt: {
+      type: String,
+      default: defaultImageProps.alt,
+    },
     width: {
       type: [String, Number],
-      default: 'auto',
+      default: defaultImageProps.width,
     },
     height: {
       type: [String, Number],
-      default: 'auto',
+      default: defaultImageProps.height,
     },
     defaultSrc: {
       type: String,
-      default: 'https://picsum.photos/200',
+      default: defaultImageProps.defaultSrc,
     },
     objectFit: {
       type: String,
-      default: 'cover',
+      default: defaultImageProps.objectFit,
     },
   },
   setup(props) {
     const { loaded, $ref: imageRef } = useIntsersectionObserver({
       type: 'image',
       lazy: props.lazy,
-      threshold: 1,
+      threshold: props.threshold,
     });
 
     const imageCSS = {
       display: props.display,
       width: `${
-        typeof props.width === 'number' ? `${props.width}rem` : props.width
+        typeof props.width === 'number' ? `${props.width}px` : props.width
       }`,
       height: `${
-        typeof props.height === 'number' ? `${props.height}rem` : props.height
+        typeof props.height === 'number' ? `${props.height}px` : props.height
       }`,
       objectFit: props.objectFit,
     };

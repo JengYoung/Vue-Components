@@ -7,11 +7,15 @@ const pinia = createPinia();
 app.use(pinia);
 
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
+  actions: { argTypesRegex: '(^on[A-Z].*)|(^update:.*)' },
   controls: {
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
     },
   },
+  docs: {
+    inlineStories: true,
+  },
+  layout: 'fullscreen',
 };

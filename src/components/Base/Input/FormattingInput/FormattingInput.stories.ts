@@ -1,0 +1,132 @@
+import { action } from '@storybook/addon-actions';
+import type { Meta, StoryFn } from '@storybook/vue3';
+import { computed, ref } from 'vue';
+import { defaultFormattingInputProps } from './defaultProps';
+import FormattingInput from './FormattingInput.vue';
+
+// https://github.com/storybookjs/storybook/issues/17932
+// More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
+export default {
+  title: `Base/Input/FormattingInput/PhoneNumber`,
+  component: FormattingInput,
+  // More on actions: https://storybook.js.org/docs/react/essentials/actions
+  // parameters: { actions: { argTypesRegex: '^update.*' } },
+
+  // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
+  argTypes: {
+    modelValue: {
+      control: { type: 'text' },
+      description:
+        '기본 값을 넣어요. **2가지의 emit 이벤트**를 통해 가져올 수 있습니다.',
+    },
+    prefix: {
+      control: { type: 'text' },
+      description: '맨 앞에 기본적으로 붙이는 문자를 지원해요.',
+    },
+    delimeter: {
+      control: { type: 'text' },
+      description:
+        '구분자를 지원해요. <br/>🚨 다만 **절대** 문자와 혼합되지 않도록 주의하세요! <br/> 이를 지원하지만, 원하지 않는 결과가 나올 수 있어요.',
+    },
+    blocks: {
+      control: { type: 'text' },
+      description:
+        '나와야 할 개수를 블록 단위로 쪼개서 주입해요. <br/> 예컨대 3-3-4글자로 나눠야 한다면 `[3,3,4]`에요. 만약 사용하고 싶지 않다면, `[Infinity]`로 입력해주세요.',
+    },
+    number: {
+      control: { type: 'boolean' },
+      description:
+        '넘버 타입만 추출하실 건가요? <br/>이 친구,  기존 `Vue`처럼 문자만 input할 수 있어요!',
+    },
+    autoFocus: {
+      control: { type: 'boolean' },
+      description: '오토포커스 기능을 지원해요.',
+    },
+    width: {
+      control: { type: 'text' },
+      description: '너비값을 설정할 수 있어요.',
+    },
+    height: {
+      control: { type: 'text' },
+      description: '높이값을 설정할 수 있어요.',
+    },
+    padding: {
+      control: { type: 'text' },
+      description: 'Input 내부의 패딩을 설정할 수 있어요.',
+    },
+    fontSize: {
+      control: { type: 'text' },
+      description: 'Input 내부의 폰트 크기를 설정할 수 있어요.',
+    },
+    color: {
+      control: { type: 'color' },
+      description: '폰트 색상을 지정해줄 수 있어요.',
+    },
+    border: {
+      control: { type: 'text' },
+      description: '보더의 속성을 지정해줄 수 있어요. 예시) `1px solid black`',
+    },
+    borderRadius: {
+      control: { type: 'text' },
+      description: 'Input의 외곽을 설정해줄 수 있어요.',
+    },
+    outlineColor: {
+      control: { type: 'text' },
+      description: 'Focus되었을 때 outline의 색상 설정이 가능해요.',
+    },
+    'update:model-value': {
+      action: true,
+      description: '구분자를 포함한 값을 가져와요.',
+    },
+    'update:row-value': {
+      description: '순수 입력한 값만 가져와요.',
+    },
+  },
+} as Meta<typeof FormattingInput>;
+
+// More on component templates: https://storybook.js.org/docs/vue/writing-stories/introduction#using-args
+const Template: StoryFn<typeof FormattingInput> = (args) => ({
+  // Components used in your story `template` are defined in the `components` object
+  components: { FormattingInput },
+  // The story's `args` need to be mapped into the template through the `setup()` method
+  setup() {
+    const value = ref(args.modelValue);
+
+    const getModelValue = action('update:model-value');
+    const getRowValue = action('update:row-value');
+
+    const updateValue = (v) => {
+      value.value = v;
+      getRowValue(v);
+    };
+
+    return {
+      value,
+      args: computed(() => ({
+        ...args,
+        blocks: value.value.length === 11 ? [3, 4, 4] : [3, 3, 5],
+      })),
+      getModelValue,
+      updateValue,
+    };
+  },
+  // And then the `args` are bound to your component with `v-bind="args"`
+  template: `
+    <div style="margin-bottom: 1rem;"><code>FormattingInput</code>은 끊김없이 masking을 <strong>동적으로</strong> 지원해요 🙆🏻</div>
+
+    <FormattingInput
+      @update:model-value="getModelValue"
+      @update:row-value="updateValue"
+      v-bind="args"
+    />
+  `,
+  methods: { action },
+});
+
+export const Default = Template.bind({});
+// More on args: https://storybook.js.org/docs/vue/writing-stories/args
+Default.args = {
+  ...defaultFormattingInputProps,
+  delimeter: '-',
+  blocks: [3, 4, 4],
+};

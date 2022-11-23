@@ -1,114 +1,178 @@
 <template>
-  {{ percentage }}
-  {{ `${dragging}` }}
-  {{ value }}
   <div class="slider" ref="sliderRef">
-    <div class="slider__inner" />
-    <div class="slider__track" :style="{ width: `${value}%` }" />
-    <div
-      class="slider__handle"
-      @mousedown="handleMouseDown"
-      @touchstart="handleMouseDown"
-      :style="{ left: `calc(${value}% - 6px)` }"
-    />
+    <div class="slider__inner">
+      <div class="slider__rail" />
+      <div class="slider__track" />
+      <div
+        class="slider__handle"
+        @mousedown="onDragStart"
+        @touchstart="onDragStart"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import globalCSS from '@/utils/globalCSS';
 import { ref, computed, watch, defineComponent } from 'vue';
+import { defaultSliderProps } from './defaultProps';
 
 export default defineComponent({
+  emits: ['update:slider-value'],
   name: 'DefaultSlider',
   props: {
-    max: {
-      type: Number,
-      required: true,
-    },
     min: {
       type: Number,
       required: true,
+      default: defaultSliderProps.min,
+    },
+    max: {
+      type: Number,
+      required: true,
+      default: defaultSliderProps.max,
     },
     step: {
       type: Number,
       required: true,
+      default: defaultSliderProps.step,
     },
-    defaultValue: Number,
+    value: {
+      type: Number,
+      default: Math.max(defaultSliderProps.value),
+    },
+    width: {
+      type: String,
+      default: defaultSliderProps.width,
+    },
+    height: {
+      type: String,
+      default: defaultSliderProps.height,
+    },
+    railColor: {
+      type: String,
+      default: defaultSliderProps.railColor,
+    },
+    trackColor: {
+      type: String,
+      default: defaultSliderProps.trackColor,
+    },
+    handleSize: {
+      type: String,
+      default: defaultSliderProps.handleSize,
+    },
+    handleColor: {
+      type: String,
+      default: defaultSliderProps.handleColor,
+    },
+    handleActiveColor: {
+      type: String,
+      default: defaultSliderProps.handleActiveColor,
+    },
+    padding: {
+      type: String,
+      default: defaultSliderProps.padding,
+    },
+    backgroundColor: {
+      type: String,
+      default: defaultSliderProps.backgroundColor,
+    },
+    border: {
+      type: String,
+      default: defaultSliderProps.border,
+    },
+    borderRadius: {
+      type: String,
+      default: defaultSliderProps.borderRadius,
+    },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const sliderRef = ref<HTMLDivElement | null>(null);
     const dragging = ref<boolean>(false);
 
-    const value = ref<number>(props.defaultValue || 0);
+    const value = ref<number>(Math.max(props.value, props.min));
     const percentage = computed(
       () => (value.value - props.min) / (props.max - props.min)
     );
 
-    const handleMouseUp = () => {
+    const onDragEnd = () => {
       dragging.value = false;
     };
 
-    const handleMouseDown = () => {
+    const onDragStart = () => {
       dragging.value = true;
     };
 
-    const handleMouseMove = (e: MouseEvent | TouchEvent) => {
+    const getTrackValue = (track: number, min: number, max: number): number => {
+      if (track < 0) return min;
+      if (track > 1) return max;
+
+      return (
+        Math.round((props.min + (props.max - props.min) * track) / props.step) *
+        props.step
+      );
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
       if (sliderRef.value === null) return;
       if (!dragging.value) return;
 
-      let handleOffset: number | undefined;
+      const handleOffset = e.pageX - sliderRef.value.offsetLeft;
+      const sliderWidth = sliderRef.value.offsetWidth;
 
-      if ((e as MouseEvent).pageX) {
-        handleOffset =
-          (e as MouseEvent).pageX -
-          (sliderRef.value as HTMLDivElement).offsetLeft;
-      } else {
-        for (let i = 0; i < (e as TouchEvent).changedTouches.length; i += 1) {
-          handleOffset =
-            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-            ((e as TouchEvent).changedTouches[i].pageX as number) -
-            (sliderRef.value as HTMLDivElement).offsetLeft;
-        }
-      }
+      value.value = getTrackValue(
+        handleOffset / sliderWidth,
+        props.min,
+        props.max
+      );
 
-      const sliderWidth = (sliderRef.value as HTMLDivElement).offsetWidth;
+      emit('update:slider-value', value.value);
+    };
 
-      if (handleOffset === undefined) return;
-      const track = (handleOffset as number) / sliderWidth;
+    const onTouchStart = (e: TouchEvent) => {
+      if (sliderRef.value === null) return;
+      if (!dragging.value) return;
 
-      let newValue;
+      const handleOffset =
+        e.changedTouches[e.changedTouches.length - 1].pageX -
+        sliderRef.value.offsetLeft;
+      const sliderWidth = sliderRef.value.offsetWidth;
 
-      if (track < 0) {
-        newValue = props.min;
-      } else if (track > 1) {
-        newValue = props.max;
-      } else {
-        newValue =
-          Math.round(
-            (props.min + (props.max - props.min) * track) / props.step
-          ) * props.step;
-      }
+      value.value = getTrackValue(
+        handleOffset / sliderWidth,
+        props.min,
+        props.max
+      );
 
-      value.value = newValue;
+      emit('update:slider-value', value.value);
     };
 
     watch(
       () => [dragging.value],
       () => {
         if (dragging.value === true) {
-          document.addEventListener('mousemove', handleMouseMove);
-          document.addEventListener('mouseup', handleMouseUp);
-          document.addEventListener('touchend', handleMouseUp);
-          document.addEventListener('touchmove', handleMouseMove);
+          document.addEventListener('mousemove', onMouseMove);
+          document.addEventListener('touchmove', onTouchStart);
+          document.addEventListener('mouseup', onDragEnd);
+          document.addEventListener('touchend', onDragEnd);
         } else {
-          document.removeEventListener('mousemove', handleMouseMove);
-          document.removeEventListener('mouseup', handleMouseUp);
-          document.removeEventListener('touchend', handleMouseUp);
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('touchmove', onTouchStart);
+          document.removeEventListener('mouseup', onDragEnd);
+          document.removeEventListener('touchend', onDragEnd);
         }
       },
       { deep: true }
     );
 
-    return { dragging, value, sliderRef, percentage, handleMouseDown };
+    return {
+      dragging,
+      sliderValue: value,
+      sliderRef,
+      percentage,
+      onDragStart,
+      onMouseMove,
+      globalCSS,
+    };
   },
 });
 </script>
@@ -116,40 +180,68 @@ export default defineComponent({
 <style lang="scss" scoped>
 %slider-rails {
   position: absolute;
-  top: 0.375rem;
   left: 0;
+  align-self: center;
 
   height: 0.25rem;
+
   border-radius: 5px;
 }
 
 .slider {
-  position: relative;
-  width: 100%;
-  height: 1rem;
-  background: yellow;
+  width: v-bind('width');
+  height: v-bind('height');
+  padding: v-bind('padding');
+
+  cursor: pointer;
+  background-color: v-bind('backgroundColor');
+  border: v-bind('border');
+  border-radius: v-bind('borderRadius');
 
   &__inner {
+    position: relative;
+    display: flex;
     width: 100%;
-    background-color: skyblue;
+    height: v-bind('height');
+  }
+  &__rail {
+    align-self: center;
+    width: 100%;
+    background-color: v-bind('railColor');
+
     @extend %slider-rails;
   }
 
   &__track {
-    width: 0;
-    background-color: black;
+    align-self: center;
+    width: calc(v-bind('percentage') * 100%);
+    background-color: v-bind('trackColor');
+
     @extend %slider-rails;
   }
 
   &__handle {
     position: absolute;
-    top: 0.125rem;
-    left: 0;
-    z-index: 1110;
-    width: 0.75rem;
-    height: 0.75rem;
-    background-color: red;
+    left: calc(v-bind('percentage') * 100% - v-bind('handleSize') / 2);
+    z-index: 99;
+
+    box-sizing: border-box;
+    align-self: center;
+
+    width: v-bind('handleSize');
+    height: v-bind('handleSize');
+
+    background-color: v-bind('handleColor');
+
+    border: 1px solid v-bind('railColor');
     border-radius: 50%;
+    transition: background-color 0.2s;
+
+    &:hover,
+    &:active {
+      background-color: v-bind('handleActiveColor');
+      border: 1px solid v-bind('handleActiveColor');
+    }
   }
 }
 </style>
