@@ -1,5 +1,4 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -20,8 +19,6 @@ module.exports = {
       'node_modules',
       'src/css',
     ];
-
-    config.plugins = [...config.plugins, new MiniCssExtractPlugin()];
 
     config.module.rules.push(
       {
